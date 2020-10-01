@@ -1,0 +1,85 @@
+﻿@inherits SKDemoCanvasComponent
+@inject Sketch.WebApp.Models.ISubscriptionModel Subscription
+@inject Sketch.WebApp.Models.IWhiteboardModel Whiteboard
+
+<div class="container-fluid">
+
+    <div class="row p-3">
+        <div class="form-group">
+            <h4>Group:</h4>
+            <select @onchange="OnChannelChanged">
+                <option value="" selected disabled hidden>None</option>
+                <option value="abc">Group 1</option>
+                <option value="123">Group 2</option>
+                <option value="def">Group 3</option>
+                <option value="456">Group 4</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="row p-3">
+        <div class="form-group">
+            <h4>Color:</h4>
+            <button class="btn btn-danger m-1" @onclick="UseRedBrush">Red</button>
+            <button class="btn btn-primary m-1" @onclick="UseBlueBrush">Blue</button>
+            <button class="btn btn-success m-1" @onclick="UseGreenBrush">Green</button>
+        </div>
+    </div>
+
+    <div class="row p-3">
+        <div class="form-group">
+            <h4>Size: </h4>
+            <input @bind="Thickness"
+                   type="range" min="1" max="35" />
+
+            <label>@Thickness</label>
+
+        </div>
+    </div>
+
+    <div class="row p-3">
+        <div class="form-group">
+            <h4>Canvas:</h4>
+            <div style="border: 1px dotted black">
+                <SKCanvas Width="640"
+                          Height="480"
+                          @ref="_canvas"
+                          Color="Color"
+                          Thickness="Thickness"
+                          OnAfterDraw="SendAsync">
+
+                </SKCanvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code{
+    private SKCanvas _canvas;
+
+    protected override void OnInitialized()
+    {
+        Whiteboard.OnReceive(ReceiveAsync);
+    }
+
+    protected async Task OnChannelChanged(ChangeEventArgs e)
+    {
+        await Subscription.SubscribeAsync((string)e.Value);
+    }
+
+    protected async Task SendAsync(LineEvent e)
+    {
+        await Whiteboard.SendAsync(new Stroke() {
+            Line = e.Line, Options = new StrokeOptions {
+                Color = Color, Thickness = Thickness } });
+    }
+
+    protected async Task ReceiveAsync(StrokeEvent e)
+    {
+        Color = e.Stroke.Options.Color;
+        Thickness = e.Stroke.Options.Thickness;
+
+        await InvokeAsync(() => StateHasChanged());
+        await _canvas.DrawAsync(e.Stroke.Line);
+    }
+}

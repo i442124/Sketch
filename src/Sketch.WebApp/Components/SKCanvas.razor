@@ -1,0 +1,75 @@
+﻿@inherits SKCanvasComponent
+<canvas width="@Width" height="@Height"
+        @onmousemove="@OnMouseMove"
+        @onmouseover="@OnMouseOver"
+        @onmousedown="@OnMouseDown"
+        @onmouseout="@OnMouseOut"
+        @onmouseup="@OnMouseUp"
+        @ref="_canvasRef" />
+
+
+@code{
+
+    private bool _painting;
+    private int _previousX;
+    private int _previousY;
+
+    protected async Task OnMouseMove(MouseEventArgs e)
+    {
+        var previousX = _previousX;
+        var previousY = _previousY;
+
+        var currentX = (int)e.OffsetX;
+        var currentY = (int)e.OffsetY;
+
+        _previousX = currentX;
+        _previousY = currentY;
+
+        if (_painting)
+        {
+            await DrawAsync((previousX, previousY, currentX, currentY));
+            await OnAfterDrawAsync((previousX, previousY, currentX, currentY));
+        }
+    }
+
+    protected void OnMouseDown(MouseEventArgs e)
+    {
+        if (IsPrimaryButtonPressed(e))
+        {
+            _painting = true;
+        }
+    }
+
+    protected void OnMouseUp(MouseEventArgs e)
+    {
+        if (!IsPrimaryButtonPressed(e))
+        {
+            _painting = false;
+        }
+    }
+
+    protected void OnMouseOver(MouseEventArgs e)
+    {
+        _previousX = (int)e.OffsetX;
+        _previousY = (int)e.OffsetY;
+
+        if (_painting && !IsPrimaryButtonPressed(e))
+        {
+            _painting = false;
+        }
+    }
+
+    protected void OnMouseOut(MouseEventArgs e)
+    {
+    }
+
+    private bool IsPrimaryButtonPressed(MouseEventArgs e)
+    {
+        return e.Buttons > 0 && ((e.Buttons | 1) == 1);
+    }
+
+    private bool IsSecondaryButtonPressed(MouseEventArgs e)
+    {
+        return e.Buttons > 0 && ((e.Buttons | 2) == 2);
+    }
+}
