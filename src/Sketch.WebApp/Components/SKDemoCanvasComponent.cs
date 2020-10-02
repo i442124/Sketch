@@ -5,6 +5,9 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Components;
 
+using Sketch.WebApp;
+using Sketch.WebApp.Models;
+
 namespace Sketch.WebApp.Components
 {
     public abstract class SKDemoCanvasComponent : ComponentBase

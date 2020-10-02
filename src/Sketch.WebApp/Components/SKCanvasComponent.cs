@@ -10,6 +10,8 @@ using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Components;
 
 using Sketch.Shared;
+using Sketch.WebApp;
+using Sketch.WebApp.Models;
 
 namespace Sketch.WebApp.Components
 {
@@ -23,30 +25,50 @@ namespace Sketch.WebApp.Components
         [Parameter]
         public float Thickness { get; set; }
 
-        [Parameter]
-        public EventCallback<LineEvent> OnAfterDraw { get; set; }
+        [Inject]
+        public IWhiteboardModel Whiteboard { get; set; }
 
-        public async Task DrawAsync(Line line)
+        protected async Task SendAsync(Line line)
         {
+            await Whiteboard.SendAsync(new Stroke
+            {
+                Line = line, Options = new StrokeOptions
+                {
+                    Color = Color, Thickness = Thickness
+                }
+            });
+        }
+
+        protected async Task DrawAsync(Line line)
+        {
+            var endX = line.End.X;
+            var endY = line.End.Y;
+
+            var startX = line.Start.X;
+            var startY = line.Start.Y;
+
             await _context.BeginPathAsync();
-            await _context.SetStrokeStyleAsync(
-                $"#{Color.R:X2}{Color.G:X2}{Color.B:X2}");
+            await _context.MoveToAsync(startX, startY);
 
-            await _context.SetLineWidthAsync(Thickness);
-            await _context.SetLineCapAsync(LineCap.Round);
-
-            await _context.MoveToAsync(line.Start.X, line.Start.Y);
-            await _context.LineToAsync(line.End.X, line.End.Y);
-
+            await _context.LineToAsync(endX, endY);
             await _context.StrokeAsync();
         }
 
-        protected async virtual Task OnAfterDrawAsync(Line line)
+        protected async Task ReceiveAsync(StrokeEvent e)
         {
-            await OnAfterDraw.InvokeAsync(new LineEvent
-            {
-                Line = line, TimeStamp = DateTime.Now
-            });
+            await SetLineOptionsAsync(e.Stroke.Options);
+            await DrawAsync(e.Stroke.Line);
+        }
+
+        protected async Task SetLineOptionsAsync(StrokeOptions options)
+        {
+            var color = options.Color;
+            await _context.SetStrokeStyleAsync(
+                $"#{color.R:X2}{color.G:X2}{color.B:X2}");
+
+            var thickness = options.Thickness;
+            await _context.SetLineWidthAsync(thickness);
+            await _context.SetLineCapAsync(LineCap.Round);
         }
 
         protected async override Task OnAfterRenderAsync(bool firstRender)
@@ -55,6 +77,11 @@ namespace Sketch.WebApp.Components
             {
                 _context = await this.CreateCanvas2DAsync();
             }
+        }
+
+        protected override void OnInitialized()
+        {
+            Whiteboard.OnReceive(ReceiveAsync);
         }
     }
 }

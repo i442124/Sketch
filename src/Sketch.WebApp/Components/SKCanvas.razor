@@ -27,8 +27,13 @@
 
         if (_painting)
         {
+            await SetLineOptionsAsync(new StrokeOptions
+            {
+                Color = Color, Thickness = Thickness
+            });
+
             await DrawAsync((previousX, previousY, currentX, currentY));
-            await OnAfterDrawAsync((previousX, previousY, currentX, currentY));
+            await SendAsync((previousX, previousY, currentX, currentY));
         }
     }
 
