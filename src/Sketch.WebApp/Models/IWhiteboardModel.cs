@@ -9,8 +9,8 @@ namespace Sketch.WebApp.Models
 {
     public interface IWhiteboardModel
     {
-        public Task SendAsync(Stroke stroke);
+        Task SendAsync(Stroke stroke);
 
-        public IDisposable OnReceive(Func<StrokeEvent, Task> handler);
+        IDisposable OnReceive(Func<StrokeEvent, Task> handler);
     }
 }
