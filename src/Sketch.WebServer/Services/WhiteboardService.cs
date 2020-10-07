@@ -12,15 +12,17 @@ namespace Sketch.WebServer.Services
     {
         private readonly INotificationService _notifyService;
 
-        public WhiteboardService(
-            INotificationService notifyService)
+        public WhiteboardService(INotificationService notifyService)
         {
             _notifyService = notifyService;
         }
 
         public Task DrawAsync(string channel, Stroke stroke)
         {
-            return _notifyService.PublishAsync(channel, new StrokeEvent { Stroke = stroke, TimeStamp = DateTime.Now });
+            return _notifyService.PublishAsync(channel, new StrokeEvent
+            {
+                Stroke = stroke, TimeStamp = DateTime.Now
+            });
         }
     }
 }

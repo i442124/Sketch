@@ -11,8 +11,7 @@ namespace Sketch.WebServer.Services
     {
         private readonly INotificationService _notifyService;
 
-        public MessengerService(
-            INotificationService notifyService)
+        public MessengerService(INotificationService notifyService)
         {
             _notifyService = notifyService;
         }
