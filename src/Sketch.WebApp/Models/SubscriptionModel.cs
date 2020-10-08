@@ -55,7 +55,7 @@ namespace Sketch.WebApp.Models
 
         public IDisposable OnReceive<T>(Func<T, Task> handler)
         {
-            return _hubConnection.On("ReceiveAsync", handler);
+            return _hubConnection.On($"ReceiveAsync_{typeof(T)}", handler);
         }
     }
 }

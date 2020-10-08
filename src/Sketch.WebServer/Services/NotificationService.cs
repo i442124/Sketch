@@ -22,7 +22,7 @@ namespace Sketch.WebServer.Services
 
         public Task PublishAsync<T>(string channel, T content)
         {
-            return _context.Clients.Group(channel).SendAsync(CALLBACK_METHOD, content);
+            return _context.Clients.Group(channel).SendAsync($"{CALLBACK_METHOD}_{typeof(T)}", content);
         }
 
         public Task SubscribeAsync(string subscriberId, string channel)
