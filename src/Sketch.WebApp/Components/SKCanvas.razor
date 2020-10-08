@@ -1,12 +1,11 @@
 ﻿@inherits SKCanvasComponent
 <canvas width="@Width" height="@Height"
-        @onmousemove="@OnMouseMove"
-        @onmouseover="@OnMouseOver"
-        @onmousedown="@OnMouseDown"
-        @onmouseout="@OnMouseOut"
-        @onmouseup="@OnMouseUp"
+        @onmousemove="OnMouseMove"
+        @onmouseover="OnMouseOver"
+        @onmousedown="OnMouseDown"
+        @onmouseout="OnMouseOut"
+        @onmouseup="OnMouseUp"
         @ref="_canvasRef" />
-
 
 @code{
 
@@ -14,38 +13,13 @@
     private int _previousX;
     private int _previousY;
 
-    protected async Task OnMouseMove(MouseEventArgs e)
-    {
-        var previousX = _previousX;
-        var previousY = _previousY;
+    [Parameter]
+    public Color Color { get; set; }
 
-        var currentX = (int)e.OffsetX;
-        var currentY = (int)e.OffsetY;
+    [Parameter]
+    public float Thickness { get; set; }
 
-        _previousX = currentX;
-        _previousY = currentY;
-
-        if (_painting)
-        {
-            await SetLineOptionsAsync(new StrokeOptions
-            {
-                Color = Color, Thickness = Thickness
-            });
-
-            await DrawAsync((previousX, previousY, currentX, currentY));
-            await SendAsync((previousX, previousY, currentX, currentY));
-        }
-    }
-
-    protected void OnMouseDown(MouseEventArgs e)
-    {
-        if (IsPrimaryButtonPressed(e))
-        {
-            _painting = true;
-        }
-    }
-
-    protected void OnMouseUp(MouseEventArgs e)
+    private void OnMouseUp(MouseEventArgs e)
     {
         if (!IsPrimaryButtonPressed(e))
         {
@@ -53,18 +27,49 @@
         }
     }
 
-    protected void OnMouseOver(MouseEventArgs e)
+    private void OnMouseDown(MouseEventArgs e)
     {
-        _previousX = (int)e.OffsetX;
-        _previousY = (int)e.OffsetY;
-
-        if (_painting && !IsPrimaryButtonPressed(e))
+        if (IsPrimaryButtonPressed(e))
         {
-            _painting = false;
+            _painting = true;
         }
     }
 
-    protected void OnMouseOut(MouseEventArgs e)
+    private async Task OnMouseMove(MouseEventArgs e)
+    {
+        var currentX = (int)e.OffsetX;
+        var currentY = (int)e.OffsetY;
+
+        var previousX = _previousX;
+        var previousY = _previousY;
+
+        _previousX = currentX;
+        _previousY = currentY;
+
+        if (_painting)
+        {
+            var stroke = new Stroke
+            {
+                Line = (previousX, previousY, currentX, currentY),
+                Options = new StrokeOptions { Color = Color, Thickness = Thickness }
+            };
+
+            await SendAsync(stroke);
+        }
+    }
+
+    private void OnMouseOver(MouseEventArgs e)
+    {
+        var currentX = (int)e.OffsetX;
+        var currentY = (int)e.OffsetY;
+
+        _previousX = currentX;
+        _previousY = currentY;
+
+        _painting = IsPrimaryButtonPressed(e);
+    }
+
+    private void OnMouseOut(MouseEventArgs e)
     {
     }
 

@@ -17,71 +17,30 @@ namespace Sketch.WebApp.Components
 {
     public abstract class SKCanvasComponent : BECanvasComponent
     {
-        private Canvas2DContext _context;
-
-        [Parameter]
-        public Color Color { get; set; }
-
-        [Parameter]
-        public float Thickness { get; set; }
+        private SKCanvas2DContext _context;
 
         [Inject]
-        public IWhiteboardModel Whiteboard { get; set; }
-
-        protected async Task SendAsync(Line line)
-        {
-            await Whiteboard.SendAsync(new Stroke
-            {
-                Line = line, Options = new StrokeOptions
-                {
-                    Color = Color, Thickness = Thickness
-                }
-            });
-        }
-
-        protected async Task DrawAsync(Line line)
-        {
-            var endX = line.End.X;
-            var endY = line.End.Y;
-
-            var startX = line.Start.X;
-            var startY = line.Start.Y;
-
-            await _context.BeginPathAsync();
-            await _context.MoveToAsync(startX, startY);
-
-            await _context.LineToAsync(endX, endY);
-            await _context.StrokeAsync();
-        }
-
-        protected async Task ReceiveAsync(StrokeEvent e)
-        {
-            await SetLineOptionsAsync(e.Stroke.Options);
-            await DrawAsync(e.Stroke.Line);
-        }
-
-        protected async Task SetLineOptionsAsync(StrokeOptions options)
-        {
-            var color = options.Color;
-            await _context.SetStrokeStyleAsync(
-                $"#{color.R:X2}{color.G:X2}{color.B:X2}");
-
-            var thickness = options.Thickness;
-            await _context.SetLineWidthAsync(thickness);
-            await _context.SetLineCapAsync(LineCap.Round);
-        }
-
-        protected async override Task OnAfterRenderAsync(bool firstRender)
-        {
-            if (firstRender)
-            {
-                _context = await this.CreateCanvas2DAsync();
-            }
-        }
+        private IWhiteboardModel Whiteboard { get; set; }
 
         protected override void OnInitialized()
         {
             Whiteboard.OnReceive(ReceiveAsync);
+        }
+
+        protected async Task SendAsync(Stroke stroke)
+        {
+            await _context.StrokeAsync(stroke, stroke.Options);
+            await Whiteboard.SendAsync(stroke);
+        }
+
+        protected async Task ReceiveAsync(StrokeEvent e)
+        {
+            await _context.StrokeAsync(e.Stroke, e.Stroke.Options);
+        }
+
+        protected override async Task OnAfterRenderAsync(bool firstRender)
+        {
+            _context = await new SKCanvas2DContext(this).InitializeAsync();
         }
     }
 }
