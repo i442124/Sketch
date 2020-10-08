@@ -20,7 +20,7 @@ namespace Sketch.WebServer.Controllers
         }
 
         [HttpPost("{channel}")]
-        public async Task<IActionResult> SendAysnc(string channel, [FromBody] string message)
+        public async Task<IActionResult> SendAysnc(string channel, [FromBody] Message message)
         {
             await _messengerService.SendAsync(channel, message);
             return Ok();
