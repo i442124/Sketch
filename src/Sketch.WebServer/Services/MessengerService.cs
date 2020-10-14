@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 
 using Sketch.Shared;
@@ -11,15 +12,17 @@ namespace Sketch.WebServer.Services
     {
         private readonly INotificationService _notifyService;
 
-        public MessengerService(
-            INotificationService notifyService)
+        public MessengerService(INotificationService notifyService)
         {
             _notifyService = notifyService;
         }
 
-        public Task SendAsync(string channel, string message)
+        public Task SendAsync(string channel, Message message)
         {
-            return _notifyService.PublishAsync(channel, message);
+            return _notifyService.PublishAsync(channel, new MessageEvent
+            {
+                Message = message, TimeStamp = DateTime.Now
+            });
         }
     }
 }

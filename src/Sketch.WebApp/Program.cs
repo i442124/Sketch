@@ -27,6 +27,7 @@ namespace Sketch.WebApp
                 BaseAddress = new Uri(builder.HostEnvironment.BaseAddress)
             });
 
+            builder.Services.AddScoped<IMessengerModel, MessengerModel>();
             builder.Services.AddScoped<IWhiteboardModel, WhiteboardModel>();
             builder.Services.AddScoped<ISubscriptionModel, SubscriptionModel>();
 

@@ -15,8 +15,7 @@ namespace Sketch.WebServer.Services
         private const string CALLBACK_METHOD = "ReceiveAsync";
         private readonly IHubContext<SocialHub> _context;
 
-        public NotificationService(
-            IHubContext<SocialHub> context)
+        public NotificationService(IHubContext<SocialHub> context)
         {
             _context = context;
         }
