@@ -6,23 +6,16 @@
 
         public StrokeOptions Options { get; set; }
 
-        public Stroke()
-        {
-        }
+        public Point End => Line.End;
 
-        public Stroke(Line line, StrokeOptions options)
-        {
-            (Line, Options) = (line, options);
-        }
+        public int EndY => Line.End.Y;
 
-        public Stroke(Point start, Point end, StrokeOptions options)
-            : this((start, end), options)
-        {
-        }
+        public int EndX => Line.End.X;
 
-        public Stroke(int startX, int startY, int endX, int endY, StrokeOptions options)
-            : this((startX, startY), (endX, endY), options)
-        {
-        }
+        public Point Start => Line.Start;
+
+        public int StartX => Line.Start.X;
+
+        public int StartY => Line.Start.Y;
     }
 }
