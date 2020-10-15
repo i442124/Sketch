@@ -134,7 +134,7 @@ namespace Sketch.Shared
 
                 if (lum <= 0.5)
                 {
-                    return delta / (max - min);
+                    return delta / (max + min);
                 }
                 else
                 {
