@@ -35,7 +35,7 @@ namespace Sketch.WebApp.Components
         {
             await _context.SetLineCapAsync(LineCap.Round);
             await _context.SetLineWidthAsync(options.Thickness);
-            await _context.SetStrokeStyleAsync(options.Color.AsHex());
+            await _context.SetStrokeStyleAsync(options.Color.ToHexString());
 
             await _context.BeginPathAsync();
             await _context.MoveToAsync(stroke.StartX, stroke.StartY);

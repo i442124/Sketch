@@ -4,7 +4,7 @@
     {
         public static readonly StrokeOptions Default = new StrokeOptions
         {
-            Thickness = 1.0f, Color = System.Drawing.Color.Black
+            Thickness = 1.0f, Color = Colors.Black
         };
     }
 }

@@ -1,10 +1,10 @@
-﻿using System.Drawing;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Components;
 
+using Sketch.Shared;
 using Sketch.WebApp;
 using Sketch.WebApp.Models;
 
@@ -22,17 +22,17 @@ namespace Sketch.WebApp.Components
 
         public void UseRedBrush()
         {
-            Color = Color.Red;
+            Color = Colors.Red;
         }
 
         public void UseBlueBrush()
         {
-            Color = Color.DodgerBlue;
+            Color = Colors.Aqua;
         }
 
         public void UseGreenBrush()
         {
-            Color = Color.ForestGreen;
+            Color = Colors.Green;
         }
     }
 }
