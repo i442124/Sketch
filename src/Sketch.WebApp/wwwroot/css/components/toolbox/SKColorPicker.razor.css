@@ -1,0 +1,10 @@
+﻿.sk-color-picker {
+    display:flex;
+    flex-direction: row;
+}
+
+.sk-color-picker-list {
+    display:flex;
+    flex-grow: 1;
+    flex-direction:column;
+}

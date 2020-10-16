@@ -6,7 +6,9 @@ using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+
 using Sketch.WebApp.Models;
+using Sketch.WebApp.Models.Toolbox;
 
 namespace Sketch.WebApp
 {
@@ -27,6 +29,11 @@ namespace Sketch.WebApp
                 BaseAddress = new Uri(builder.HostEnvironment.BaseAddress)
             });
 
+            // SKETCH TOOLBOX
+            builder.Services.AddScoped<IBrushModel, BrushModel>();
+            builder.Services.AddScoped<IPipetteModel, PipetteModel>();
+
+            // SKETCH SERVICES
             builder.Services.AddScoped<IMessengerModel, MessengerModel>();
             builder.Services.AddScoped<IWhiteboardModel, WhiteboardModel>();
             builder.Services.AddScoped<ISubscriptionModel, SubscriptionModel>();

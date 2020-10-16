@@ -14,7 +14,7 @@
 
         public static Color Green { get; } = Color.FromRGB(2, 203, 0);
 
-        public static Color Grey { get; } = Color.FromRGB(72, 72, 72);
+        public static Color Grey { get; } = Color.FromRGB(128, 128, 128);
 
         public static Color Orange { get; } = Color.FromRGB(255, 114, 0);
 
