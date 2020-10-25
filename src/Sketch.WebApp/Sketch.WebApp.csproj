@@ -17,7 +17,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Sketch.Shared\Sketch.Shared.csproj" />
   </ItemGroup>
-
+  
   <Import Project="..\..\common.props" />
   <Import Project="..\..\stylecop.props" />
 

@@ -1,0 +1,17 @@
+﻿@inherits SKColorComponent
+@namespace Sketch.WebApp.Areas.Tools
+
+<div class="sk-color-wrapper">
+    <div class="sk-color-container"
+         @onclick="OnClickAsync">
+
+        <div class="sk-color-border"
+             style="background-color: @Shade.ToHexString()">
+
+            <div class="sk-color"
+                 style="background-color: @Color.ToHexString()">
+
+            </div>
+        </div>
+    </div>
+</div>

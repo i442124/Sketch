@@ -1,0 +1,44 @@
+﻿@using Sketch.WebApp.Areas.Toolbox;
+@using Sketch.WebApp.Areas.Tools;
+@inject IBrushModel Brush
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col border-bottom">
+            <Sketch.WebApp.Areas.Subscriptions.SKChannel />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <div class="row">
+                <div class="col">
+                    <div class="d-flex flex-column align-items-center p-4">
+                        <div class="border">
+                            <Sketch.WebApp.Areas.Whiteboard.SKCanvas 
+                                Width="800" 
+                                Height="600"
+                                Color="Brush.Color" 
+                                Thickness="Brush.Size" />
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-auto border-left p-3">
+            <div class="row">
+                <div class="col">
+                    <Sketch.WebApp.Areas.Toolbox.SKToolbox UpdateState="StateHasChanged" />
+                </div>
+            </div>
+            <div class="row">
+                <hr class="w-100" />
+            </div>
+            <div class="row">
+                <div class="col">
+                    <Sketch.WebApp.Areas.Messaging.SKChat />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
