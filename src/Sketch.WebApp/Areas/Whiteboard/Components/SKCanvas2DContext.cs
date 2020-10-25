@@ -5,9 +5,10 @@ using Blazor.Extensions;
 using Blazor.Extensions.Canvas;
 using Blazor.Extensions.Canvas.Canvas2D;
 
+using Sketch;
 using Sketch.Shared;
 
-namespace Sketch.WebApp.Components
+namespace Sketch.WebApp.Areas.Whiteboard
 {
     public class SKCanvas2DContext
     {

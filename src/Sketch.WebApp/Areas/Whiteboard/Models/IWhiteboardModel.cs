@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Sketch;
 using Sketch.Shared;
 
-namespace Sketch.WebApp.Models
+namespace Sketch.WebApp.Areas.Whiteboard
 {
     public interface IWhiteboardModel
     {

@@ -5,12 +5,9 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Components;
 
-using Sketch.WebApp;
-using Sketch.WebApp.Models;
-
-namespace Sketch.WebApp.Components
+namespace Sketch.WebApp.Areas.Whiteboard
 {
-    public abstract class SKDemoCanvasComponent : ComponentBase
+    public class SKDemoCanvasComponent : ComponentBase
     {
         protected Color Color { get; set; }
 

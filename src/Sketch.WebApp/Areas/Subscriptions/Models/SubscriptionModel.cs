@@ -1,12 +1,12 @@
 ﻿using System;
-using System.Net;
 using System.Net.Http;
+using System.Net.Http.Json;
 using System.Threading.Tasks;
 
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.AspNetCore.SignalR.Client;
 
-namespace Sketch.WebApp.Models
+namespace Sketch.WebApp.Areas.Subscriptions
 {
     public class SubscriptionModel : ISubscriptionModel
     {
@@ -51,6 +51,12 @@ namespace Sketch.WebApp.Models
 
             await _http.GetAsync($"/api/unsubscribe/{SubscriberId}/{Channel}");
             await _http.GetAsync($"/api/subscribe/{SubscriberId}/{Channel = channel}");
+        }
+
+        public async Task PublishAsync<T>(string route, T contents)
+        {
+            route = route.TrimStart('/');
+            await _http.PostAsJsonAsync($"/api/{route}/{Channel}", contents);
         }
 
         public IDisposable OnReceive<T>(Func<T, Task> handler)

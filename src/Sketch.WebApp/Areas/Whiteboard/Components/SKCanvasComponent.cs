@@ -5,22 +5,22 @@ using System.Threading.Tasks;
 using Blazor.Extensions;
 using Blazor.Extensions.Canvas;
 using Blazor.Extensions.Canvas.Canvas2D;
-
-using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Components;
 
+using Sketch;
 using Sketch.Shared;
-using Sketch.WebApp;
-using Sketch.WebApp.Models;
+using Sketch.WebApp.Areas;
+using Sketch.WebApp.Areas.Subscriptions;
 
-namespace Sketch.WebApp.Components
+namespace Sketch.WebApp.Areas.Whiteboard
 {
     public abstract class SKCanvasComponent : BECanvasComponent
     {
         private SKCanvas2DContext _context;
 
-        [Inject]
-        private IWhiteboardModel Whiteboard { get; set; }
+        public SKCanvasComponent()
+        {
+        }
 
         protected override void OnInitialized()
         {
@@ -38,9 +38,12 @@ namespace Sketch.WebApp.Components
             await _context.StrokeAsync(e.Stroke, e.Stroke.Options);
         }
 
-        protected override async Task OnAfterRenderAsync(bool firstRender)
+        protected async override Task OnAfterRenderAsync(bool firstRender)
         {
             _context = await new SKCanvas2DContext(this).InitializeAsync();
         }
+
+        [Inject]
+        private IWhiteboardModel Whiteboard { get; set; }
     }
 }

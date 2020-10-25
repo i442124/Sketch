@@ -1,4 +1,5 @@
 ﻿@inherits SKChannelComponent
+@namespace Sketch.WebApp.Areas.Subscriptions
 
 <div class="container-fluid">
     <div class="row p-3">
@@ -14,11 +15,3 @@
         </div>
     </div>
 </div>
-
-@code{
-
-    private Task OnSelectionChanged(ChangeEventArgs e)
-    {
-        return Subscription.SubscribeAsync((string)e.Value);
-    }
-}

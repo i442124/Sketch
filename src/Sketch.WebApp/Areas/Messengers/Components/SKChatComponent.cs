@@ -7,10 +7,8 @@ using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Components;
 
 using Sketch.Shared;
-using Sketch.WebApp;
-using Sketch.WebApp.Models;
 
-namespace Sketch.WebApp.Components
+namespace Sketch.WebApp.Areas.Messaging
 {
     public class SKChatComponent : ComponentBase
     {
@@ -20,9 +18,6 @@ namespace Sketch.WebApp.Components
         {
             get { return _messages.AsReadOnly(); }
         }
-
-        [Inject]
-        public IMessengerModel Messenger { get; set; }
 
         protected override void OnInitialized()
         {
@@ -40,5 +35,8 @@ namespace Sketch.WebApp.Components
             _messages.Add(e.Message);
             await InvokeAsync(StateHasChanged);
         }
+
+        [Inject]
+        private IMessengerModel Messenger { get; set; }
     }
 }

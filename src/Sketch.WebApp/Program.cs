@@ -6,7 +6,10 @@ using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Sketch.WebApp.Models;
+
+using Sketch.WebApp.Areas.Messaging;
+using Sketch.WebApp.Areas.Subscriptions;
+using Sketch.WebApp.Areas.Whiteboard;
 
 namespace Sketch.WebApp
 {
