@@ -22,6 +22,8 @@ namespace Sketch.WebApp.Areas.Whiteboard
 
         private void OnMouseInput(MouseEventArgs e)
         {
+            _previousX = (int)e.OffsetX;
+            _previousY = (int)e.OffsetY;
             _painting = IsPrimaryButtonPressed(e);
         }
 
