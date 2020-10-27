@@ -11,6 +11,7 @@ using Sketch;
 using Sketch.Shared;
 using Sketch.WebApp.Areas;
 using Sketch.WebApp.Areas.Subscriptions;
+using Sketch.WebApp.Areas.Toolbox;
 
 namespace Sketch.WebApp.Areas.Whiteboard
 {
@@ -29,13 +30,13 @@ namespace Sketch.WebApp.Areas.Whiteboard
 
         protected async Task SendAsync(Stroke stroke)
         {
-            await _context.StrokeAsync(stroke, stroke.Options);
+            await _context.StrokeAsync(stroke, stroke.Style);
             await Whiteboard.SendAsync(stroke);
         }
 
         protected async Task ReceiveAsync(StrokeEvent e)
         {
-            await _context.StrokeAsync(e.Stroke, e.Stroke.Options);
+            await _context.StrokeAsync(e.Stroke, e.Stroke.Style);
         }
 
         protected async override Task OnAfterRenderAsync(bool firstRender)

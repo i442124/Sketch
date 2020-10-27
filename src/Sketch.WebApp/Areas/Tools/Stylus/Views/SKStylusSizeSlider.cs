@@ -7,11 +7,11 @@ using Microsoft.AspNetCore.Components;
 
 namespace Sketch.WebApp.Areas.Tools
 {
-    public partial class SKBrushSlider : SKBrushSliderComponent
+    public partial class SKStylusSizeSlider : SKStylusSizeComponent
     {
         private async Task OnValueChanged(ChangeEventArgs e)
         {
-            await SetBrushSizeAsync(Convert.ToSingle(e.Value));
+            await SetStylusSizeAsync(Convert.ToSingle(e.Value));
         }
     }
 }

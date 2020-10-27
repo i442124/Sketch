@@ -1,6 +1,6 @@
 ﻿namespace Sketch.Shared
 {
-    public class StrokeOptions
+    public class StrokeStyle
     {
         public Color Color { get; set; }
 

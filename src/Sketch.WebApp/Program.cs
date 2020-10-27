@@ -9,6 +9,7 @@ using Microsoft.Extensions.Logging;
 
 using Sketch.WebApp.Areas.Messaging;
 using Sketch.WebApp.Areas.Subscriptions;
+using Sketch.WebApp.Areas.Toolbox;
 using Sketch.WebApp.Areas.Tools;
 using Sketch.WebApp.Areas.Whiteboard;
 
@@ -33,6 +34,7 @@ namespace Sketch.WebApp
 
             // SKETCH TOOLBOX
             builder.Services.AddScoped<IBrushModel, BrushModel>();
+            builder.Services.AddScoped<IStylusModel, StylusModel>();
             builder.Services.AddScoped<IPipetteModel, PipetteModel>();
 
             // SKETCH SERVICES

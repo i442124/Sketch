@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Components.Web;
 
 using Sketch;
 using Sketch.Shared;
+using Sketch.WebApp.Areas.Toolbox;
 
 namespace Sketch.WebApp.Areas.Whiteboard
 {
@@ -15,13 +16,11 @@ namespace Sketch.WebApp.Areas.Whiteboard
         private int _previousX;
         private int _previousY;
 
-        [Parameter]
-        public Color Color { get; set; }
+        public Color Color => Brush.Color;
 
-        [Parameter]
-        public float Thickness { get; set; }
+        public float Thickness => Brush.Size;
 
-        private void OnMouseMount(MouseEventArgs e)
+        private void OnMouseInput(MouseEventArgs e)
         {
             _painting = IsPrimaryButtonPressed(e);
         }
@@ -41,8 +40,14 @@ namespace Sketch.WebApp.Areas.Whiteboard
             {
                 var stroke = new Stroke
                 {
-                    Line = (previousX, previousY, currentX, currentY),
-                    Options = new StrokeOptions { Color = Color, Thickness = Thickness }
+                    Style = new StrokeStyle
+                    {
+                        Color = Color, Thickness = Thickness
+                    },
+                    StylusPoints = new StylusPointCollection
+                    {
+                        (previousX, previousY), (currentX, currentY)
+                    }
                 };
 
                 await SendAsync(stroke);
@@ -58,5 +63,8 @@ namespace Sketch.WebApp.Areas.Whiteboard
         {
             return e.Buttons > 0 && ((e.Buttons | 2) == 2);
         }
+
+        [Inject]
+        private IBrushModel Brush { get; set; }
     }
 }

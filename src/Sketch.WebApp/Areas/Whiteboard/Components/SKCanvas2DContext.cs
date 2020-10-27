@@ -29,20 +29,33 @@ namespace Sketch.WebApp.Areas.Whiteboard
 
         public async Task StrokeAsync(Stroke stroke)
         {
-            await StrokeAsync(stroke, stroke.Options);
+            await StrokeAsync(stroke, stroke.Style);
         }
 
-        public async Task StrokeAsync(Stroke stroke, StrokeOptions options)
+        public async Task StrokeAsync(Stroke stroke, StrokeStyle style)
         {
             await _context.SetLineCapAsync(LineCap.Round);
-            await _context.SetLineWidthAsync(options.Thickness);
-            await _context.SetStrokeStyleAsync(options.Color.ToHexString());
+            await _context.SetLineWidthAsync(style.Thickness);
+            await _context.SetStrokeStyleAsync(style.Color.ToHexString());
 
-            await _context.BeginPathAsync();
-            await _context.MoveToAsync(stroke.StartX, stroke.StartY);
+            await _context.BeginBatchAsync();
+            var enumerator = stroke.StylusPoints.GetEnumerator();
 
-            await _context.LineToAsync(stroke.EndX, stroke.EndY);
-            await _context.StrokeAsync();
+            if (enumerator.MoveNext())
+            {
+                var point = enumerator.Current;
+                await _context.BeginPathAsync();
+                await _context.MoveToAsync(point.X, point.Y);
+
+                while (enumerator.MoveNext())
+                {
+                    point = enumerator.Current;
+                    await _context.LineToAsync(point.X, point.Y);
+                    await _context.StrokeAsync();
+                }
+            }
+
+            await _context.EndBatchAsync();
         }
     }
 }

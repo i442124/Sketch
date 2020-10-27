@@ -1,4 +1,8 @@
-﻿using Microsoft.AspNetCore;
+﻿using System.Collections;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Components;
 
 using Sketch;
@@ -12,20 +16,6 @@ namespace Sketch.WebApp.Areas.Tools
         public Color Color { get; set; }
 
         [Parameter]
-        public EventCallback<Color> ColorSelected { get; set; }
-
-        public SKColorComponent()
-        {
-        }
-
-        public Color Tint => new Color(Hue, Saturation, Luminosity + 0.1);
-
-        public Color Shade => new Color(Hue, Saturation, Luminosity - 0.1);
-
-        private double Hue => Color.Hue;
-
-        private double Saturation => Color.Saturation;
-
-        private double Luminosity => Color.Luminosity;
+        public EventCallback<SKColorComponent> ColorSelected { get; set; }
     }
 }

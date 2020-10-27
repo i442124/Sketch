@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -15,28 +16,51 @@ namespace Sketch.WebApp.Areas.Tools
     public class SKColorPickerComponent : ComponentBase
     {
         [Parameter]
-        public int Shades { get; set; }
-
-        [Parameter]
         public int Tints { get; set; }
 
         [Parameter]
-        public List<Color> Colorants { get; set; }
+        public int Shades { get; set; }
 
         [Parameter]
-        public EventCallback<Color> ColorHasChanged { get; set; }
+        public IList<Color> Colorants { get; set; }
 
         public SKColorPickerComponent()
         {
+            Tints = 2;
+            Shades = 2;
+            Colorants = new Collection<Color>
+            {
+                Colors.Grey,
+                Colors.Red,
+                Colors.Orange,
+                Colors.Yellow,
+                Colors.Green,
+                Colors.Turquoise,
+                Colors.Aqua,
+                Colors.Blue,
+                Colors.Purple,
+                Colors.Pink,
+                Colors.Beige,
+                Colors.Brown
+            };
         }
 
-        protected async Task SetPippeteColorAsync(Color color)
+        protected IEnumerable<Color> GetPalette(Color color)
         {
-            await Pipette.SetColorAsync(color);
-            await ColorHasChanged.InvokeAsync(color);
+            foreach (var mixture in GetMixturesOfTints(color).Reverse())
+            {
+                yield return mixture;
+            }
+
+            yield return color;
+
+            foreach (var mixture in GetMixturesOfShades(color))
+            {
+                yield return mixture;
+            }
         }
 
-        protected IEnumerable<Color> GetMixtureOfTints(Color color)
+        protected IEnumerable<Color> GetMixturesOfTints(Color color)
         {
             var hue = color.Hue;
             var sat = color.Saturation;
@@ -52,7 +76,7 @@ namespace Sketch.WebApp.Areas.Tools
             }
         }
 
-        protected IEnumerable<Color> GetMixtureOfShades(Color color)
+        protected IEnumerable<Color> GetMixturesOfShades(Color color)
         {
             var hue = color.Hue;
             var sat = color.Saturation;
@@ -68,19 +92,9 @@ namespace Sketch.WebApp.Areas.Tools
             }
         }
 
-        protected IEnumerable<Color> GetColorPallette(Color baseColor)
+        protected async Task SetPipetteColorAsync(Color color)
         {
-            foreach (var mixture in GetMixtureOfTints(baseColor).Reverse())
-            {
-                yield return mixture;
-            }
-
-            yield return baseColor;
-
-            foreach (var mixture in GetMixtureOfShades(baseColor))
-            {
-                yield return mixture;
-            }
+            await Pipette.SetColorAsync(color);
         }
 
         [Inject]
