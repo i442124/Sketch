@@ -6,7 +6,8 @@ using Microsoft.AspNetCore.Components.Web;
 
 using Sketch;
 using Sketch.Shared;
-using Sketch.WebApp.Areas.Toolbox;
+using Sketch.WebApp.Areas;
+using Sketch.WebApp.Areas.Tools;
 
 namespace Sketch.WebApp.Areas.Whiteboard
 {
@@ -15,10 +16,6 @@ namespace Sketch.WebApp.Areas.Whiteboard
         private bool _painting;
         private int _previousX;
         private int _previousY;
-
-        public Color Color => Brush.Color;
-
-        public float Thickness => Brush.Size;
 
         private void OnMouseInput(MouseEventArgs e)
         {
@@ -40,19 +37,38 @@ namespace Sketch.WebApp.Areas.Whiteboard
 
             if (_painting)
             {
-                var stroke = new Stroke
+                if (Stylus.Mode == StylusMode.Brush)
                 {
-                    Style = new StrokeStyle
+                    var stroke = new Stroke
                     {
-                        Color = Color, Thickness = Thickness
-                    },
-                    StylusPoints = new StylusPointCollection
-                    {
-                        (previousX, previousY), (currentX, currentY)
-                    }
-                };
+                        Style = new StrokeStyle
+                        {
+                            Color = Brush.Color, Thickness = Brush.Size
+                        },
+                        StylusPoints = new StylusPointCollection
+                        {
+                            (previousX, previousY), (currentX, currentY)
+                        }
+                    };
 
-                await SendAsync(stroke);
+                    await SendAsync(stroke);
+                }
+                else if (Stylus.Mode == StylusMode.Erase)
+                {
+                    var wipe = new Wipe
+                    {
+                        Style = new WipeStyle
+                        {
+                            Thickness = Eraser.Size
+                        },
+                        StylusPoints = new StylusPointCollection
+                        {
+                            (previousX, previousY), (currentX, currentY)
+                        }
+                    };
+
+                    await SendAsync(wipe);
+                }
             }
         }
 
@@ -68,5 +84,11 @@ namespace Sketch.WebApp.Areas.Whiteboard
 
         [Inject]
         private IBrushModel Brush { get; set; }
+
+        [Inject]
+        private IEraserModel Eraser { get; set; }
+
+        [Inject]
+        private IStylusModel Stylus { get; set; }
     }
 }

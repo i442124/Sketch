@@ -1,19 +1,17 @@
 ﻿using System;
-
-using Sketch;
 using Sketch.Shared;
 using Sketch.WebApp.Areas.Tools;
 
-namespace Sketch.WebApp.Areas.Toolbox
+namespace Sketch.WebApp.Areas.Tools
 {
     public class BrushModel : IBrushModel
     {
-        private readonly IStylusModel _stylus;
         private readonly IPipetteModel _pipette;
+        private readonly IStylusTipModel _stylusTip;
 
         public float Size
         {
-            get { return _stylus.Size; }
+            get { return _stylusTip.Size; }
         }
 
         public Color Color
@@ -26,9 +24,9 @@ namespace Sketch.WebApp.Areas.Toolbox
             get { throw new NotImplementedException(); }
         }
 
-        public BrushModel(IStylusModel stylus, IPipetteModel pipette)
+        public BrushModel(IStylusTipModel stylusTip, IPipetteModel pipette)
         {
-            _stylus = stylus;
+            _stylusTip = stylusTip;
             _pipette = pipette;
         }
     }

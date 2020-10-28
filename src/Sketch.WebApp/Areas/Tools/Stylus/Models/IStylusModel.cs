@@ -1,12 +1,19 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 
+using Sketch;
+using Sketch.Shared;
+
 namespace Sketch.WebApp.Areas.Tools
 {
     public interface IStylusModel
     {
-        float Size { get; }
+        StylusMode Mode { get; }
 
-        Task SetSizeAsync(float size);
+        Task UseBrushAsync();
+
+        Task UseEraserAsync();
+
+        Task UseBucketAsync();
     }
 }

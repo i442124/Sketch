@@ -34,7 +34,9 @@ namespace Sketch.WebApp
 
             // SKETCH TOOLBOX
             builder.Services.AddScoped<IBrushModel, BrushModel>();
+            builder.Services.AddScoped<IEraserModel, EraserModel>();
             builder.Services.AddScoped<IStylusModel, StylusModel>();
+            builder.Services.AddScoped<IStylusTipModel, StylusTipModel>();
             builder.Services.AddScoped<IPipetteModel, PipetteModel>();
 
             // SKETCH SERVICES

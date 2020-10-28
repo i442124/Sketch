@@ -21,13 +21,25 @@ namespace Sketch.WebApp.Areas.Whiteboard
 
         protected override void OnInitialized()
         {
-            Whiteboard.OnReceive(ReceiveAsync);
+            Whiteboard.OnReceive((Func<WipeEvent, Task>)ReceiveAsync);
+            Whiteboard.OnReceive((Func<StrokeEvent, Task>)ReceiveAsync);
+        }
+
+        protected async Task SendAsync(Wipe wipe)
+        {
+            await _context.WipeAsync(wipe, wipe.Style);
+            await Whiteboard.SendAsync(wipe);
         }
 
         protected async Task SendAsync(Stroke stroke)
         {
             await _context.StrokeAsync(stroke, stroke.Style);
             await Whiteboard.SendAsync(stroke);
+        }
+
+        protected async Task ReceiveAsync(WipeEvent e)
+        {
+            await _context.WipeAsync(e.Wipe, e.Wipe.Style);
         }
 
         protected async Task ReceiveAsync(StrokeEvent e)

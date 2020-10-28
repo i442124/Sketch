@@ -27,6 +27,17 @@ namespace Sketch.WebApp.Areas.Whiteboard
             return this;
         }
 
+        public async Task WipeAsync(Wipe wipe)
+        {
+            await WipeAsync(wipe, wipe.Style);
+        }
+
+        public async Task WipeAsync(Wipe wipe, WipeStyle style)
+        {
+            await SetWipeStyleAsync(style);
+            await DrawAsync(wipe.StylusPoints);
+        }
+
         public async Task StrokeAsync(Stroke stroke)
         {
             await StrokeAsync(stroke, stroke.Style);
@@ -34,11 +45,28 @@ namespace Sketch.WebApp.Areas.Whiteboard
 
         public async Task StrokeAsync(Stroke stroke, StrokeStyle style)
         {
+            await SetStrokeStyleAsync(style);
+            await DrawAsync(stroke.StylusPoints);
+        }
+
+        protected async Task SetWipeStyleAsync(WipeStyle style)
+        {
+            await _context.LineCapAsync(LineCap.Round);
+            await _context.LineWidthAsync(style.Thickness);
+            await _context.GlobalCompositeOperationAsync(CompositeOperation.Destination_Out);
+        }
+
+        protected async Task SetStrokeStyleAsync(StrokeStyle style)
+        {
             await _context.LineCapAsync(LineCap.Round);
             await _context.LineWidthAsync(style.Thickness);
             await _context.StrokeStyleAsync(style.Color.ToHexString());
+            await _context.GlobalCompositeOperationAsync(CompositeOperation.Source_Over);
+        }
 
-            var enumerator = stroke.StylusPoints.GetEnumerator();
+        protected async Task DrawAsync(StylusPointCollection points)
+        {
+            var enumerator = points.GetEnumerator();
             await using (var batch = await _context.CreateBatchAsync())
             {
                 if (enumerator.MoveNext())

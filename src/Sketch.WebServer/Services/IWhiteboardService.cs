@@ -9,6 +9,8 @@ namespace Sketch.WebServer.Services
 {
     public interface IWhiteboardService
     {
-        Task DrawAsync(string channel, Stroke stroke);
+        Task StrokeAsync(string channel, Stroke stroke);
+
+        Task WipeAsync(string channel, Wipe wipe);
     }
 }

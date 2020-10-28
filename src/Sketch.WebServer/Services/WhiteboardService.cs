@@ -17,11 +17,19 @@ namespace Sketch.WebServer.Services
             _notifyService = notifyService;
         }
 
-        public Task DrawAsync(string channel, Stroke stroke)
+        public Task StrokeAsync(string channel, Stroke stroke)
         {
             return _notifyService.PublishAsync(channel, new StrokeEvent
             {
                 Stroke = stroke, TimeStamp = DateTime.Now
+            });
+        }
+
+        public Task WipeAsync(string channel, Wipe wipe)
+        {
+            return _notifyService.PublishAsync(channel, new WipeEvent
+            {
+                Wipe = wipe, Timestamp = DateTime.Now
             });
         }
     }

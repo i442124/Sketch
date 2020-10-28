@@ -11,7 +11,7 @@ namespace Sketch.WebApp.Areas.Tools
     {
         public float Value
         {
-            get { return Stylus.Size; }
+            get { return StylusTip.Size; }
         }
 
         [Parameter]
@@ -26,11 +26,11 @@ namespace Sketch.WebApp.Areas.Tools
 
         protected async Task SetStylusSizeAsync(float newValue)
         {
-            await Stylus.SetSizeAsync(newValue);
+            await StylusTip.SetSizeAsync(newValue);
             await InvokeAsync(StateHasChanged);
         }
 
         [Inject]
-        private IStylusModel Stylus { get; set; }
+        private IStylusTipModel StylusTip { get; set; }
     }
 }
