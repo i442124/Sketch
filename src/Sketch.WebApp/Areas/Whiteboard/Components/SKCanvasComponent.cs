@@ -2,20 +2,16 @@
 using System.Threading;
 using System.Threading.Tasks;
 
-using Blazor.Extensions;
-using Blazor.Extensions.Canvas;
-using Blazor.Extensions.Canvas.Canvas2D;
+using Excubo.Blazor;
+using Excubo.Blazor.Canvas;
 using Microsoft.AspNetCore.Components;
 
 using Sketch;
 using Sketch.Shared;
-using Sketch.WebApp.Areas;
-using Sketch.WebApp.Areas.Subscriptions;
-using Sketch.WebApp.Areas.Toolbox;
 
 namespace Sketch.WebApp.Areas.Whiteboard
 {
-    public abstract class SKCanvasComponent : BECanvasComponent
+    public abstract class SKCanvasComponent : SKCanvasComponentBase
     {
         private SKCanvas2DContext _context;
 

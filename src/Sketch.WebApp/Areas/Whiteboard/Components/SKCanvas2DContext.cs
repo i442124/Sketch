@@ -1,9 +1,9 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 
-using Blazor.Extensions;
-using Blazor.Extensions.Canvas;
-using Blazor.Extensions.Canvas.Canvas2D;
+using Excubo.Blazor;
+using Excubo.Blazor.Canvas;
+using Excubo.Blazor.Canvas.Contexts;
 
 using Sketch;
 using Sketch.Shared;
@@ -12,7 +12,7 @@ namespace Sketch.WebApp.Areas.Whiteboard
 {
     public class SKCanvas2DContext
     {
-        private Canvas2DContext _context;
+        private Context2D _context;
 
         public SKCanvasComponent Component { get; }
 
@@ -34,28 +34,27 @@ namespace Sketch.WebApp.Areas.Whiteboard
 
         public async Task StrokeAsync(Stroke stroke, StrokeStyle style)
         {
-            await _context.SetLineCapAsync(LineCap.Round);
-            await _context.SetLineWidthAsync(style.Thickness);
-            await _context.SetStrokeStyleAsync(style.Color.ToHexString());
+            await _context.LineCapAsync(LineCap.Round);
+            await _context.LineWidthAsync(style.Thickness);
+            await _context.StrokeStyleAsync(style.Color.ToHexString());
 
-            await _context.BeginBatchAsync();
             var enumerator = stroke.StylusPoints.GetEnumerator();
-
-            if (enumerator.MoveNext())
+            await using (var batch = await _context.CreateBatchAsync())
             {
-                var point = enumerator.Current;
-                await _context.BeginPathAsync();
-                await _context.MoveToAsync(point.X, point.Y);
-
-                while (enumerator.MoveNext())
+                if (enumerator.MoveNext())
                 {
-                    point = enumerator.Current;
-                    await _context.LineToAsync(point.X, point.Y);
-                    await _context.StrokeAsync();
+                    var point = enumerator.Current;
+                    await batch.BeginPathAsync();
+                    await batch.MoveToAsync(point.X, point.Y);
+
+                    while (enumerator.MoveNext())
+                    {
+                        point = enumerator.Current;
+                        await batch.LineToAsync(point.X, point.Y);
+                        await batch.StrokeAsync();
+                    }
                 }
             }
-
-            await _context.EndBatchAsync();
         }
     }
 }
