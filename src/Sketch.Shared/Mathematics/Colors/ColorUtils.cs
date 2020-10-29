@@ -112,7 +112,7 @@ namespace Sketch.Shared
         {
             if (saturation == 0)
             {
-                var value = (byte)(luminosity * 255.0);
+                var value = GetRoundedColorComponent(luminosity * 255.0);
                 return FromRGB(value, value, value);
             }
             else
@@ -125,9 +125,9 @@ namespace Sketch.Shared
                 v1 = (2 * luminosity) - v2;
                 hue /= 360.0;
 
-                var r = (byte)(255.0 * GetHueColorComponent(v1, v2, hue + (1.0 / 3)));
-                var g = (byte)(255.0 * GetHueColorComponent(v1, v2, hue));
-                var b = (byte)(255.0 * GetHueColorComponent(v1, v2, hue - (1.0 / 3)));
+                var r = GetRoundedColorComponent(255.0 * GetHueColorComponent(v1, v2, hue + (1.0 / 3)));
+                var g = GetRoundedColorComponent(255.0 * GetHueColorComponent(v1, v2, hue));
+                var b = GetRoundedColorComponent(255.0 * GetHueColorComponent(v1, v2, hue - (1.0 / 3)));
                 return FromRGB(r, g, b);
             }
         }
@@ -158,6 +158,11 @@ namespace Sketch.Shared
             }
 
             return v1;
+        }
+
+        private static byte GetRoundedColorComponent(double value)
+        {
+            return (byte)Math.Round(value, MidpointRounding.AwayFromZero);
         }
     }
 }
