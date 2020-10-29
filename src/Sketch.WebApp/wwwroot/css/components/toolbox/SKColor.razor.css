@@ -1,0 +1,28 @@
+﻿.sk-color-wrapper {
+    padding: 1px;
+}
+
+.sk-color-container {
+    position:relative;
+    padding-top: 100%;
+}
+
+    .sk-color-container:hover {
+        transform: scale(1.1);
+    }
+
+.sk-color-border {
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    padding: 15% 15%;
+    position:absolute;
+    border-radius: 50%;
+}
+
+.sk-color {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+}

@@ -1,0 +1,11 @@
+﻿@inherits SKCanvasComponent
+@namespace Sketch.WebApp.Areas.Whiteboard
+
+<canvas width="@Width" height="@Height"
+        @onmousemove="OnMouseMove"
+        @onmouseover="OnMouseInput"
+        @onmousedown="OnMouseInput"
+        @onmouseup="OnMouseInput"
+        @ref="_canvasRef">
+
+</canvas>

@@ -6,7 +6,12 @@ using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Sketch.WebApp.Models;
+
+using Sketch.WebApp.Areas.Messaging;
+using Sketch.WebApp.Areas.Subscriptions;
+using Sketch.WebApp.Areas.Toolbox;
+using Sketch.WebApp.Areas.Tools;
+using Sketch.WebApp.Areas.Whiteboard;
 
 namespace Sketch.WebApp
 {
@@ -27,6 +32,14 @@ namespace Sketch.WebApp
                 BaseAddress = new Uri(builder.HostEnvironment.BaseAddress)
             });
 
+            // SKETCH TOOLBOX
+            builder.Services.AddScoped<IBrushModel, BrushModel>();
+            builder.Services.AddScoped<IEraserModel, EraserModel>();
+            builder.Services.AddScoped<IStylusModel, StylusModel>();
+            builder.Services.AddScoped<IStylusTipModel, StylusTipModel>();
+            builder.Services.AddScoped<IPipetteModel, PipetteModel>();
+
+            // SKETCH SERVICES
             builder.Services.AddScoped<IMessengerModel, MessengerModel>();
             builder.Services.AddScoped<IWhiteboardModel, WhiteboardModel>();
             builder.Services.AddScoped<ISubscriptionModel, SubscriptionModel>();

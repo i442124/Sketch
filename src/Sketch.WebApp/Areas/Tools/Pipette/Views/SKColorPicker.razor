@@ -1,0 +1,17 @@
+﻿@inherits SKColorPickerComponent
+@namespace Sketch.WebApp.Areas.Tools
+
+<div class="sk-color-picker">
+    @foreach (var color in Colorants)
+    {
+        <div class="sk-color-picker-list">
+            @foreach (var mixture in GetPalette(color))
+            {
+                <SKColor Color="mixture"
+                         ColorSelected="OnColorSelectedAsync">
+
+                </SKColor>
+            }
+        </div>
+    }
+</div>
