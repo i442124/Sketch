@@ -24,6 +24,7 @@ namespace Sketch.WebApp.Areas.Whiteboard
         public async Task<SKCanvas2DContext> InitializeAsync()
         {
             _context = await Component.CreateCanvas2DAsync();
+            await _context.LineCapAsync(LineCap.Round);
             return this;
         }
 
@@ -51,14 +52,12 @@ namespace Sketch.WebApp.Areas.Whiteboard
 
         protected async Task SetWipeStyleAsync(WipeStyle style)
         {
-            await _context.LineCapAsync(LineCap.Round);
             await _context.LineWidthAsync(style.Thickness);
             await _context.GlobalCompositeOperationAsync(CompositeOperation.Destination_Out);
         }
 
         protected async Task SetStrokeStyleAsync(StrokeStyle style)
         {
-            await _context.LineCapAsync(LineCap.Round);
             await _context.LineWidthAsync(style.Thickness);
             await _context.StrokeStyleAsync(style.Color.ToHexString());
             await _context.GlobalCompositeOperationAsync(CompositeOperation.Source_Over);
@@ -79,8 +78,9 @@ namespace Sketch.WebApp.Areas.Whiteboard
                     {
                         point = enumerator.Current;
                         await batch.LineToAsync(point.X, point.Y);
-                        await batch.StrokeAsync();
                     }
+
+                    await batch.StrokeAsync();
                 }
             }
         }

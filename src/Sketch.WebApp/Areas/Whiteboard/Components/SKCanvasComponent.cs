@@ -49,7 +49,10 @@ namespace Sketch.WebApp.Areas.Whiteboard
 
         protected async override Task OnAfterRenderAsync(bool firstRender)
         {
-            _context = await new SKCanvas2DContext(this).InitializeAsync();
+            if (firstRender)
+            {
+                _context = await new SKCanvas2DContext(this).InitializeAsync();
+            }
         }
 
         [Inject]
