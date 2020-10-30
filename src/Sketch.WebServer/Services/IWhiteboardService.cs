@@ -12,5 +12,7 @@ namespace Sketch.WebServer.Services
         Task StrokeAsync(string channel, Stroke stroke);
 
         Task WipeAsync(string channel, Wipe wipe);
+
+        Task FillAsync(string channel, Fill fill);
     }
 }

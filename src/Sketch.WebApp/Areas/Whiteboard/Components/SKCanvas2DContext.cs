@@ -1,4 +1,6 @@
-﻿using System.Threading;
+﻿using System;
+using System.Diagnostics;
+using System.Threading;
 using System.Threading.Tasks;
 
 using Excubo.Blazor;
@@ -28,6 +30,19 @@ namespace Sketch.WebApp.Areas.Whiteboard
             return this;
         }
 
+        public async Task FillAsync(Fill fill)
+        {
+            await FillAsync(fill, fill.Style);
+        }
+
+        public async Task FillAsync(Fill fill, FillStyle style)
+        {
+            await SetFillStyleAsync(style);
+
+            await _context.FillRectAsync(0, 0, Component.Width, Component.Height);
+            await _context.FillAsync(FillRule.EvenOdd);
+        }
+
         public async Task WipeAsync(Wipe wipe)
         {
             await WipeAsync(wipe, wipe.Style);
@@ -48,6 +63,12 @@ namespace Sketch.WebApp.Areas.Whiteboard
         {
             await SetStrokeStyleAsync(style);
             await DrawAsync(stroke.StylusPoints);
+        }
+
+        protected async Task SetFillStyleAsync(FillStyle style)
+        {
+            await _context.FillStyleAsync(style.Color.ToHexString());
+            await _context.GlobalCompositeOperationAsync(CompositeOperation.Source_Over);
         }
 
         protected async Task SetWipeStyleAsync(WipeStyle style)

@@ -32,5 +32,12 @@ namespace Sketch.WebServer.Controllers
             await _whiteboardService.WipeAsync(channel, wipe);
             return Ok();
         }
+
+        [HttpPost("fill/{channel}")]
+        public async Task<IActionResult> FillAsync(string channel, [FromBody] Fill fill)
+        {
+            await _whiteboardService.FillAsync(channel, fill);
+            return Ok();
+        }
     }
 }

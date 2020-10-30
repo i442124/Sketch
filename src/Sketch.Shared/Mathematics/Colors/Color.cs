@@ -65,5 +65,10 @@
         {
             return ColorUtils.FromHLS(hue, saturation, luminosity);
         }
+
+        public static Color FromHex(string hex)
+        {
+            return ColorUtils.FromHex(hex);
+        }
     }
 }
