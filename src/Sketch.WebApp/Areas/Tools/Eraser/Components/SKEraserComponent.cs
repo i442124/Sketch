@@ -4,24 +4,23 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Components;
 
-using Sketch;
 using Sketch.Shared;
+using Sketch.WebApp.Areas;
+using Sketch.WebApp.Areas.Configuration;
 
 namespace Sketch.WebApp.Areas.Tools
 {
-    public class SKStylusEraserComponent : ComponentBase
+    public class SKEraserComponent : ComponentBase
     {
-        public float Size => Brush.Size;
-
-        public Color Color => Brush.Color;
+        public float Size => Eraser.Size;
 
         protected async Task UseEraserAsync()
         {
-            await Stylus.UseEraserAsync();
+            await Stylus.UseEraserAsync(Eraser);
         }
 
         [Inject]
-        private IBrushModel Brush { get; set; }
+        private IEraserModel Eraser { get; set; }
 
         [Inject]
         private IStylusModel Stylus { get; set; }

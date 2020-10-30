@@ -2,7 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Sketch.WebApp.Areas.Tools
+namespace Sketch.WebApp.Areas.Configuration
 {
     public class StylusTipModel : IStylusTipModel
     {

@@ -4,9 +4,9 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 
-using Sketch;
 using Sketch.Shared;
 using Sketch.WebApp.Areas;
+using Sketch.WebApp.Areas.Configuration;
 using Sketch.WebApp.Areas.Tools;
 
 namespace Sketch.WebApp.Areas.Whiteboard

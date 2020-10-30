@@ -7,6 +7,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
+using Sketch.WebApp.Areas.Configuration;
 using Sketch.WebApp.Areas.Messages;
 using Sketch.WebApp.Areas.Subscriptions;
 using Sketch.WebApp.Areas.Toolbox;

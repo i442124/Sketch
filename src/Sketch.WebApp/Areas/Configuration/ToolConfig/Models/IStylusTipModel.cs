@@ -1,7 +1,6 @@
-﻿using System.Threading;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 
-namespace Sketch.WebApp.Areas.Tools
+namespace Sketch.WebApp.Areas.Configuration
 {
     public interface IStylusTipModel
     {

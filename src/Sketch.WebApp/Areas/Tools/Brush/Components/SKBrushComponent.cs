@@ -4,20 +4,23 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Components;
 
-using Sketch;
 using Sketch.Shared;
+using Sketch.WebApp.Areas;
+using Sketch.WebApp.Areas.Configuration;
 
 namespace Sketch.WebApp.Areas.Tools
 {
-    public class SKStylusBrushComponent : ComponentBase
+    public abstract class SKBrushComponent : ComponentBase
     {
         public float Size => Brush.Size;
 
         public Color Color => Brush.Color;
 
-        protected async Task UseBrushAsync()
+        public float Opacity => Brush.Opacity;
+
+        protected Task UseBrushAsync()
         {
-            await Stylus.UseBrushAsync();
+            return Stylus.UseBrushAsync(Brush);
         }
 
         [Inject]

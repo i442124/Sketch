@@ -20,6 +20,7 @@
 
   <ItemGroup>
     <Folder Include="Areas\Toolbox\" />
+    <Folder Include="Areas\Tools\Bucket\Views\" />
   </ItemGroup>
   
   <Import Project="..\..\common.props" />
