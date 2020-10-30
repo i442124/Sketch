@@ -4,9 +4,9 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 
-using Sketch;
 using Sketch.Shared;
 using Sketch.WebApp.Areas;
+using Sketch.WebApp.Areas.Configuration;
 using Sketch.WebApp.Areas.Tools;
 
 namespace Sketch.WebApp.Areas.Whiteboard
@@ -17,11 +17,26 @@ namespace Sketch.WebApp.Areas.Whiteboard
         private int _previousX;
         private int _previousY;
 
-        private void OnMouseInput(MouseEventArgs e)
+        private void OnMouseUp(MouseEventArgs e)
+        {
+            _painting = IsPrimaryButtonPressed(e);
+        }
+
+        private void OnMouseOver(MouseEventArgs e)
         {
             _previousX = (int)e.OffsetX;
             _previousY = (int)e.OffsetY;
             _painting = IsPrimaryButtonPressed(e);
+        }
+
+        private async Task OnMouseDown(MouseEventArgs e)
+        {
+            if (_painting = IsPrimaryButtonPressed(e))
+            {
+                var currentX = (int)e.OffsetX;
+                var currentY = (int)e.OffsetY;
+                await DrawAsync(_previousX, _previousY, currentX, currentY);
+            }
         }
 
         private async Task OnMouseMove(MouseEventArgs e)
@@ -37,38 +52,7 @@ namespace Sketch.WebApp.Areas.Whiteboard
 
             if (_painting)
             {
-                if (Stylus.Mode == StylusMode.Brush)
-                {
-                    var stroke = new Stroke
-                    {
-                        Style = new StrokeStyle
-                        {
-                            Color = Brush.Color, Thickness = Brush.Size
-                        },
-                        StylusPoints = new StylusPointCollection
-                        {
-                            (previousX, previousY), (currentX, currentY)
-                        }
-                    };
-
-                    await SendAsync(stroke);
-                }
-                else if (Stylus.Mode == StylusMode.Erase)
-                {
-                    var wipe = new Wipe
-                    {
-                        Style = new WipeStyle
-                        {
-                            Thickness = Eraser.Size
-                        },
-                        StylusPoints = new StylusPointCollection
-                        {
-                            (previousX, previousY), (currentX, currentY)
-                        }
-                    };
-
-                    await SendAsync(wipe);
-                }
+                await DrawAsync((previousX, previousY), (currentX, currentY));
             }
         }
 
@@ -82,11 +66,71 @@ namespace Sketch.WebApp.Areas.Whiteboard
             return e.Buttons > 0 && ((e.Buttons | 2) == 2);
         }
 
+        private async Task DrawAsync(Point previous, Point current)
+        {
+            await DrawAsync(previous.X, previous.Y, current.X, current.Y);
+        }
+
+        private async Task DrawAsync(int previousX, int previousY, int currentX, int currentY)
+        {
+            if (Stylus.Mode == StylusMode.Brush)
+            {
+                var stroke = new Stroke
+                {
+                    Style = new StrokeStyle
+                    {
+                        Color = Brush.Color, Thickness = Brush.Size
+                    },
+                    StylusPoints = new StylusPointCollection
+                    {
+                        (previousX, previousY), (currentX, currentY)
+                    }
+                };
+
+                await SendAsync(stroke);
+            }
+            else if (Stylus.Mode == StylusMode.Erase)
+            {
+                var wipe = new Wipe
+                {
+                    Style = new WipeStyle
+                    {
+                        Thickness = Eraser.Size
+                    },
+                    StylusPoints = new StylusPointCollection
+                    {
+                        (previousX, previousY), (currentX, currentY)
+                    }
+                };
+
+                await SendAsync(wipe);
+            }
+            else if (Stylus.Mode == StylusMode.Fill)
+            {
+                var fill = new Fill
+                {
+                    Style = new FillStyle
+                    {
+                        Color = Bucket.Color
+                    },
+                    StylusPoint = new StylusPoint
+                    {
+                        X = currentX, Y = currentY
+                    }
+                };
+
+                await SendAsync(fill);
+            }
+        }
+
         [Inject]
         private IBrushModel Brush { get; set; }
 
         [Inject]
         private IEraserModel Eraser { get; set; }
+
+        [Inject]
+        private IBucketModel Bucket { get; set; }
 
         [Inject]
         private IStylusModel Stylus { get; set; }

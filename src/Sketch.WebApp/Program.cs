@@ -7,6 +7,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
+using Sketch.WebApp.Areas.Configuration;
 using Sketch.WebApp.Areas.Messages;
 using Sketch.WebApp.Areas.Subscriptions;
 using Sketch.WebApp.Areas.Toolbox;
@@ -34,10 +35,13 @@ namespace Sketch.WebApp
 
             // SKETCH TOOLBOX
             builder.Services.AddScoped<IBrushModel, BrushModel>();
+            builder.Services.AddScoped<IBucketModel, BucketModel>();
             builder.Services.AddScoped<IEraserModel, EraserModel>();
+            builder.Services.AddScoped<IPipetteModel, PipetteModel>();
+
+            // SKETCH TOOLBOX CONFIGURATION
             builder.Services.AddScoped<IStylusModel, StylusModel>();
             builder.Services.AddScoped<IStylusTipModel, StylusTipModel>();
-            builder.Services.AddScoped<IPipetteModel, PipetteModel>();
 
             // SKETCH SERVICES
             builder.Services.AddScoped<IMessengerModel, MessengerModel>();

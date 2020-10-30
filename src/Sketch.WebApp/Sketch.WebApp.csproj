@@ -17,10 +17,6 @@
   <ItemGroup>
     <ProjectReference Include="..\Sketch.Shared\Sketch.Shared.csproj" />
   </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Areas\Toolbox\" />
-  </ItemGroup>
   
   <Import Project="..\..\common.props" />
   <Import Project="..\..\stylecop.props" />
