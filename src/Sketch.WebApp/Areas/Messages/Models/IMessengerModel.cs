@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Sketch;
 using Sketch.Shared;
 
-namespace Sketch.WebApp.Areas.Messaging
+namespace Sketch.WebApp.Areas.Messages
 {
     public interface IMessengerModel
     {
