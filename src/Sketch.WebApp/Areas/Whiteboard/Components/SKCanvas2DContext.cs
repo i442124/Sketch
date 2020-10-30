@@ -32,7 +32,7 @@ namespace Sketch.WebApp.Areas.Whiteboard
 
         public async Task ClearAsync(Clear clear)
         {
-            await _context.ClearRectAsync(0, 0, Component.Width, Component.Height);
+            await _context.ClearRectAsync(0, 0, int.MaxValue, int.MaxValue);
         }
 
         public async Task FillAsync(Fill fill)
@@ -44,7 +44,7 @@ namespace Sketch.WebApp.Areas.Whiteboard
         {
             await SetFillStyleAsync(style);
 
-            await _context.FillRectAsync(0, 0, Component.Width, Component.Height);
+            await _context.FillRectAsync(0, 0, int.MaxValue, int.MaxValue);
             await _context.FillAsync(FillRule.EvenOdd);
         }
 
