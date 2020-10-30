@@ -32,7 +32,7 @@ namespace Sketch.WebApp.Areas.Whiteboard
 
         public async Task ClearAsync(Clear clear)
         {
-            await _context.ClearRectAsync(0, 0, int.MaxValue, int.MaxValue);
+            await _context.ClearRectAsync(clear.X, clear.Y, clear.Width, clear.Height);
         }
 
         public async Task FillAsync(Fill fill)

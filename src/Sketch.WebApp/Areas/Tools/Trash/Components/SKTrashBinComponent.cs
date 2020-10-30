@@ -15,7 +15,10 @@ namespace Sketch.WebApp.Areas.Tools
     {
         protected async Task ClearWhiteboardAsync()
         {
-            await Whiteboard.SendAsync(new Clear { });
+            await Whiteboard.SendAsync(new Clear
+            {
+                Width = int.MaxValue, Height = int.MaxValue
+            });
         }
 
         [Inject]
