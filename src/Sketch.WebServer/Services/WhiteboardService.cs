@@ -40,5 +40,13 @@ namespace Sketch.WebServer.Services
                 Fill = fill, TimeStamp = DateTime.Now
             });
         }
+
+        public Task ClearAsync(string channel, Clear clear)
+        {
+            return _notifyService.PublishAsync(channel, new ClearEvent
+            {
+                Clear = clear, TimeStamp = DateTime.Now
+            });
+        }
     }
 }

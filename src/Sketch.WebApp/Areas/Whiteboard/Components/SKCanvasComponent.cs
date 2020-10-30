@@ -23,6 +23,7 @@ namespace Sketch.WebApp.Areas.Whiteboard
         {
             Whiteboard.OnReceive((Func<FillEvent, Task>)ReceiveAsync);
             Whiteboard.OnReceive((Func<WipeEvent, Task>)ReceiveAsync);
+            Whiteboard.OnReceive((Func<ClearEvent, Task>)ReceiveAsync);
             Whiteboard.OnReceive((Func<StrokeEvent, Task>)ReceiveAsync);
         }
 
@@ -52,6 +53,11 @@ namespace Sketch.WebApp.Areas.Whiteboard
         protected async Task ReceiveAsync(WipeEvent e)
         {
             await _context.WipeAsync(e.Wipe, e.Wipe.Style);
+        }
+
+        protected async Task ReceiveAsync(ClearEvent e)
+        {
+            await _context.ClearAsync(e.Clear);
         }
 
         protected async Task ReceiveAsync(StrokeEvent e)

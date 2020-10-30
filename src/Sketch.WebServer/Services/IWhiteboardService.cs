@@ -14,5 +14,7 @@ namespace Sketch.WebServer.Services
         Task WipeAsync(string channel, Wipe wipe);
 
         Task FillAsync(string channel, Fill fill);
+
+        Task ClearAsync(string channel, Clear clear);
     }
 }

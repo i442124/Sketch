@@ -30,6 +30,11 @@ namespace Sketch.WebApp.Areas.Whiteboard
             return this;
         }
 
+        public async Task ClearAsync(Clear clear)
+        {
+            await _context.ClearRectAsync(0, 0, Component.Width, Component.Height);
+        }
+
         public async Task FillAsync(Fill fill)
         {
             await FillAsync(fill, fill.Style);

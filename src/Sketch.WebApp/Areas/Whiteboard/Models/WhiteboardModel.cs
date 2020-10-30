@@ -27,6 +27,11 @@ namespace Sketch.WebApp.Areas.Whiteboard
             return _subscription.PublishAsync("/whiteboard/wipe", wipe);
         }
 
+        public Task SendAsync(Clear clear)
+        {
+            return _subscription.PublishAsync("/whiteboard/clear", clear);
+        }
+
         public Task SendAsync(Stroke stroke)
         {
             return _subscription.PublishAsync("/whiteboard/stroke", stroke);
@@ -38,6 +43,11 @@ namespace Sketch.WebApp.Areas.Whiteboard
         }
 
         public IDisposable OnReceive(Func<WipeEvent, Task> handler)
+        {
+            return _subscription.OnReceive(handler);
+        }
+
+        public IDisposable OnReceive(Func<ClearEvent, Task> handler)
         {
             return _subscription.OnReceive(handler);
         }
