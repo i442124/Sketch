@@ -6,7 +6,7 @@ using Sketch.Shared;
 using Sketch.WebApp.Areas;
 using Sketch.WebApp.Areas.Subscriptions;
 
-namespace Sketch.WebApp.Areas.Messaging
+namespace Sketch.WebApp.Areas.Messages
 {
     public class MessengerModel : IMessengerModel
     {

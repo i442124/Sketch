@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Components.Web;
 using Sketch;
 using Sketch.Shared;
 
-namespace Sketch.WebApp.Areas.Messaging
+namespace Sketch.WebApp.Areas.Messages
 {
     public partial class SKChat : SKChatComponent
     {
