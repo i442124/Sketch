@@ -27,9 +27,9 @@ namespace Sketch.WebServer.Services
 
         public void AddSubscriber(string subscriberId)
         {
-            if (!_subscribers.ContainsKey(subscriberId))
+            if (!_subscribers.TryAdd(subscriberId, new HashSet<T>()))
             {
-                _subscribers[subscriberId] = new HashSet<T>();
+                throw new ArgumentException("Subscriber already exists.");
             }
         }
 
@@ -40,12 +40,14 @@ namespace Sketch.WebServer.Services
 
         public void RemoveSubscriber(string subscriberId)
         {
-            if (_subscribers.TryRemove(subscriberId, out HashSet<T> set))
+            if (!_subscribers.TryRemove(subscriberId, out HashSet<T> subscriptions))
             {
-                foreach (var subscription in set)
-                {
-                    _subscriptions[subscription]--;
-                }
+                throw new ArgumentException("Subscriber does not exists.");
+            }
+
+            foreach (var subscription in subscriptions)
+            {
+                Unsubscribe(subscriberId, subscription);
             }
         }
 
@@ -54,43 +56,58 @@ namespace Sketch.WebServer.Services
             return Task.Run(() => RemoveSubscriber(subscriberId));
         }
 
-        public void Subscribe(string subscriberId, T value)
+        public void Subscribe(string subscriberId, T subscription)
         {
-            if (_subscribers[subscriberId].Add(value))
+            if (!_subscribers.TryGetValue(subscriberId, out HashSet<T> subscriptions))
             {
-                _subscriptions[value]++;
+                throw new ArgumentException("Subscriber does not exists.");
+            }
+            else if (subscriptions.Add(subscription))
+            {
+                throw new ArgumentException("Subscriber is already subscribed to the subscription.");
+            }
+
+            _subscriptions[subscription]++;
+        }
+
+        public Task SubscribeAsync(string subscriberId, T subscription)
+        {
+            return Task.Run(() => Subscribe(subscriberId, subscription));
+        }
+
+        public void Unsubscribe(string subscriberId, T subscription)
+        {
+            if (!_subscribers.TryGetValue(subscriberId, out HashSet<T> subscriptions))
+            {
+                throw new ArgumentException("Subscriber does not exists.");
+            }
+            else if (subscriptions.Remove(subscription))
+            {
+                throw new ArgumentNullException("Subscriber is not subscribed to the subscription.");
+            }
+
+            if (--_subscriptions[subscription] == 0)
+            {
+                _subscriptions.TryRemove(subscription, out _);
             }
         }
 
-        public Task SubscribeAsync(string subscriberId, T value)
+        public Task UnsubscribeAsync(string subscriberId, T subscription)
         {
-            return Task.Run(() => Subscribe(subscriberId, value));
-        }
-
-        public void Unsubscribe(string subscriberId, T value)
-        {
-            if (_subscribers[subscriberId].Remove(value))
-            {
-                _subscriptions[value]--;
-            }
-        }
-
-        public Task UnsubscribeAsync(string subscriberId, T value)
-        {
-            return Task.Run(() => Unsubscribe(subscriberId, value));
+            return Task.Run(() => Unsubscribe(subscriberId, subscription));
         }
 
         public IEnumerable<T> GetSubscriptions(string subscriberId)
         {
-            if (_subscribers.TryGetValue(subscriberId, out HashSet<T> value))
+            if (!_subscribers.TryGetValue(subscriberId, out HashSet<T> subscriptions))
             {
-                foreach (var item in value)
-                {
-                    yield return item;
-                }
+                throw new ArgumentException("Subscriber does not exists.");
             }
 
-            yield break;
+            foreach (var subscription in subscriptions)
+            {
+                yield return subscription;
+            }
         }
 
         public Task<IEnumerable<T>> GetSubscriptionsAsync(string subscriberId)
@@ -100,12 +117,18 @@ namespace Sketch.WebServer.Services
 
         public IEnumerator<T> GetEnumerator()
         {
-            return _subscriptions.Keys.GetEnumerator();
+            foreach (var subscription in _subscriptions.Keys)
+            {
+                yield return subscription;
+            }
         }
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            return _subscriptions.Keys.GetEnumerator();
+            foreach (var subscription in _subscriptions.Keys)
+            {
+                yield return subscription;
+            }
         }
     }
 }

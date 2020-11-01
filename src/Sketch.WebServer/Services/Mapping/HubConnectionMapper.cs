@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Threading;
@@ -28,7 +29,10 @@ namespace Sketch.WebServer.Services
 
         public void Remove(string connectionId)
         {
-            _connections.TryRemove(connectionId, out _);
+            if (!_connections.TryRemove(connectionId, out _))
+            {
+                throw new ArgumentException("Connection does not exists.");
+            }
         }
 
         public Task RemoveAsync(string connectionId)
@@ -38,12 +42,12 @@ namespace Sketch.WebServer.Services
 
         public T GetUserInfo(string connectionId)
         {
-            if (_connections.TryGetValue(connectionId, out T value))
+            if (!_connections.TryGetValue(connectionId, out T value))
             {
-                return value;
+                throw new ArgumentException("Connection does not exists.");
             }
 
-            return default;
+            return value;
         }
 
         public Task<T> GetUserInfoAsync(string connectionId)
@@ -53,12 +57,18 @@ namespace Sketch.WebServer.Services
 
         public IEnumerator<T> GetEnumerator()
         {
-            return _connections.Values.GetEnumerator();
+            foreach (var userStore in _connections.Values)
+            {
+                yield return userStore;
+            }
         }
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            return _connections.Values.GetEnumerator();
+            foreach (var userStore in _connections.Values)
+            {
+                yield return userStore;
+            }
         }
     }
 }
