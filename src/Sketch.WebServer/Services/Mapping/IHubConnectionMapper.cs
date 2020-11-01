@@ -1,8 +1,10 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Sketch.WebServer.Services
 {
-    public interface IHubConnectionMapper<T>
+    public interface IHubConnectionMapper<T> : IEnumerable<T>
     {
         void Remove(string connectionId);
 

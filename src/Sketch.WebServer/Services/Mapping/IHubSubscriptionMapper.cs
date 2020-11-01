@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Sketch.WebServer.Services
 {
-    public interface IHubSubscriptionMapper<T>
+    public interface IHubSubscriptionMapper<T> : IEnumerable<T>
     {
         void AddSubscriber(string subscriberId);
 

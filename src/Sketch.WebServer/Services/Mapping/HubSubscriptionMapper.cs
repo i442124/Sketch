@@ -9,8 +9,11 @@ namespace Sketch.WebServer.Services
 {
     public class HubSubscriptionMapper<T> : IHubSubscriptionMapper<T>
     {
-        private readonly ConcurrentDictionary<string, List<T>> _subscribers =
-        new ConcurrentDictionary<string, List<T>>();
+        private readonly ConcurrentDictionary<T, int> _subscriptions =
+        new ConcurrentDictionary<T, int>();
+
+        private readonly ConcurrentDictionary<string, HashSet<T>> _subscribers =
+        new ConcurrentDictionary<string, HashSet<T>>();
 
         public int SubscriberCount
         {
@@ -19,7 +22,10 @@ namespace Sketch.WebServer.Services
 
         public void AddSubscriber(string subscriberId)
         {
-            _subscribers[subscriberId] = new List<T>();
+            if (!_subscribers.ContainsKey(subscriberId))
+            {
+                _subscribers[subscriberId] = new HashSet<T>();
+            }
         }
 
         public Task AddSubscriberAsync(string subscriberId)
@@ -29,7 +35,13 @@ namespace Sketch.WebServer.Services
 
         public void RemoveSubscriber(string subscriberId)
         {
-            _subscribers.TryRemove(subscriberId, out _);
+            if (_subscribers.TryRemove(subscriberId, out HashSet<T> set))
+            {
+                foreach (var subscription in set)
+                {
+                    _subscriptions[subscription]--;
+                }
+            }
         }
 
         public Task RemoveSubscriberAsync(string subscriberId)
@@ -39,7 +51,10 @@ namespace Sketch.WebServer.Services
 
         public void Subscribe(string subscriberId, T value)
         {
-            _subscribers[subscriberId].Add(value);
+            if (_subscribers[subscriberId].Add(value))
+            {
+                _subscriptions[value]++;
+            }
         }
 
         public Task SubscribeAsync(string subscriberId, T value)
@@ -49,7 +64,10 @@ namespace Sketch.WebServer.Services
 
         public void Unsubscribe(string subscriberId, T value)
         {
-            _subscribers[subscriberId].Remove(value);
+            if (_subscribers[subscriberId].Remove(value))
+            {
+                _subscriptions[value]--;
+            }
         }
 
         public Task UnsubscribeAsync(string subscriberId, T value)
@@ -59,7 +77,7 @@ namespace Sketch.WebServer.Services
 
         public IEnumerable<T> GetSubscriptions(string subscriberId)
         {
-            if (_subscribers.TryGetValue(subscriberId, out List<T> value))
+            if (_subscribers.TryGetValue(subscriberId, out HashSet<T> value))
             {
                 foreach (var item in value)
                 {
@@ -73,6 +91,16 @@ namespace Sketch.WebServer.Services
         public Task<IEnumerable<T>> GetSubscriptionsAsync(string subscriberId)
         {
             return Task.Run(() => GetSubscriptions(subscriberId));
+        }
+
+        public IEnumerator<T> GetEnumerator()
+        {
+            return _subscriptions.Keys.GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return _subscriptions.Keys.GetEnumerator();
         }
     }
 }

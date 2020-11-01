@@ -1,11 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace Sketch.WebServer.Services
 {
-    public class HubConnectionMapper<T> : IHubConnectionMapper<T>
+    public class HubConnectionMapper<T> : IHubConnectionMapper<T>, IEnumerable<T>
     {
         private readonly ConcurrentDictionary<string, T> _connections =
         new ConcurrentDictionary<string, T>();
@@ -48,6 +49,16 @@ namespace Sketch.WebServer.Services
         public Task<T> GetUserInfoAsync(string connectionId)
         {
             return Task.Run(() => GetUserInfo(connectionId));
+        }
+
+        public IEnumerator<T> GetEnumerator()
+        {
+            return _connections.Values.GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return _connections.Values.GetEnumerator();
         }
     }
 }
