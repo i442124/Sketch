@@ -20,6 +20,11 @@ namespace Sketch.WebServer.Services
             get { return _subscribers.Count; }
         }
 
+        public int SubscriptionCount
+        {
+            get { return _subscriptions.Count; }
+        }
+
         public void AddSubscriber(string subscriberId)
         {
             if (!_subscribers.ContainsKey(subscriberId))
