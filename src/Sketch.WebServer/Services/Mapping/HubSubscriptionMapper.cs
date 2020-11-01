@@ -47,7 +47,11 @@ namespace Sketch.WebServer.Services
 
             foreach (var subscription in subscriptions)
             {
-                Unsubscribe(subscriberId, subscription);
+                var count = --_subscriptions[subscription];
+                if (count == 0)
+                {
+                    _subscriptions.TryRemove(subscription, out _);
+                }
             }
         }
 
@@ -84,10 +88,11 @@ namespace Sketch.WebServer.Services
             }
             else if (!subscriptions.Remove(subscription))
             {
-                throw new ArgumentNullException("Subscriber is not subscribed to the subscription.");
+                throw new ArgumentException("Subscriber is not subscribed to the subscription.");
             }
 
-            if (--_subscriptions[subscription] == 0)
+            var count = --_subscriptions[subscription];
+            if (count == 0)
             {
                 _subscriptions.TryRemove(subscription, out _);
             }
