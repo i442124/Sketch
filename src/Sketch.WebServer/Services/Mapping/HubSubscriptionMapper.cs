@@ -12,29 +12,29 @@ namespace Sketch.WebServer.Services
         private readonly ConcurrentDictionary<string, List<T>> _subscribers =
         new ConcurrentDictionary<string, List<T>>();
 
-        public int Count
+        public int SubscriberCount
         {
             get { return _subscribers.Count; }
         }
 
-        public void Register(string subscriberId)
+        public void AddSubscriber(string subscriberId)
         {
             _subscribers[subscriberId] = new List<T>();
         }
 
         public Task AddSubscriberAsync(string subscriberId)
         {
-            return Task.Run(() => Register(subscriberId));
+            return Task.Run(() => AddSubscriber(subscriberId));
         }
 
-        public void Unregister(string subscriberId)
+        public void RemoveSubscriber(string subscriberId)
         {
             _subscribers.TryRemove(subscriberId, out _);
         }
 
         public Task RemoveSubscriberAsync(string subscriberId)
         {
-            return Task.Run(() => Unregister(subscriberId));
+            return Task.Run(() => RemoveSubscriber(subscriberId));
         }
 
         public void Subscribe(string subscriberId, T value)

@@ -7,13 +7,23 @@ namespace Sketch.WebServer.Services
 {
     public interface IHubSubscriptionMapper<T>
     {
+        void AddSubscriber(string subscriberId);
+
         Task AddSubscriberAsync(string subscriberId);
 
-        Task SubscribeAsync(string subscriberId, T value);
+        void Subscribe(string subscriberId, T subscription);
+
+        Task SubscribeAsync(string subscriberId, T subscription);
+
+        void RemoveSubscriber(string subscriberId);
 
         Task RemoveSubscriberAsync(string subscriberId);
 
-        Task UnsubscribeAsync(string subscriberId, T value);
+        void Unsubscribe(string subscriberId, T subscription);
+
+        Task UnsubscribeAsync(string subscriberId, T subscription);
+
+        IEnumerable<T> GetSubscriptions(string subscriberId);
 
         Task<IEnumerable<T>> GetSubscriptionsAsync(string subscriberId);
     }
