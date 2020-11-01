@@ -62,11 +62,12 @@ namespace Sketch.WebServer.Services
             {
                 throw new ArgumentException("Subscriber does not exists.");
             }
-            else if (subscriptions.Add(subscription))
+            else if (!subscriptions.Add(subscription))
             {
                 throw new ArgumentException("Subscriber is already subscribed to the subscription.");
             }
 
+            _subscriptions.TryAdd(subscription, 0);
             _subscriptions[subscription]++;
         }
 
@@ -81,7 +82,7 @@ namespace Sketch.WebServer.Services
             {
                 throw new ArgumentException("Subscriber does not exists.");
             }
-            else if (subscriptions.Remove(subscription))
+            else if (!subscriptions.Remove(subscription))
             {
                 throw new ArgumentNullException("Subscriber is not subscribed to the subscription.");
             }
