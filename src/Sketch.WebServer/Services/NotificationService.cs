@@ -37,6 +37,7 @@ namespace Sketch.WebServer.Services
         public async Task RegisterAsync(string subscriberId, User user)
         {
             await _connections.AddAsync(subscriberId, user);
+            await _subscriptions.AddSubscriberAsync(subscriberId);
         }
 
         public async Task SubscribeAsync(string subscriberId, string channel)
@@ -53,6 +54,7 @@ namespace Sketch.WebServer.Services
         public async Task UnregisterAsync(string subscriberId)
         {
             await _connections.RemoveAsync(subscriberId);
+            await _subscriptions.RemoveSubscriberAsync(subscriberId);
         }
 
         public async Task UnsubscribeAsync(string subscriberId, string channel)

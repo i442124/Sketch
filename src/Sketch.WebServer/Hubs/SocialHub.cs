@@ -13,28 +13,26 @@ namespace Sketch.WebServer.Hubs
 {
     public class SocialHub : Hub
     {
-        private readonly IHubConnectionMapper<User> _connections;
-        private readonly IHubSubscriptionMapper<string> _subscriptions;
+        private readonly INotificationService _service;
 
-        public SocialHub(
-            IHubConnectionMapper<User> connections,
-            IHubSubscriptionMapper<string> subscriptions)
+        public SocialHub(INotificationService service)
         {
-            _connections = connections;
-            _subscriptions = subscriptions;
+            _service = service;
         }
 
         public async override Task OnConnectedAsync()
         {
-            await _subscriptions.AddSubscriberAsync(Context.ConnectionId);
             await base.OnConnectedAsync();
+            await _service.RegisterAsync(Context.ConnectionId, new User
+            {
+                Name = Context.UserIdentifier ?? Context.ConnectionId
+            });
         }
 
         public async override Task OnDisconnectedAsync(Exception exception)
         {
-            await _subscriptions.RemoveSubscriberAsync(Context.ConnectionId);
-            await _connections.RemoveAsync(Context.ConnectionId);
             await base.OnDisconnectedAsync(exception);
+            await _service.UnregisterAsync(Context.ConnectionId);
         }
     }
 }
