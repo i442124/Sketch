@@ -73,6 +73,15 @@ namespace Sketch.WebServer.Services
 
         public async Task UnregisterAsync(string subscriberId)
         {
+            foreach (var subscription in await _subscriptions.GetSubscriptionsAsync(subscriberId))
+            {
+                var user = await _connections.GetUserInfoAsync(subscriberId);
+                await BroadcastAsync(subscriberId, subscription, new UserEvent
+                {
+                    User = user, TimeStamp = DateTime.Now, Connected = false
+                });
+            }
+
             await _connections.RemoveAsync(subscriberId);
             await _subscriptions.RemoveSubscriberAsync(subscriberId);
         }
