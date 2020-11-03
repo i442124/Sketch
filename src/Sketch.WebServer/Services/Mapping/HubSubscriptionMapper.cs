@@ -9,8 +9,8 @@ namespace Sketch.WebServer.Services
 {
     public class HubSubscriptionMapper<T> : IHubSubscriptionMapper<T>
     {
-        private readonly ConcurrentDictionary<T, int> _subscriptions =
-        new ConcurrentDictionary<T, int>();
+        private readonly ConcurrentDictionary<T, HashSet<string>> _subscriptions =
+        new ConcurrentDictionary<T, HashSet<string>>();
 
         private readonly ConcurrentDictionary<string, HashSet<T>> _subscribers =
         new ConcurrentDictionary<string, HashSet<T>>();
@@ -47,8 +47,10 @@ namespace Sketch.WebServer.Services
 
             foreach (var subscription in subscriptions)
             {
-                var count = --_subscriptions[subscription];
-                if (count == 0)
+                var hashSet = _subscriptions[subscription];
+                hashSet.Remove(subscriberId);
+
+                if (hashSet.Count == 0)
                 {
                     _subscriptions.TryRemove(subscription, out _);
                 }
@@ -71,8 +73,8 @@ namespace Sketch.WebServer.Services
                 throw new ArgumentException("Subscriber is already subscribed to the subscription.");
             }
 
-            _subscriptions.TryAdd(subscription, 0);
-            _subscriptions[subscription]++;
+            _subscriptions.TryAdd(subscription, new HashSet<string>());
+            _subscriptions[subscription].Add(subscriberId);
         }
 
         public Task SubscribeAsync(string subscriberId, T subscription)
@@ -91,11 +93,7 @@ namespace Sketch.WebServer.Services
                 throw new ArgumentException("Subscriber is not subscribed to the subscription.");
             }
 
-            var count = --_subscriptions[subscription];
-            if (count == 0)
-            {
-                _subscriptions.TryRemove(subscription, out _);
-            }
+            _subscriptions[subscription].Remove(subscriberId);
         }
 
         public Task UnsubscribeAsync(string subscriberId, T subscription)
@@ -119,6 +117,24 @@ namespace Sketch.WebServer.Services
         public Task<IEnumerable<T>> GetSubscriptionsAsync(string subscriberId)
         {
             return Task.Run(() => GetSubscriptions(subscriberId));
+        }
+
+        public IEnumerable<string> GetSubscribers(T subscription)
+        {
+            if (!_subscriptions.TryGetValue(subscription, out HashSet<string> subscribers))
+            {
+                throw new ArgumentException("Subscription does not exists.");
+            }
+
+            foreach (var subscriber in subscribers)
+            {
+                yield return subscriber;
+            }
+        }
+
+        public Task<IEnumerable<string>> GetSubscribersAsync(T subscription)
+        {
+            return Task.Run(() => GetSubscribers(subscription));
         }
 
         public IEnumerator<T> GetEnumerator()

@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -37,6 +39,10 @@ namespace Sketch.WebServer.Services
 
             _clients = new Mock<IHubClients>();
             _clients.Setup(mock => mock.Group(It.IsAny<string>()))
+                .Returns(_clientProxy.Object);
+            _clients.Setup(mock => mock.GroupExcept(It.IsAny<string>(), It.IsAny<IReadOnlyList<string>>()))
+                .Returns(_clientProxy.Object);
+            _clients.Setup(mock => mock.Client(It.IsAny<string>()))
                 .Returns(_clientProxy.Object);
 
             _groupManager = new Mock<IGroupManager>();
@@ -164,7 +170,6 @@ namespace Sketch.WebServer.Services
             await _service.SubscribeAsync(subscriberId, groupName);
 
             // Assert
-            _clients.Verify(mock => mock.Group(groupName));
             _clientProxy.Verify(mock => mock.SendCoreAsync(
 
                 It.Is<string>(value =>
@@ -225,7 +230,6 @@ namespace Sketch.WebServer.Services
             await _service.UnsubscribeAsync(subscriberId, groupName);
 
             // Assert
-            _clients.Verify(mock => mock.Group(groupName));
             _clientProxy.Verify(mock => mock.SendCoreAsync(
 
                 It.Is<string>(value =>

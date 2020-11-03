@@ -26,5 +26,9 @@ namespace Sketch.WebServer.Services
         IEnumerable<T> GetSubscriptions(string subscriberId);
 
         Task<IEnumerable<T>> GetSubscriptionsAsync(string subscriberId);
+
+        IEnumerable<string> GetSubscribers(T subscription);
+
+        Task<IEnumerable<string>> GetSubscribersAsync(T subscription);
     }
 }

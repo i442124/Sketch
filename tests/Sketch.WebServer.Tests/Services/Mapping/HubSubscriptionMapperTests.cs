@@ -53,6 +53,34 @@ namespace Sketch.WebServer.Services
         }
 
         [Fact]
+        public void Should_AddSubscriber_When_Subscribe()
+        {
+            // Arrange
+            var subscriberId_A = "abc-123-def-456";
+            var subscriberId_B = "def-456-ghi-789";
+            var subscriptions = new HubSubscriptionMapper<string>();
+
+            // Act
+            subscriptions.AddSubscriber(subscriberId_A);
+            subscriptions.Subscribe(subscriberId_A, "SubscriptionA");
+            subscriptions.Subscribe(subscriberId_A, "SubscriptionB");
+            subscriptions.Subscribe(subscriberId_A, "SubscriptionC");
+
+            subscriptions.AddSubscriber(subscriberId_B);
+            subscriptions.Subscribe(subscriberId_B, "SubscriptionB");
+            subscriptions.Subscribe(subscriberId_B, "SubscriptionC");
+
+            // Assert
+            Assert.Equal(2, subscriptions.SubscriberCount);
+            Assert.Equal(3, subscriptions.SubscriptionCount);
+            Assert.Contains(subscriberId_A, subscriptions.GetSubscribers("SubscriptionA"));
+            Assert.Contains(subscriberId_A, subscriptions.GetSubscribers("SubscriptionB"));
+            Assert.Contains(subscriberId_A, subscriptions.GetSubscribers("SubscriptionC"));
+            Assert.Contains(subscriberId_B, subscriptions.GetSubscribers("SubscriptionB"));
+            Assert.Contains(subscriberId_B, subscriptions.GetSubscribers("SubscriptionC"));
+        }
+
+        [Fact]
         public void Should_AddSubscription_When_Subscribe()
         {
             // Arrange
@@ -78,6 +106,32 @@ namespace Sketch.WebServer.Services
             Assert.Contains("SubscriptionC", subscriptions.GetSubscriptions(subscriberId_A));
             Assert.Contains("SubscriptionB", subscriptions.GetSubscriptions(subscriberId_B));
             Assert.Contains("SubscriptionC", subscriptions.GetSubscriptions(subscriberId_B));
+        }
+
+        [Fact]
+        public void Should_RemoveSubscriber_When_Unsubscribe()
+        {
+            // Arrange
+            var subscriberId_A = "abc-123-def-456";
+            var subscriberId_B = "def-456-ghi-789";
+            var subscriptions = new HubSubscriptionMapper<string>();
+
+            // Act
+            subscriptions.AddSubscriber(subscriberId_A);
+            subscriptions.Subscribe(subscriberId_A, "SubscriptionA");
+            subscriptions.Subscribe(subscriberId_A, "SubscriptionB");
+
+            subscriptions.AddSubscriber(subscriberId_B);
+            subscriptions.Subscribe(subscriberId_B, "SubscriptionA");
+            subscriptions.Subscribe(subscriberId_B, "SubscriptionB");
+
+            subscriptions.Unsubscribe(subscriberId_A, "SubscriptionA");
+            subscriptions.Unsubscribe(subscriberId_B, "SubscriptionB");
+
+            // Assert
+            Assert.Equal(2, subscriptions.SubscriberCount);
+            Assert.Contains(subscriberId_A, subscriptions.GetSubscribers("SubscriptionB"));
+            Assert.Contains(subscriberId_B, subscriptions.GetSubscribers("SubscriptionA"));
         }
 
         [Fact]

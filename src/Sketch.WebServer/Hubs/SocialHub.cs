@@ -25,7 +25,8 @@ namespace Sketch.WebServer.Hubs
             await base.OnConnectedAsync();
             await _service.RegisterAsync(Context.ConnectionId, new User
             {
-                Name = Context.UserIdentifier ?? Context.ConnectionId
+                Guid = Guid.NewGuid(),
+                Name = Context.UserIdentifier ?? Context.ConnectionId,
             });
         }
 

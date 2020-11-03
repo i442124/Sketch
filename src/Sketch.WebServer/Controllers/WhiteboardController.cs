@@ -19,28 +19,28 @@ namespace Sketch.WebServer.Controllers
             _whiteboardService = notifyService;
         }
 
-        [HttpPost("stroke/{channel}")]
+        [HttpPost("{channel}/stroke")]
         public async Task<IActionResult> StrokeAsync(string channel, [FromBody] Stroke stroke)
         {
             await _whiteboardService.StrokeAsync(channel, stroke);
             return Ok();
         }
 
-        [HttpPost("wipe/{channel}")]
+        [HttpPost("{channel}/wipe")]
         public async Task<IActionResult> WipeAsync(string channel, [FromBody] Wipe wipe)
         {
             await _whiteboardService.WipeAsync(channel, wipe);
             return Ok();
         }
 
-        [HttpPost("fill/{channel}")]
+        [HttpPost("{channel}/fill")]
         public async Task<IActionResult> FillAsync(string channel, [FromBody] Fill fill)
         {
             await _whiteboardService.FillAsync(channel, fill);
             return Ok();
         }
 
-        [HttpPost("clear/{channel}")]
+        [HttpPost("{channel}/clear")]
         public async Task<IActionResult> ClearAsync(string channel, [FromBody] Clear clear)
         {
             await _whiteboardService.ClearAsync(channel, clear);

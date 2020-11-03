@@ -11,7 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sketch.Shared", "src\Sketch
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sketch.Shared.Tests", "tests\Sketch.Shared.Tests\Sketch.Shared.Tests.csproj", "{F5C29683-6157-4878-8801-7C48D507B161}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sketch.WebServer.Tests", "tests\Sketch.WebServer.Tests\Sketch.WebServer.Tests.csproj", "{A01FB039-31B2-4285-ACAF-024041297ADD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sketch.WebServer.Tests", "tests\Sketch.WebServer.Tests\Sketch.WebServer.Tests.csproj", "{A01FB039-31B2-4285-ACAF-024041297ADD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
