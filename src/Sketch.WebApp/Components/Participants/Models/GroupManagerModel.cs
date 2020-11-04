@@ -20,5 +20,15 @@ namespace Sketch.WebApp.Components
         {
             return _subscription.OnReceive(handler);
         }
+
+        public IDisposable OnReceive(Func<SubscribeEvent, Task> handler)
+        {
+            return _subscription.OnReceive(handler);
+        }
+
+        public IDisposable OnReceive(Func<UnsubscribeEvent, Task> handler)
+        {
+            return _subscription.OnReceive(handler);
+        }
     }
 }

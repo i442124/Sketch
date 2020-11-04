@@ -26,15 +26,39 @@ namespace Sketch.WebApp.Components
 
         protected override void OnInitialized()
         {
-            Group.OnReceive(ReceiveAsync);
+            Group.OnReceive((Func<UserEvent, Task>)ReceiveAsync);
+            Group.OnReceive((Func<SubscribeEvent, Task>)ReceiveAsync);
+            Group.OnReceive((Func<UnsubscribeEvent, Task>)ReceiveAsync);
         }
 
         private async Task ReceiveAsync(UserEvent e)
         {
-            _members.Remove(e.User);
-            if (e.Connected)
+            if (!_members.Contains(e.User))
             {
-                _members.Add(e.User);
+                throw new ArgumentException("User is not subscribed to channel.");
+            }
+
+            _members.Remove(e.User);
+            _members.Add(e.User);
+
+            await InvokeAsync(StateHasChanged);
+        }
+
+        private async Task ReceiveAsync(SubscribeEvent e)
+        {
+            if (!_members.Add(e.User))
+            {
+                throw new ArgumentException("User is already subscribed to channel.");
+            }
+
+            await InvokeAsync(StateHasChanged);
+        }
+
+        private async Task ReceiveAsync(UnsubscribeEvent e)
+        {
+            if (!_members.Remove(e.User))
+            {
+                throw new ArgumentException("User is not subscribed to channel.");
             }
 
             await InvokeAsync(StateHasChanged);

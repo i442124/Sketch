@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -36,20 +38,12 @@ namespace Sketch.WebServer.Services
             return _context.Clients.Client(subscriberId).SendAsync($"{typeof(T)}", content);
         }
 
-        public Task BroadcastAsync<T>(string subscriberId, string channel, T content)
-        {
-            return _context.Clients.GroupExcept(channel, subscriberId).SendAsync($"{typeof(T)}", content);
-        }
-
         public async Task UpdateAsync(string subscriberId, User user)
         {
             await _connections.AddAsync(subscriberId, user);
-            foreach (var channel in await _subscriptions.GetSubscriptionsAsync(subscriberId))
+            foreach (var channel in await GetSubscriptionsAsync(subscriberId))
             {
-                await PublishAsync(channel, new UserEvent
-                {
-                    User = user, TimeStamp = DateTime.Now, Connected = true
-                });
+                await PublishAsync(channel, await CreateUserEventAsync(subscriberId));
             }
         }
 
@@ -62,46 +56,68 @@ namespace Sketch.WebServer.Services
         public async Task SubscribeAsync(string subscriberId, string channel)
         {
             await _subscriptions.SubscribeAsync(subscriberId, channel);
-            await PublishAsync(channel, await CreateEvent(subscriberId, true));
+            await PublishAsync(channel, await CreateSubscribeEventAsync(subscriberId, channel));
 
             await _context.Groups.AddToGroupAsync(subscriberId, channel);
             foreach (var subscriber in await _subscriptions.GetSubscribersAsync(channel))
             {
-                await WhisperAsync(subscriberId, await CreateEvent(subscriber, true));
+                var subscribeEvent = await CreateSubscribeEventAsync(subscriber, channel);
+                await WhisperAsync(subscriberId, subscribeEvent);
             }
         }
 
         public async Task UnregisterAsync(string subscriberId)
         {
-            foreach (var subscription in await _subscriptions.GetSubscriptionsAsync(subscriberId))
+            foreach (var channel in await _subscriptions.GetSubscriptionsAsync(subscriberId))
             {
-                var user = await _connections.GetUserInfoAsync(subscriberId);
-                await BroadcastAsync(subscriberId, subscription, new UserEvent
-                {
-                    User = user, TimeStamp = DateTime.Now, Connected = false
-                });
+                await _context.Groups.RemoveFromGroupAsync(subscriberId, channel);
+                var unsubscribeEvent = await CreateUnsubscribeEventAsync(subscriberId, channel);
+                await PublishAsync(channel, unsubscribeEvent);
             }
 
-            await _connections.RemoveAsync(subscriberId);
             await _subscriptions.RemoveSubscriberAsync(subscriberId);
+            await _connections.RemoveAsync(subscriberId);
         }
 
         public async Task UnsubscribeAsync(string subscriberId, string channel)
         {
             await _subscriptions.UnsubscribeAsync(subscriberId, channel);
-            await PublishAsync(channel, await CreateEvent(subscriberId, false));
+            await PublishAsync(channel, await CreateUnsubscribeEventAsync(subscriberId, channel));
 
             await _context.Groups.RemoveFromGroupAsync(subscriberId, channel);
             foreach (var subscriber in await _subscriptions.GetSubscribersAsync(channel))
             {
-                await WhisperAsync(subscriberId, await CreateEvent(subscriber, false));
+                var unsubscribeEvent = await CreateUnsubscribeEventAsync(subscriber, channel);
+                await WhisperAsync(subscriberId, unsubscribeEvent);
             }
         }
 
-        private async Task<UserEvent> CreateEvent(string subscriberId, bool connected)
+        private Task<IEnumerable<string>> GetSubscribersAsync(string channel)
+        {
+            return _subscriptions.GetSubscribersAsync(channel);
+        }
+
+        private Task<IEnumerable<string>> GetSubscriptionsAsync(string subscriberId)
+        {
+            return _subscriptions.GetSubscriptionsAsync(subscriberId);
+        }
+
+        private async Task<UserEvent> CreateUserEventAsync(string subscriberId)
         {
             var user = await _connections.GetUserInfoAsync(subscriberId);
-            return new UserEvent { User = user, Connected = connected, TimeStamp = DateTime.Now };
+            return new UserEvent { User = user, TimeStamp = DateTime.Now };
+        }
+
+        private async Task<SubscribeEvent> CreateSubscribeEventAsync(string subscriberId, string channel)
+        {
+            var user = await _connections.GetUserInfoAsync(subscriberId);
+            return new SubscribeEvent { User = user, Channel = channel, DateTime = DateTime.Now };
+        }
+
+        private async Task<UnsubscribeEvent> CreateUnsubscribeEventAsync(string subscriberId, string channel)
+        {
+            var user = await _connections.GetUserInfoAsync(subscriberId);
+            return new UnsubscribeEvent { User = user, Channel = channel, DateTime = DateTime.Now };
         }
     }
 }

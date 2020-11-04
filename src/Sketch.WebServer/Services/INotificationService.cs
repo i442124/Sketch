@@ -13,8 +13,6 @@ namespace Sketch.WebServer.Services
 
         Task WhisperAsync<T>(string subscriberId, T content);
 
-        Task BroadcastAsync<T>(string subscriberId, string channel, T content);
-
         Task UpdateAsync(string subscriberId, User user);
 
         Task RegisterAsync(string subscriberId, User user);
