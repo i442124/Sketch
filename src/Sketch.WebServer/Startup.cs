@@ -35,6 +35,9 @@ namespace Sketch.WebServer
             services.AddSingleton<IMessengerService, MessengerService>();
             services.AddSingleton<IWhiteboardService, WhiteboardService>();
             services.AddSingleton<INotificationService, NotificationService>();
+
+            services.AddSingleton(typeof(IHubConnectionMapper<>), typeof(HubConnectionMapper<>));
+            services.AddSingleton(typeof(IHubSubscriptionMapper<>), typeof(HubSubscriptionMapper<>));
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

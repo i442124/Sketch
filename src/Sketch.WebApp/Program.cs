@@ -7,12 +7,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
-using Sketch.WebApp.Areas.Configuration;
-using Sketch.WebApp.Areas.Messages;
-using Sketch.WebApp.Areas.Subscriptions;
-using Sketch.WebApp.Areas.Toolbox;
-using Sketch.WebApp.Areas.Tools;
-using Sketch.WebApp.Areas.Whiteboard;
+using Sketch.WebApp;
+using Sketch.WebApp.Components;
 
 namespace Sketch.WebApp
 {
@@ -44,8 +40,13 @@ namespace Sketch.WebApp
             builder.Services.AddScoped<IStylusTipModel, StylusTipModel>();
 
             // SKETCH SERVICES
+            builder.Services.AddScoped<IMessageModel, MessageModel>();
             builder.Services.AddScoped<IMessengerModel, MessengerModel>();
             builder.Services.AddScoped<IWhiteboardModel, WhiteboardModel>();
+
+            // SKETCH SUBSCRIPTIONS
+            builder.Services.AddScoped<IIdentityModel, IdentityModel>();
+            builder.Services.AddScoped<IGroupManagerModel, GroupManagerModel>();
             builder.Services.AddScoped<ISubscriptionModel, SubscriptionModel>();
 
             return builder.Build();

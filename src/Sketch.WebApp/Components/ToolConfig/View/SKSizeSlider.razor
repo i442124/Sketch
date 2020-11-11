@@ -1,0 +1,12 @@
+﻿@inherits SKSizeComponent
+@namespace Sketch.WebApp.Components
+
+<div class="sk-slider-container">
+
+    <input @oninput="OnValueChanged"
+           class="sk-slider" type="range"
+           value="@MinValue" min="@MinValue" max="@MaxValue" />
+
+    @Value
+
+</div>

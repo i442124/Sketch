@@ -1,0 +1,10 @@
+﻿@inherits SKParticipantListComponent
+@namespace Sketch.WebApp.Components
+
+<h4>Participants: </h4>
+<ul>
+    @foreach(var member in Members)
+    {
+        <SKParticipantListItem User="member"/>
+    }
+</ul>
