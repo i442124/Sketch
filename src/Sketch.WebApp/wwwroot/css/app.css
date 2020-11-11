@@ -1,6 +1,5 @@
-﻿@import url('components/toolbox/SKBrushSlider.razor.css');
-@import url('components/toolbox/SKColor.razor.css');
-@import url('components/toolbox/SKColorPicker.razor.css');
+﻿@import url('components/toolbox/SKColor.css');
+@import url('components/toolbox/SKColorPicker.css');
 
 
 #blazor-error-ui {
