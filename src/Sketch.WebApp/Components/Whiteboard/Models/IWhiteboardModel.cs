@@ -17,6 +17,8 @@ namespace Sketch.WebApp.Components
 
         Task SendAsync(Stroke stroke);
 
+        Task UndoAsync();
+
         IDisposable OnReceive(Func<FillEvent, Task> handler);
 
         IDisposable OnReceive(Func<WipeEvent, Task> handler);

@@ -11,6 +11,7 @@ namespace Sketch.WebApp.Components
 {
     public partial class SKCanvas : SKCanvasComponent
     {
+        private string _actionId;
         private bool _painting;
         private int _previousX;
         private int _previousY;
@@ -33,6 +34,7 @@ namespace Sketch.WebApp.Components
             {
                 var currentX = (int)e.OffsetX;
                 var currentY = (int)e.OffsetY;
+                _actionId = System.Guid.NewGuid().ToString();
                 await DrawAsync(_previousX, _previousY, currentX, currentY);
             }
         }
@@ -75,6 +77,7 @@ namespace Sketch.WebApp.Components
             {
                 var stroke = new Stroke
                 {
+                    ActionId = _actionId,
                     Style = new StrokeStyle
                     {
                         Color = Brush.Color, Thickness = Brush.Size

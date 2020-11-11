@@ -36,6 +36,11 @@ namespace Sketch.WebApp.Components
             return _subscription.PublishAsync("whiteboard", "stroke", stroke);
         }
 
+        public Task UndoAsync()
+        {
+            return _subscription.PublishAsync("whiteboard", "undo", (object)null);
+        }
+
         public IDisposable OnReceive(Func<FillEvent, Task> handler)
         {
             return _subscription.OnReceive(handler);

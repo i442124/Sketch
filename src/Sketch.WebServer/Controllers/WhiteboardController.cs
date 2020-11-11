@@ -46,5 +46,12 @@ namespace Sketch.WebServer.Controllers
             await _whiteboardService.ClearAsync(channel, clear);
             return Ok();
         }
+
+        [HttpPost("{channel}/undo")]
+        public async Task<IActionResult> UndoAsync(string channel)
+        {
+            await _whiteboardService.UndoAsync(channel);
+            return Ok();
+        }
     }
 }

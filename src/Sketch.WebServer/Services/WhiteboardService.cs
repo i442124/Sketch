@@ -5,48 +5,61 @@ using System.Threading.Tasks;
 using Sketch.Shared;
 using Sketch.WebServer;
 using Sketch.WebServer.Hubs;
+using Sketch.WebServer.Storage;
 
 namespace Sketch.WebServer.Services
 {
     public class WhiteboardService : IWhiteboardService
     {
         private readonly INotificationService _notifyService;
+        private readonly IWhiteboardStorage _whiteboardStorage;
 
-        public WhiteboardService(INotificationService notifyService)
+        public WhiteboardService(INotificationService notifyService, IWhiteboardStorage whiteboardStorage)
         {
             _notifyService = notifyService;
+            _whiteboardStorage = whiteboardStorage;
         }
 
-        public Task StrokeAsync(string channel, Stroke stroke)
+        public async Task StrokeAsync(string channel, Stroke stroke)
         {
-            return _notifyService.PublishAsync(channel, new StrokeEvent
-            {
-                Stroke = stroke, TimeStamp = DateTime.Now
-            });
+            var strokeEvent = new StrokeEvent { Stroke = stroke, TimeStamp = DateTime.Now };
+            await _whiteboardStorage.PushAsync(channel, strokeEvent);
+            await _notifyService.PublishAsync(channel, strokeEvent);
         }
 
-        public Task WipeAsync(string channel, Wipe wipe)
+        public async Task WipeAsync(string channel, Wipe wipe)
         {
-            return _notifyService.PublishAsync(channel, new WipeEvent
-            {
-                Wipe = wipe, Timestamp = DateTime.Now
-            });
+            var wipeEvent = new WipeEvent { Wipe = wipe, Timestamp = DateTime.Now };
+            await _notifyService.PublishAsync(channel, wipeEvent);
         }
 
-        public Task FillAsync(string channel, Fill fill)
+        public async Task FillAsync(string channel, Fill fill)
         {
-            return _notifyService.PublishAsync(channel, new FillEvent
-            {
-                Fill = fill, TimeStamp = DateTime.Now
-            });
+            var fillEvent = new FillEvent { Fill = fill, TimeStamp = DateTime.Now };
+            await _notifyService.PublishAsync(channel, fillEvent);
         }
 
-        public Task ClearAsync(string channel, Clear clear)
+        public async Task ClearAsync(string channel, Clear clear)
         {
-            return _notifyService.PublishAsync(channel, new ClearEvent
+            var clearEvent = new ClearEvent { Clear = clear, TimeStamp = DateTime.Now };
+            await _notifyService.PublishAsync(channel, clearEvent);
+        }
+
+        public async Task UndoAsync(string channel)
+        {
+            var clear = new Clear { Width = int.MaxValue, Height = int.MaxValue };
+            var clearEvent = new ClearEvent { Clear = clear, TimeStamp = DateTime.Now };
+
+            await _notifyService.PublishAsync(channel, clearEvent);
+
+            foreach (var item in await _whiteboardStorage.PopAsync(channel))
             {
-                Clear = clear, TimeStamp = DateTime.Now
-            });
+            }
+
+            foreach (var item in _whiteboardStorage.GetStack(channel))
+            {
+                await _notifyService.PublishAsync(channel, item);
+            }
         }
     }
 }
