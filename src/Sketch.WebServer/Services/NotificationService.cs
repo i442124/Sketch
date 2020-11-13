@@ -41,7 +41,7 @@ namespace Sketch.WebServer.Services
         public async Task UpdateAsync(string subscriberId, User user)
         {
             await _connections.AddAsync(subscriberId, user);
-            foreach (var channel in await GetSubscriptionsAsync(subscriberId))
+            foreach (var channel in await _subscriptions.GetSubscriptionsAsync(subscriberId))
             {
                 await PublishAsync(channel, await CreateUserEventAsync(subscriberId));
             }
@@ -90,16 +90,6 @@ namespace Sketch.WebServer.Services
                 var unsubscribeEvent = await CreateUnsubscribeEventAsync(subscriber, channel);
                 await WhisperAsync(subscriberId, unsubscribeEvent);
             }
-        }
-
-        private Task<IEnumerable<string>> GetSubscribersAsync(string channel)
-        {
-            return _subscriptions.GetSubscribersAsync(channel);
-        }
-
-        private Task<IEnumerable<string>> GetSubscriptionsAsync(string subscriberId)
-        {
-            return _subscriptions.GetSubscriptionsAsync(subscriberId);
         }
 
         private async Task<UserEvent> CreateUserEventAsync(string subscriberId)
