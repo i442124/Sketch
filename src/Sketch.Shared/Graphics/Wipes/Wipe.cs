@@ -1,6 +1,6 @@
 ﻿namespace Sketch.Shared
 {
-    public class Wipe
+    public class Wipe : Drawable
     {
         public WipeStyle Style { get; set; }
 

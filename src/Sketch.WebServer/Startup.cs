@@ -8,7 +8,6 @@ using Microsoft.Extensions.Hosting;
 using Sketch.WebServer;
 using Sketch.WebServer.Hubs;
 using Sketch.WebServer.Services;
-using Sketch.WebServer.Storage;
 
 namespace Sketch.WebServer
 {
@@ -31,9 +30,6 @@ namespace Sketch.WebServer
             services.AddSignalR();
             //services.AddSingleton<IConnectionMultiplexer>(
             //    ConnectionMultiplexer.Connect(Configuration["redis"]));
-
-            // Add WebServer Storage
-            services.AddSingleton<IWhiteboardStorage, WhiteboardStorage>();
 
             // Add WebServer Services
             services.AddSingleton<IMessengerService, MessengerService>();

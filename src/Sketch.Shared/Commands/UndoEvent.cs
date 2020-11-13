@@ -2,9 +2,9 @@
 
 namespace Sketch.Shared
 {
-    public class StrokeEvent
+    public class UndoEvent
     {
-        public Stroke Stroke { get; set; }
+        public Undo Undo { get; set; }
 
         public DateTime TimeStamp { get; set; }
     }

@@ -9,22 +9,28 @@ namespace Sketch.WebApp.Components
 {
     public interface IWhiteboardModel
     {
-        Task SendAsync(Fill fill);
-
-        Task SendAsync(Wipe wipe);
-
-        Task SendAsync(Clear clear);
+        string ActionId { get; }
 
         Task SendAsync(Stroke stroke);
 
-        Task UndoAsync();
+        Task SendAsync(Wipe wipe);
 
-        IDisposable OnReceive(Func<FillEvent, Task> handler);
+        Task SendAsync(Fill fill);
+
+        Task SendAsync(Clear clear);
+
+        Task SendAsync(Undo undo);
+
+        IDisposable OnReceive(Func<StrokeEvent, Task> handler);
 
         IDisposable OnReceive(Func<WipeEvent, Task> handler);
 
+        IDisposable OnReceive(Func<FillEvent, Task> handler);
+
         IDisposable OnReceive(Func<ClearEvent, Task> handler);
 
-        IDisposable OnReceive(Func<StrokeEvent, Task> handler);
+        IDisposable OnReceive(Func<UndoEvent, Task> handler);
+
+        Task InvokeActionChanged();
     }
 }

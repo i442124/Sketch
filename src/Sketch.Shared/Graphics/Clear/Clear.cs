@@ -1,6 +1,6 @@
 ﻿namespace Sketch.Shared
 {
-    public class Clear
+    public class Clear : Drawable
     {
         public int X { get; set; }
 
@@ -9,5 +9,7 @@
         public int Width { get; set; }
 
         public int Height { get; set; }
+
+        public static Clear All { get; } = new Clear { Width = int.MaxValue, Height = int.MaxValue };
     }
 }

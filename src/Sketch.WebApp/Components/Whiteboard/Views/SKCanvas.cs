@@ -11,7 +11,6 @@ namespace Sketch.WebApp.Components
 {
     public partial class SKCanvas : SKCanvasComponent
     {
-        private string _actionId;
         private bool _painting;
         private int _previousX;
         private int _previousY;
@@ -34,7 +33,7 @@ namespace Sketch.WebApp.Components
             {
                 var currentX = (int)e.OffsetX;
                 var currentY = (int)e.OffsetY;
-                _actionId = System.Guid.NewGuid().ToString();
+                await InvokeWhiteboardActionChanged();
                 await DrawAsync(_previousX, _previousY, currentX, currentY);
             }
         }
@@ -77,7 +76,6 @@ namespace Sketch.WebApp.Components
             {
                 var stroke = new Stroke
                 {
-                    ActionId = _actionId,
                     Style = new StrokeStyle
                     {
                         Color = Brush.Color, Thickness = Brush.Size
@@ -88,6 +86,7 @@ namespace Sketch.WebApp.Components
                     }
                 };
 
+                await StrokeAsync(stroke, stroke.Style);
                 await SendAsync(stroke);
             }
             else if (Stylus.Mode == StylusMode.Erase)
@@ -104,6 +103,7 @@ namespace Sketch.WebApp.Components
                     }
                 };
 
+                await WipeAsync(wipe, wipe.Style);
                 await SendAsync(wipe);
             }
             else if (Stylus.Mode == StylusMode.Fill)
@@ -120,6 +120,7 @@ namespace Sketch.WebApp.Components
                     }
                 };
 
+                await FillAsync(fill, fill.Style);
                 await SendAsync(fill);
             }
         }

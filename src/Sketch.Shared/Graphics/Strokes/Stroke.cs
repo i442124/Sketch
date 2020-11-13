@@ -1,9 +1,7 @@
 ﻿namespace Sketch.Shared
 {
-    public class Stroke : IAction
+    public class Stroke : Drawable
     {
-        public string ActionId { get; set; }
-
         public StrokeStyle Style { get; set; }
 
         public StylusPointCollection StylusPoints { get; set; }

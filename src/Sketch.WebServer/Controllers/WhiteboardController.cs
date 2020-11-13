@@ -48,9 +48,9 @@ namespace Sketch.WebServer.Controllers
         }
 
         [HttpPost("{channel}/undo")]
-        public async Task<IActionResult> UndoAsync(string channel)
+        public async Task<IActionResult> UndoAsync(string channel, [FromBody] Undo undo)
         {
-            await _whiteboardService.UndoAsync(channel);
+            await _whiteboardService.UndoAsync(channel, undo);
             return Ok();
         }
     }

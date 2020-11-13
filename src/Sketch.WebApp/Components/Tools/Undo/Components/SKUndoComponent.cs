@@ -14,7 +14,10 @@ namespace Sketch.WebApp.Components
     {
         protected async Task UndoAsync()
         {
-            await Whiteboard.UndoAsync();
+            await Whiteboard.SendAsync(new Undo
+            {
+                ActionId = Whiteboard.ActionId
+            });
         }
 
         [Inject]
