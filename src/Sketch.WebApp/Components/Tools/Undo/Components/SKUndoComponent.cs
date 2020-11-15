@@ -10,11 +10,14 @@ using Sketch.WebApp.Components;
 
 namespace Sketch.WebApp.Components
 {
-    public class SKResetComponent : ComponentBase
+    public abstract class SKUndoComponent : ComponentBase
     {
-        protected async Task ClearWhiteboardAsync()
+        protected async Task UndoAsync()
         {
-            await Whiteboard.SendAsync(Clear.All);
+            await Whiteboard.SendAsync(new Undo
+            {
+                ActionId = Whiteboard.ActionId
+            });
         }
 
         [Inject]

@@ -48,5 +48,13 @@ namespace Sketch.WebServer.Services
                 Clear = clear, TimeStamp = DateTime.Now
             });
         }
+
+        public Task UndoAsync(string channel, Undo undo)
+        {
+            return _notifyService.PublishAsync(channel, new UndoEvent
+            {
+                Undo = undo, TimeStamp = DateTime.Now
+            });
+        }
     }
 }

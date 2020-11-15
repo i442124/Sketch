@@ -1,6 +1,6 @@
 ﻿namespace Sketch.Shared
 {
-    public class Fill
+    public class Fill : Drawable
     {
         public FillStyle Style { get; set; }
 

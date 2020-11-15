@@ -43,6 +43,7 @@ namespace Sketch.WebApp
             builder.Services.AddScoped<IMessageModel, MessageModel>();
             builder.Services.AddScoped<IMessengerModel, MessengerModel>();
             builder.Services.AddScoped<IWhiteboardModel, WhiteboardModel>();
+            builder.Services.AddTransient<IWhiteboardStorage, WhiteboardStorage>();
 
             // SKETCH SUBSCRIPTIONS
             builder.Services.AddScoped<IIdentityModel, IdentityModel>();

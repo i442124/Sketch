@@ -30,12 +30,12 @@ namespace Sketch.WebServer.Services
 
         public Task PublishAsync<T>(string channel, T content)
         {
-            return _context.Clients.Group(channel).SendAsync($"{typeof(T)}", content);
+            return _context.Clients.Group(channel).SendAsync($"{content.GetType()}", content);
         }
 
         public Task WhisperAsync<T>(string subscriberId, T content)
         {
-            return _context.Clients.Client(subscriberId).SendAsync($"{typeof(T)}", content);
+            return _context.Clients.Client(subscriberId).SendAsync($"{content.GetType()}", content);
         }
 
         public async Task UpdateAsync(string subscriberId, User user)
