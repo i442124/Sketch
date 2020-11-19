@@ -17,7 +17,7 @@ namespace Sketch.WebApp.Components
     public abstract class SKParticipantListComponent : ComponentBase
     {
         private readonly HashSet<User> _members =
-        new HashSet<User>(capacity: 8);
+        new HashSet<User>();
 
         public ReadOnlyCollection<User> Members
         {
@@ -26,27 +26,27 @@ namespace Sketch.WebApp.Components
 
         protected override void OnInitialized()
         {
-            Group.OnReceive((Func<UserEvent, Task>)ReceiveAsync);
-            Group.OnReceive((Func<SubscribeEvent, Task>)ReceiveAsync);
-            Group.OnReceive((Func<UnsubscribeEvent, Task>)ReceiveAsync);
+            GroupManager.OnReceive(UpdateAsync);
+            GroupManager.OnReceive(SubscribedAsync);
+            GroupManager.OnReceive(UnsubscribedAsync);
         }
 
-        private async Task ReceiveAsync(UserEvent e)
+        private async Task UpdateAsync(User user)
         {
-            if (!_members.Contains(e.User))
+            if (!_members.Contains(user))
             {
-                throw new ArgumentException("User is not subscribed to channel.");
+                throw new ArgumentException("User is not subscribed to this channel.");
             }
 
-            _members.Remove(e.User);
-            _members.Add(e.User);
+            _members.Remove(user);
+            _members.Add(user);
 
             await InvokeAsync(StateHasChanged);
         }
 
-        private async Task ReceiveAsync(SubscribeEvent e)
+        private async Task SubscribedAsync(Subscribe subscription)
         {
-            if (!_members.Add(e.User))
+            if (!_members.Add(subscription.User))
             {
                 throw new ArgumentException("User is already subscribed to channel.");
             }
@@ -54,9 +54,9 @@ namespace Sketch.WebApp.Components
             await InvokeAsync(StateHasChanged);
         }
 
-        private async Task ReceiveAsync(UnsubscribeEvent e)
+        private async Task UnsubscribedAsync(Unsubscribe unsubscription)
         {
-            if (!_members.Remove(e.User))
+            if (!_members.Remove(unsubscription.User))
             {
                 throw new ArgumentException("User is not subscribed to channel.");
             }
@@ -65,6 +65,6 @@ namespace Sketch.WebApp.Components
         }
 
         [Inject]
-        private IGroupManagerModel Group { get; set; }
+        private IGroupManagerModel GroupManager { get; set; }
     }
 }

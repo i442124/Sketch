@@ -19,10 +19,10 @@ namespace Sketch.WebServer.Controllers
             _messengerService = messengerService;
         }
 
-        [HttpPost("{channel}")]
-        public async Task<IActionResult> SendAysnc(string channel, [FromBody] Message message)
+        [HttpPost("{channel}/{subscriberId}")]
+        public async Task<IActionResult> SendAysnc(string channel, string subscriberId, [FromBody] Message message)
         {
-            await _messengerService.SendAsync(channel, message);
+            await _messengerService.SendAsync(channel, subscriberId, message);
             return Ok();
         }
     }

@@ -9,8 +9,8 @@ namespace Sketch.WebApp.Components
     {
         User User { get; }
 
-        Task SetUserIdentityAsync(User user);
+        Task SetUserNameAsync(string name);
 
-        Task SetUserIdentityNameAsync(string name);
+        Task SetUserIdentityAsync(User identity);
     }
 }

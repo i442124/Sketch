@@ -19,38 +19,38 @@ namespace Sketch.WebServer.Controllers
             _whiteboardService = notifyService;
         }
 
-        [HttpPost("{channel}/stroke")]
-        public async Task<IActionResult> StrokeAsync(string channel, [FromBody] Stroke stroke)
+        [HttpPost("{channel}/stroke/{subscriberId}")]
+        public async Task<IActionResult> StrokeAsync(string channel, string subscriberId, [FromBody] Stroke stroke)
         {
-            await _whiteboardService.StrokeAsync(channel, stroke);
+            await _whiteboardService.StrokeAsync(channel, subscriberId, stroke);
             return Ok();
         }
 
-        [HttpPost("{channel}/wipe")]
-        public async Task<IActionResult> WipeAsync(string channel, [FromBody] Wipe wipe)
+        [HttpPost("{channel}/wipe/{subscriberId}")]
+        public async Task<IActionResult> WipeAsync(string channel, string subscriberId, [FromBody] Wipe wipe)
         {
-            await _whiteboardService.WipeAsync(channel, wipe);
+            await _whiteboardService.WipeAsync(channel, subscriberId, wipe);
             return Ok();
         }
 
-        [HttpPost("{channel}/fill")]
-        public async Task<IActionResult> FillAsync(string channel, [FromBody] Fill fill)
+        [HttpPost("{channel}/fill/{subscriberId}")]
+        public async Task<IActionResult> FillAsync(string channel, string subscriberId, [FromBody] Fill fill)
         {
-            await _whiteboardService.FillAsync(channel, fill);
+            await _whiteboardService.FillAsync(channel, subscriberId, fill);
             return Ok();
         }
 
-        [HttpPost("{channel}/clear")]
-        public async Task<IActionResult> ClearAsync(string channel, [FromBody] Clear clear)
+        [HttpPost("{channel}/clear/{subscriberId}")]
+        public async Task<IActionResult> ClearAsync(string channel, string subscriberId, [FromBody] Clear clear)
         {
-            await _whiteboardService.ClearAsync(channel, clear);
+            await _whiteboardService.ClearAsync(channel, subscriberId, clear);
             return Ok();
         }
 
-        [HttpPost("{channel}/undo")]
-        public async Task<IActionResult> UndoAsync(string channel, [FromBody] Undo undo)
+        [HttpPost("{channel}/undo/{subscriberId}")]
+        public async Task<IActionResult> UndoAsync(string channel, string subscriberId, [FromBody] Undo undo)
         {
-            await _whiteboardService.UndoAsync(channel, undo);
+            await _whiteboardService.UndoAsync(channel, subscriberId, undo);
             return Ok();
         }
     }

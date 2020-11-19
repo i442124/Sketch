@@ -10,15 +10,20 @@ namespace Sketch.WebApp.Components
     public class MessengerModel : IMessengerModel
     {
         private readonly ISubscriptionModel _subscription;
+        private readonly ISubscriptionEventModel<Message> _messageEvent;
 
-        public MessengerModel(ISubscriptionModel subscription)
+        public MessengerModel(
+            ISubscriptionModel subscription,
+            ISubscriptionEventModel<Message> messageEvent)
         {
             _subscription = subscription;
+            _messageEvent = messageEvent;
         }
 
         public async Task SendAsync(Message message)
         {
-            await _subscription.PublishAsync("message", null, message);
+            await _messageEvent.InvokeAsync(message);
+            await _subscription.SendAsync("message", message);
         }
     }
 }

@@ -9,6 +9,6 @@ namespace Sketch.WebApp.Components
 {
     public interface IMessageModel
     {
-        IDisposable OnReceive(Func<MessageEvent, Task> handler);
+        IDisposable OnReceive(Func<Message, Task> handler);
     }
 }

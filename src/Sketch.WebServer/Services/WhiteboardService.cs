@@ -17,41 +17,41 @@ namespace Sketch.WebServer.Services
             _notifyService = notifyService;
         }
 
-        public Task StrokeAsync(string channel, Stroke stroke)
+        public Task StrokeAsync(string channel, string subscriberId, Stroke stroke)
         {
-            return _notifyService.PublishAsync(channel, new StrokeEvent
+            return _notifyService.BroadcastAsync(channel, subscriberId, new StrokeEvent
             {
                 Stroke = stroke, TimeStamp = DateTime.Now
             });
         }
 
-        public Task WipeAsync(string channel, Wipe wipe)
+        public Task WipeAsync(string channel, string subscriberId, Wipe wipe)
         {
-            return _notifyService.PublishAsync(channel, new WipeEvent
+            return _notifyService.BroadcastAsync(channel, subscriberId, new WipeEvent
             {
                 Wipe = wipe, Timestamp = DateTime.Now
             });
         }
 
-        public Task FillAsync(string channel, Fill fill)
+        public Task FillAsync(string channel, string subscriberId, Fill fill)
         {
-            return _notifyService.PublishAsync(channel, new FillEvent
+            return _notifyService.BroadcastAsync(channel, subscriberId, new FillEvent
             {
                 Fill = fill, TimeStamp = DateTime.Now
             });
         }
 
-        public Task ClearAsync(string channel, Clear clear)
+        public Task ClearAsync(string channel, string subscriberId, Clear clear)
         {
-            return _notifyService.PublishAsync(channel, new ClearEvent
+            return _notifyService.BroadcastAsync(channel, subscriberId, new ClearEvent
             {
                 Clear = clear, TimeStamp = DateTime.Now
             });
         }
 
-        public Task UndoAsync(string channel, Undo undo)
+        public Task UndoAsync(string channel, string subscriberId, Undo undo)
         {
-            return _notifyService.PublishAsync(channel, new UndoEvent
+            return _notifyService.BroadcastAsync(channel, subscriberId, new UndoEvent
             {
                 Undo = undo, TimeStamp = DateTime.Now
             });

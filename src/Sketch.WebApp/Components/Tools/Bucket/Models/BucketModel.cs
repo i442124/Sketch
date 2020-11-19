@@ -5,14 +5,14 @@ namespace Sketch.WebApp.Components
 {
     public class BucketModel : IBucketModel
     {
-        private readonly IPipetteModel _pipette;
+        private readonly IColorObjectModel _colorObject;
 
-        public BucketModel(IPipetteModel pipette)
+        public BucketModel(IColorObjectModel colorObject)
         {
-            _pipette = pipette;
+            _colorObject = colorObject;
         }
 
-        public Color Color => _pipette.Color;
+        public Color Color => _colorObject.Color;
 
         public float Opacity => throw new NotImplementedException();
     }

@@ -1,0 +1,53 @@
+﻿.sk-aspect-box {
+    padding-top: 100%;
+    position: relative;
+}
+
+.sk-aspect-box-overlay {
+    position:absolute;
+    left: 0;
+    top:0;
+}
+
+.sk-clickable {
+    cursor: pointer;
+}
+    .sk-clickable:hover {
+        transform: scale(1.1);
+    }
+
+.sk-container,
+.sk-container-stretch {
+    width: 100%;
+}
+
+.sk-container-stretch {
+    height: 100%;
+}
+
+.sk-scale-sm {
+    transform: scale(0.7);
+}
+
+.sk-scale-lg {
+    transform: scale(1.2);
+}
+
+.sk-stack,
+.sk-stack-horizontal {
+    display: flex;
+    flex-direction: column;
+}
+
+.sk-stack-horizontal {
+    flex-direction: row;
+}
+
+.sk-stack-item-grow {
+    flex-grow: 1;
+    flex-basis: 0;
+}
+
+.sk-rounded-box {
+    border-radius: 50%;
+}

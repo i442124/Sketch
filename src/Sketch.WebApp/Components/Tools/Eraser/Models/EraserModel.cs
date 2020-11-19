@@ -1,19 +1,17 @@
 ﻿using System;
-using Sketch.Shared;
-using Sketch.WebApp.Components;
 
 namespace Sketch.WebApp.Components
 {
     public class EraserModel : IEraserModel
     {
-        private readonly IStylusTipModel _stylus;
+        private readonly ISizeObjectModel _sizeObject;
 
-        public EraserModel(IStylusTipModel stylus)
+        public EraserModel(ISizeObjectModel sizeObject)
         {
-            _stylus = stylus;
+            _sizeObject = sizeObject;
         }
 
-        public float Size => _stylus.Size;
+        public float Size => _sizeObject.Size;
 
         public float Opacity => throw new NotImplementedException();
     }

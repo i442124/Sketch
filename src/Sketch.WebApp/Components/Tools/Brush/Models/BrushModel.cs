@@ -6,18 +6,18 @@ namespace Sketch.WebApp.Components
 {
     public class BrushModel : IBrushModel
     {
-        private readonly IPipetteModel _pipette;
-        private readonly IStylusTipModel _stylus;
+        private readonly ISizeObjectModel _sizeObject;
+        private readonly IColorObjectModel _colorObject;
 
-        public BrushModel(IStylusTipModel stylus, IPipetteModel pipette)
+        public BrushModel(ISizeObjectModel sizeObject, IColorObjectModel colorObject)
         {
-            _stylus = stylus;
-            _pipette = pipette;
+            _sizeObject = sizeObject;
+            _colorObject = colorObject;
         }
 
-        public float Size => _stylus.Size;
+        public float Size => _sizeObject.Size;
 
-        public Color Color => _pipette.Color;
+        public Color Color => _colorObject.Color;
 
         public float Opacity => throw new NotImplementedException();
     }

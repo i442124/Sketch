@@ -9,14 +9,14 @@ namespace Sketch.WebServer.Services
 {
     public interface IWhiteboardService
     {
-        Task StrokeAsync(string channel, Stroke stroke);
+        Task StrokeAsync(string channel, string subscriberId, Stroke stroke);
 
-        Task WipeAsync(string channel, Wipe wipe);
+        Task WipeAsync(string channel, string subscriberId, Wipe wipe);
 
-        Task FillAsync(string channel, Fill fill);
+        Task FillAsync(string channel, string subscriberId, Fill fill);
 
-        Task ClearAsync(string channel, Clear clear);
+        Task ClearAsync(string channel, string subscriberId, Clear clear);
 
-        Task UndoAsync(string channel, Undo undo);
+        Task UndoAsync(string channel, string subscriberId, Undo undo);
     }
 }

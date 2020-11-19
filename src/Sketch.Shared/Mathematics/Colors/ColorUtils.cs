@@ -132,11 +132,6 @@ namespace Sketch.Shared
             }
         }
 
-        public static Color FromHex(string hex)
-        {
-            return default;
-        }
-
         private static double GetHueColorComponent(double v1, double v2, double vH)
         {
             if (vH < 0)

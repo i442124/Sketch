@@ -17,9 +17,9 @@ namespace Sketch.WebServer.Services
             _notifyService = notifyService;
         }
 
-        public Task SendAsync(string channel, Message message)
+        public Task SendAsync(string channel, string subscriberId, Message message)
         {
-            return _notifyService.PublishAsync(channel, new MessageEvent
+            return _notifyService.BroadcastAsync(channel, subscriberId, new MessageEvent
             {
                 Message = message, TimeStamp = DateTime.Now
             });

@@ -1,6 +1,4 @@
-﻿@import url('components/toolbox/SKColor.css');
-@import url('components/toolbox/SKColorPicker.css');
-
+﻿@import url('global.styles.css');
 
 #blazor-error-ui {
     background: lightyellow;

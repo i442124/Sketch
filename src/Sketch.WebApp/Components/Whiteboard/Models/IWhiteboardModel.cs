@@ -1,35 +1,34 @@
 ﻿using System;
-using System.Threading;
 using System.Threading.Tasks;
 
-using Sketch;
 using Sketch.Shared;
+using Sketch.WebApp.Components;
 
 namespace Sketch.WebApp.Components
 {
     public interface IWhiteboardModel
     {
-        string ActionId { get; }
+        public string ActionId { get; }
 
-        Task SendAsync(Stroke stroke);
+        Task StrokeAsync(Stroke stroke);
 
-        Task SendAsync(Wipe wipe);
+        Task WipeAsync(Wipe wipe);
 
-        Task SendAsync(Fill fill);
+        Task FillAsync(Fill fill);
 
-        Task SendAsync(Clear clear);
+        Task ClearAsync(Clear clear);
 
-        Task SendAsync(Undo undo);
+        Task UndoAsync(Undo undo);
 
-        IDisposable OnReceive(Func<StrokeEvent, Task> handler);
+        IDisposable OnReceive(Func<Stroke, Task> handler);
 
-        IDisposable OnReceive(Func<WipeEvent, Task> handler);
+        IDisposable OnReceive(Func<Wipe, Task> handler);
 
-        IDisposable OnReceive(Func<FillEvent, Task> handler);
+        IDisposable OnReceive(Func<Fill, Task> handler);
 
-        IDisposable OnReceive(Func<ClearEvent, Task> handler);
+        IDisposable OnReceive(Func<Clear, Task> handler);
 
-        IDisposable OnReceive(Func<UndoEvent, Task> handler);
+        IDisposable OnReceive(Func<Undo, Task> handler);
 
         Task InvokeActionChanged();
     }
