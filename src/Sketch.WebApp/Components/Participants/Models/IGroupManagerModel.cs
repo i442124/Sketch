@@ -9,10 +9,10 @@ namespace Sketch.WebApp.Components
 {
     public interface IGroupManagerModel
     {
-        IDisposable OnReceive(Func<UserEvent, Task> handler);
+        IDisposable OnReceive(Func<User, Task> handler);
 
-        IDisposable OnReceive(Func<SubscribeEvent, Task> handler);
+        IDisposable OnReceive(Func<Subscribe, Task> handler);
 
-        IDisposable OnReceive(Func<UnsubscribeEvent, Task> handler);
+        IDisposable OnReceive(Func<Unsubscribe, Task> handler);
     }
 }

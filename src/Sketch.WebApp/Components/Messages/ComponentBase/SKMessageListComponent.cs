@@ -25,12 +25,9 @@ namespace Sketch.WebApp.Components
             Message.OnReceive(ReceiveAsync);
         }
 
-        protected async Task ReceiveAsync(MessageEvent e)
+        protected async Task ReceiveAsync(Message message)
         {
-            System.Console.WriteLine("Test!");
-            System.Console.WriteLine(e.Message.Contents);
-
-            _messages.Add(e.Message);
+            _messages.Add(message);
             await InvokeAsync(StateHasChanged);
         }
 

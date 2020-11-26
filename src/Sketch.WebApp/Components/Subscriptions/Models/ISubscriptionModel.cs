@@ -2,8 +2,8 @@
 using System.Threading;
 using System.Threading.Tasks;
 
-using Sketch;
 using Sketch.Shared;
+using Sketch.WebApp.Components;
 
 namespace Sketch.WebApp.Components
 {
@@ -13,14 +13,16 @@ namespace Sketch.WebApp.Components
 
         string SubscriberId { get; }
 
-        Task UnsubscribeAsync();
-
         Task RegisterAsync(User user);
 
         Task SubscribeAsync(string channel);
 
-        Task PublishAsync<T>(string methodGroup, string methodName, T contents);
+        Task UnsubscribeAsync();
 
         IDisposable OnReceive<T>(Func<T, Task> handler);
+
+        Task SendAsync<T>(string methodGroup, T content);
+
+        Task SendAsync<T>(string methodGroup, string methodName, T content);
     }
 }

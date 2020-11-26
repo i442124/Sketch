@@ -38,6 +38,11 @@ namespace Sketch.WebServer.Services
             return _context.Clients.Client(subscriberId).SendAsync($"{content.GetType()}", content);
         }
 
+        public Task BroadcastAsync<T>(string channel, string subscriberId, T content)
+        {
+            return _context.Clients.GroupExcept(channel, subscriberId).SendAsync($"{content.GetType()}", content);
+        }
+
         public async Task UpdateAsync(string subscriberId, User user)
         {
             await _connections.AddAsync(subscriberId, user);
@@ -101,13 +106,13 @@ namespace Sketch.WebServer.Services
         private async Task<SubscribeEvent> CreateSubscribeEventAsync(string subscriberId, string channel)
         {
             var user = await _connections.GetUserInfoAsync(subscriberId);
-            return new SubscribeEvent { User = user, Channel = channel, DateTime = DateTime.Now };
+            return new SubscribeEvent { DateTime = DateTime.Now, Subscription = new Subscribe { Channel = channel, User = user } };
         }
 
         private async Task<UnsubscribeEvent> CreateUnsubscribeEventAsync(string subscriberId, string channel)
         {
             var user = await _connections.GetUserInfoAsync(subscriberId);
-            return new UnsubscribeEvent { User = user, Channel = channel, DateTime = DateTime.Now };
+            return new UnsubscribeEvent { DateTime = DateTime.Now, Unsubscription = new Unsubscribe { Channel = channel, User = user } };
         }
     }
 }

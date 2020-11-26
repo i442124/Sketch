@@ -17,14 +17,14 @@ namespace Sketch.WebApp.Components
             get { return Identity.User.Name; }
         }
 
-        protected async Task SetUserIdentityAsync(User userIdentity)
+        protected async Task SetNameAsync(string userName)
         {
-            await Identity.SetUserIdentityAsync(userIdentity);
+            await Identity.SetUserNameAsync(userName);
         }
 
-        protected async Task SetUserIdentityNameAsync(string userName)
+        protected async Task SetIdentityAsync(User userIdentity)
         {
-            await Identity.SetUserIdentityNameAsync(userName);
+            await Identity.SetUserIdentityAsync(userIdentity);
         }
 
         [Inject]

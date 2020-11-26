@@ -1,5 +1,5 @@
-﻿using Sketch;
-using Sketch.Shared;
+﻿using Sketch.Shared;
+using Sketch.WebApp.Components;
 
 namespace Sketch.WebApp.Components
 {

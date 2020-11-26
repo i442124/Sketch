@@ -10,7 +10,7 @@ namespace Sketch.WebApp.Components
     {
         private async Task OnInputChangedAsync(ChangeEventArgs e)
         {
-            await SetUserIdentityNameAsync(e.Value.ToString());
+            await SetNameAsync(e.Value.ToString());
         }
     }
 }

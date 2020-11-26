@@ -9,28 +9,27 @@ namespace Sketch.WebApp.Components
     public class IdentityModel : IIdentityModel
     {
         private readonly ISubscriptionModel _subscription;
-
-        public string Name
-        {
-            get { return User.Name; }
-        }
+        private readonly ISubscriptionEventModel<User> _userEvent;
 
         public User User { get; private set; }
 
-        public IdentityModel(ISubscriptionModel subscription)
+        public IdentityModel(
+            ISubscriptionModel subscription,
+            ISubscriptionEventModel<User> userEvent)
         {
+            _userEvent = userEvent;
             _subscription = subscription;
         }
 
-        public async Task SetUserIdentityAsync(User userIdentity)
+        public async Task SetUserNameAsync(string name)
         {
-            await _subscription.RegisterAsync(userIdentity);
-            User = userIdentity;
+            await SetUserIdentityAsync(new User { Name = name });
         }
 
-        public async Task SetUserIdentityNameAsync(string userName)
+        public async Task SetUserIdentityAsync(User identity)
         {
-            await SetUserIdentityAsync(new User { Name = userName });
+            await _subscription.RegisterAsync(identity);
+            User = identity;
         }
     }
 }
