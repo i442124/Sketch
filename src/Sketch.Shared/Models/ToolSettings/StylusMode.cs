@@ -2,10 +2,10 @@
 {
     public enum StylusMode
     {
-        Brush = 1,
+        Brush = 0,
 
-        Eraser = 2,
+        Eraser = 1,
 
-        PaintBucket = 3
+        PaintBucket = 2
     }
 }
