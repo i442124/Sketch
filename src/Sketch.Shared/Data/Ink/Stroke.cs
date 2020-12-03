@@ -4,6 +4,6 @@
     {
         public StrokeStyle Style { get; set; }
 
-        public StylusPointCollection stylusPoints { get; set; }
+        public StylusPointCollection StylusPoints { get; set; }
     }
 }
