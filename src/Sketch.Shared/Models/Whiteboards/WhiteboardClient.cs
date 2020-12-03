@@ -12,6 +12,8 @@ namespace Sketch.Shared.Models
         private readonly ISubscriptionService _subscriptions;
         private readonly INotificationService _notifications;
 
+        public Guid ActionId { get; private set; }
+
         public WhiteboardClient(
             ISubscriptionService subscriptions,
             INotificationService notifications)
@@ -22,6 +24,11 @@ namespace Sketch.Shared.Models
 
             _subscriptions = subscriptions;
             _notifications = notifications;
+        }
+
+        public Task InvokeActionChanged()
+        {
+            return Task.Run(() => ActionId = Guid.NewGuid());
         }
 
         public IDisposable OnStroke(Func<Stroke, Task> handler)

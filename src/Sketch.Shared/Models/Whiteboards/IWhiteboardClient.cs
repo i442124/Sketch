@@ -9,6 +9,8 @@ namespace Sketch.Shared.Models
 {
     public interface IWhiteboardClient
     {
+        Task InvokeActionChanged();
+
         IDisposable OnStroke(Func<Stroke, Task> handler);
 
         IDisposable OnFill(Func<Fill, Task> handler);
