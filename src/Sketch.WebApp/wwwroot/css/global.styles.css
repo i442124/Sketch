@@ -36,6 +36,7 @@
 .sk-stack,
 .sk-stack-horizontal {
     display: flex;
+    align-items: start;
     flex-direction: column;
 }
 
