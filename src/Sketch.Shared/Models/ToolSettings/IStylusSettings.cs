@@ -1,11 +1,14 @@
-﻿using System.Threading;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+
+using Sketch.Shared;
+using Sketch.Shared.Data;
 
 namespace Sketch.Shared.Models
 {
     public interface IStylusSettings
     {
-        StylusMode StylusMode { get; }
+        StylusMode Mode { get; }
 
         void UseBrush(IBrushTool brush);
 

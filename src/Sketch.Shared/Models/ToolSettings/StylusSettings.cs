@@ -1,46 +1,48 @@
-﻿using System;
-using System.Threading;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+
+using Sketch.Shared.Data;
+using Sketch.Shared.Data.Ink;
 
 namespace Sketch.Shared.Models
 {
     public class StylusSettings : IStylusSettings
     {
-        public object StylusTool { get; private set; }
+        public object Tool { get; private set; }
 
-        public StylusMode StylusMode { get; private set; }
+        public StylusMode Mode { get; private set; }
 
         public void UseBrush(IBrushTool brush)
         {
-            StylusTool = brush;
-            StylusMode = StylusMode.Brush;
+            Tool = brush;
+            Mode = StylusMode.Brush;
         }
 
         public Task UseBrushAsync(IBrushTool brush)
         {
-            throw new NotImplementedException();
+            return Task.Run(() => UseBrush(brush));
         }
 
         public void UseEraser(IEraserTool eraser)
         {
-            StylusTool = eraser;
-            StylusMode = StylusMode.Eraser;
+            Tool = eraser;
+            Mode = StylusMode.Eraser;
         }
 
         public Task UseEraserAsync(IEraserTool eraser)
         {
-            throw new NotImplementedException();
+            return Task.Run(() => UseEraser(eraser));
         }
 
         public void UsePaintBucket(IPaintBucketTool paintBucket)
         {
-            StylusTool = paintBucket;
-            StylusMode = StylusMode.PaintBucket;
+            Tool = paintBucket;
+            Mode = StylusMode.PaintBucket;
         }
 
         public Task UsePaintBucketAsync(IPaintBucketTool paintBucket)
         {
-            throw new NotImplementedException();
+            return Task.Run(() => UsePaintBucket(paintBucket));
         }
     }
 }
