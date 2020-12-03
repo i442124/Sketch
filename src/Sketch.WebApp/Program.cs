@@ -29,28 +29,6 @@ namespace Sketch.WebApp
                 BaseAddress = new Uri(builder.HostEnvironment.BaseAddress)
             });
 
-            // SKETCH TOOLBOX
-            builder.Services.AddScoped<IBrushModel, BrushModel>();
-            builder.Services.AddScoped<IBucketModel, BucketModel>();
-            builder.Services.AddScoped<IEraserModel, EraserModel>();
-
-            // SKETCH TOOLBOX CONFIG
-            builder.Services.AddScoped<IStylusModel, StylusModel>();
-            builder.Services.AddScoped<ISizeObjectModel, SizeObjectModel>();
-            builder.Services.AddScoped<IColorObjectModel, ColorObjectModel>();
-
-            // SKETCH SERVICES
-            builder.Services.AddScoped<IMessageModel, MessageModel>();
-            builder.Services.AddScoped<IMessengerModel, MessengerModel>();
-            builder.Services.AddScoped<IWhiteboardModel, WhiteboardModel>();
-            builder.Services.AddScoped<IWhiteboardStorage, WhiteboardStorage>();
-
-            // SKETCH SUBSCRIPTION SERVICES
-            builder.Services.AddScoped<IIdentityModel, IdentityModel>();
-            builder.Services.AddScoped<IGroupManagerModel, GroupManagerModel>();
-            builder.Services.AddScoped<ISubscriptionModel, SubscriptionModel>();
-            builder.Services.AddScoped(typeof(ISubscriptionEventModel<>), typeof(SubscriptionEventModel<>));
-
             return builder.Build();
         }
     }

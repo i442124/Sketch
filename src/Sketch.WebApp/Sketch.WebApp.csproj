@@ -18,8 +18,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Components\Subscriptions\ComponentBase\" />
-    <Folder Include="Components\Subscriptions\Views\" />
+    <Folder Include="Extensions\" />
+    <Folder Include="Resources\" />
+    <Folder Include="Services\" />
+    <Folder Include="Themes\" />
+    <Folder Include="Views\Whiteboard\" />
   </ItemGroup>
   
   <Import Project="..\..\common.props" />
