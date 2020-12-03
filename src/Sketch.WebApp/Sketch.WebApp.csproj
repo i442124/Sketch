@@ -22,7 +22,6 @@
     <Folder Include="Resources\" />
     <Folder Include="Services\" />
     <Folder Include="Themes\" />
-    <Folder Include="Views\Whiteboard\" />
   </ItemGroup>
   
   <Import Project="..\..\common.props" />
