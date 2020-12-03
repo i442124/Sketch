@@ -8,6 +8,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
 using Sketch.Shared;
+using Sketch.Shared.Models;
+using Sketch.Shared.Services;
 using Sketch.WebApp.Components;
 
 namespace Sketch.WebApp
@@ -28,6 +30,23 @@ namespace Sketch.WebApp
             {
                 BaseAddress = new Uri(builder.HostEnvironment.BaseAddress)
             });
+
+            // SKETCH TOOLS
+            builder.Services.AddScoped<IBrushTool, BrushTool>();
+            builder.Services.AddScoped<IEraserTool, EraserTool>();
+            builder.Services.AddScoped<IPaintBucketTool, PaintBucketTool>();
+
+            // SKETCH TOOL SETTINGS
+            builder.Services.AddScoped<IBrushSettings, BrushSettings>();
+            builder.Services.AddScoped<IColorSettings, ColorSettings>();
+            builder.Services.AddScoped<IStylusSettings, StylusSettings>();
+
+            // SKETCH SERVICES
+            builder.Services.AddScoped<INotificationService, NotificationService>();
+            builder.Services.AddScoped<ISubscriptionService, SubscriptionService>();
+
+            // SKETCH WEBCLIENT SERVICES
+            builder.Services.AddScoped<IWhiteboardClient, WhiteboardClient>();
 
             return builder.Build();
         }
