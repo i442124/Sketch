@@ -9,7 +9,7 @@ using Microsoft.JSInterop;
 
 namespace Sketch.WebApp.Components
 {
-    public class SKCanvasComponentBase : ComponentBase
+    public abstract class SKCanvasComponentBase : ComponentBase
     {
         #pragma warning disable SA1401
         protected ElementReference _canvasRef;
