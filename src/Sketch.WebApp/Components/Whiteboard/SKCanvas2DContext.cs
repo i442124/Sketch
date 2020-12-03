@@ -66,8 +66,8 @@ namespace Sketch.WebApp.Components
         public async Task FillAsync(Fill fill, FillStyle style)
         {
             await SetFillStyleAsync(style);
-            await _batch.StrokeStyleAsync(style.Color.ToHexString());
-            await _batch.GlobalCompositeOperationAsync(CompositeOperation.Source_Over);
+            await _batch.FillRectAsync(0, 0, int.MaxValue, int.MaxValue);
+            await _batch.FillAsync(FillRule.EvenOdd);
         }
 
         protected async Task SetStrokeStyleAsync(StrokeStyle style)

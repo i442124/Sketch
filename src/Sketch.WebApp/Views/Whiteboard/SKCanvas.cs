@@ -31,10 +31,17 @@ namespace Sketch.WebApp.Views
 
         private async Task OnMouseDown(MouseEventArgs e)
         {
+            var currentX = (int)e.OffsetX;
+            var currentY = (int)e.OffsetY;
+
+            var previousX = _mouseX;
+            var previousY = _mouseY;
+
             if (!_painting && IsPrimaryButtonPressed(e))
             {
                 _painting = true;
                 await InvokeActionChanged();
+                await DrawAsync(previousX, previousY, currentX, currentY);
             }
         }
 
