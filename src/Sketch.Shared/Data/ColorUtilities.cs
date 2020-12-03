@@ -85,7 +85,7 @@ namespace Sketch.Shared.Data
 
         public static Color FromRGB(byte r, byte g, byte b)
         {
-            return new Color { R = r, G = g, B = b };
+            return new Color(r, g, b);
         }
 
         public static Color FromHSL(double hue, double saturation, double luminosity)
