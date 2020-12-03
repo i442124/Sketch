@@ -24,6 +24,21 @@
             this = FromHSL(hue, saturation, luminosity);
         }
 
+        public string ToRGBString()
+        {
+            return $"R: {R} G: {G} B: {B}";
+        }
+
+        public string ToHexString()
+        {
+            return $"#{R:X2}{G:X2}{B:X2}";
+        }
+
+        public string ToHSLString()
+        {
+            return $"H: {Hue} S: {Saturation} L:{Luminosity}";
+        }
+
         public static Color FromRGB(byte r, byte g, byte b)
         {
             return ColorUtilities.FromRGB(r, g, b);
