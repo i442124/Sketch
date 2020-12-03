@@ -2,5 +2,6 @@
 {
     public class WipeStyle
     {
+        public float Thickness { get; set; }
     }
 }
