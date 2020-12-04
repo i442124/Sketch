@@ -15,12 +15,6 @@
     <ProjectReference Include="..\Sketch.WebApp\Sketch.WebApp.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Controllers\" />
-    <Folder Include="Hubs\" />
-    <Folder Include="Services\" />
-  </ItemGroup>
-
   <Import Project="..\..\common.props" />
   <Import Project="..\..\stylecop.props" />
 
