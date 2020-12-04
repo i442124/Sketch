@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sketch.Shared", "src\Sketch
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sketch.WebApp", "src\Sketch.WebApp\Sketch.WebApp.csproj", "{0914335E-4AF8-43FF-A6A1-D534961136C9}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sketch.WebServer", "src\Sketch.WebServer\Sketch.WebServer.csproj", "{B3F8602E-1BFF-44AD-9E9A-BE5CDC0C970F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{0914335E-4AF8-43FF-A6A1-D534961136C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0914335E-4AF8-43FF-A6A1-D534961136C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0914335E-4AF8-43FF-A6A1-D534961136C9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B3F8602E-1BFF-44AD-9E9A-BE5CDC0C970F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B3F8602E-1BFF-44AD-9E9A-BE5CDC0C970F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B3F8602E-1BFF-44AD-9E9A-BE5CDC0C970F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B3F8602E-1BFF-44AD-9E9A-BE5CDC0C970F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

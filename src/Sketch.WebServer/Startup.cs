@@ -5,10 +5,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
-using Sketch.WebServer;
-using Sketch.WebServer.Hubs;
-using Sketch.WebServer.Services;
-
 namespace Sketch.WebServer
 {
     public class Startup
@@ -30,14 +26,6 @@ namespace Sketch.WebServer
             services.AddSignalR();
             //services.AddSingleton<IConnectionMultiplexer>(
             //    ConnectionMultiplexer.Connect(Configuration["redis"]));
-
-            // Add WebServer Services
-            services.AddSingleton<IMessengerService, MessengerService>();
-            services.AddSingleton<IWhiteboardService, WhiteboardService>();
-            services.AddSingleton<INotificationService, NotificationService>();
-
-            services.AddSingleton(typeof(IHubConnectionMapper<>), typeof(HubConnectionMapper<>));
-            services.AddSingleton(typeof(IHubSubscriptionMapper<>), typeof(HubSubscriptionMapper<>));
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -63,7 +51,6 @@ namespace Sketch.WebServer
             {
                 endpoints.MapRazorPages();
                 endpoints.MapControllers();
-                endpoints.MapHub<SocialHub>("hub");
                 endpoints.MapFallbackToFile("index.html");
             });
         }
