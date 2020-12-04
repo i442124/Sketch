@@ -1,11 +1,37 @@
 ﻿@page "/"
 <div class="sk-stack">
     <div class="sk-stack-horizontal">
-        <SKBrushButton/>
-        <SKEraserButton/>
-        <SKPaintBucketButton/>
+        <SKBrushButton />
+        <SKEraserButton />
+        <SKPaintBucketButton />
+    </div>
+    <div class="sk-stack">
+        <SKColorPicker Colorants="Colorants" Shades="2" Tints="2" />
+        <SKBrushSizeSlider MinValue="0" MaxValue="35" />
     </div>
     <div class="sk-stack">
         <SKCanvas Width="640" Height="480" />
     </div>
 </div>
+
+
+@code {
+
+    private readonly ReadOnlyCollection<Color> Colorants
+    = new ReadOnlyCollection<Color>(new List<Color>
+    {
+        ColorPresets.Grey,
+        ColorPresets.Red,
+        ColorPresets.Orange,
+        ColorPresets.Yellow,
+        ColorPresets.Green,
+        ColorPresets.Turquoise,
+        ColorPresets.Aqua,
+        ColorPresets.Blue,
+        ColorPresets.Purple,
+        ColorPresets.Pink,
+        ColorPresets.Beige,
+        ColorPresets.Brown
+    });
+
+}

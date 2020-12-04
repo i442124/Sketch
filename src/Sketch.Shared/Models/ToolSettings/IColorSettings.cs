@@ -25,6 +25,5 @@ namespace Sketch.Shared.Models
         void SetLuminosity(float luminosity);
 
         Task SetLuminosityAsync(float luminosity);
-
     }
 }

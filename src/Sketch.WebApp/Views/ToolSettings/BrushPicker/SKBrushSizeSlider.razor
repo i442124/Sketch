@@ -1,0 +1,12 @@
+﻿@inherits SKBrushSizeComponent
+@namespace Sketch.WebApp.Views
+
+<div class="sk-container">
+
+    <input @oninput="OnValueChanged"
+           class="sk-input sk-input-slider" type="range"
+           value="@MinValue" min="@MinValue" max="@MaxValue" />
+
+    @Value
+
+</div>
