@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -29,17 +30,44 @@ namespace Sketch.WebServer.Services
             _subscriptions = subscriptions;
         }
 
-        public Task WhisperAsync<T>(string subscriberId, T content)
+        public async Task WhisperAsync<T>(string subscriberId, T content)
         {
-            return _context.Clients.Client(subscriberId).SendAsync($"{content.GetType()}", content);
+            await _context.Clients.Client(subscriberId).SendAsync($"{content.GetType()}", content);
         }
 
-        public Task BroadcastAsync<T>(string subscriberId, T content)
+        public async Task BroadcastAsync<T>(string subscriberId, T content)
         {
-            return Task.WhenAll(_subscriptions.GetSubscriptions(subscriberId).Select(channel =>
+            await Task.WhenAll((await _subscriptions.GetSubscriptionsAsync(subscriberId)).Select(channel =>
             {
                 return _context.Clients.GroupExcept(channel, subscriberId).SendAsync($"{content.GetType()}", content);
             }));
+        }
+
+        public async Task RegisterAsync(string subscriberId)
+        {
+            await _subscriptions.AddSubscriberAsync(subscriberId);
+        }
+
+        public async Task SubscribeAsync(string subscriberId, string channel)
+        {
+            await _subscriptions.SubscribeAsync(subscriberId, channel);
+            await _context.Groups.AddToGroupAsync(subscriberId, channel);
+        }
+
+        public async Task UnregisterAsync(string subscriberId)
+        {
+            foreach (var channel in await _subscriptions.GetSubscriptionsAsync(subscriberId))
+            {
+                await _context.Groups.RemoveFromGroupAsync(subscriberId, channel);
+            }
+
+            await _subscriptions.RemoveSubscriberAsync(subscriberId);
+        }
+
+        public async Task UnsubscribeAsync(string subscriberId, string channel)
+        {
+            await _subscriptions.UnsubscribeAsync(subscriberId, channel);
+            await _context.Groups.RemoveFromGroupAsync(subscriberId, channel);
         }
     }
 }
