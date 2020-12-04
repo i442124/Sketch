@@ -9,26 +9,26 @@ namespace Sketch.WebServer.Services
 {
     public class WhiteboardService : IWhiteboardService
     {
-        private readonly IBroadcastService _broadcaster;
+        private readonly IBroadcastService _broadcastService;
 
-        public WhiteboardService(IBroadcastService broadcaster)
+        public WhiteboardService(IBroadcastService broadcastService)
         {
-            _broadcaster = broadcaster;
+            _broadcastService = broadcastService;
         }
 
         public Task StrokeAsync(string subscriberId, Stroke stroke)
         {
-            return _broadcaster.BroadcastAsync(subscriberId, stroke);
+            return _broadcastService.BroadcastAsync(subscriberId, stroke);
         }
 
         public Task WipeAsync(string subscriberId, Wipe wipe)
         {
-            return _broadcaster.BroadcastAsync(subscriberId, wipe);
+            return _broadcastService.BroadcastAsync(subscriberId, wipe);
         }
 
         public Task FillAsync(string subscriberId, Fill fill)
         {
-            return _broadcaster.BroadcastAsync(subscriberId, fill);
+            return _broadcastService.BroadcastAsync(subscriberId, fill);
         }
     }
 }
