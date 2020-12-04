@@ -10,6 +10,10 @@ namespace Sketch.Shared.Models
     {
         Color Color { get; }
 
+        void SetColor(Color color);
+
+        Task SetColorAsync(Color color);
+
         void SetHue(float hue);
 
         Task SetHueAsync(float hue);
@@ -21,5 +25,6 @@ namespace Sketch.Shared.Models
         void SetLuminosity(float luminosity);
 
         Task SetLuminosityAsync(float luminosity);
+
     }
 }

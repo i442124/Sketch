@@ -8,6 +8,16 @@ namespace Sketch.Shared.Models
     {
         public Color Color { get; private set; }
 
+        public void SetColor(Color color)
+        {
+            Color = color;
+        }
+
+        public Task SetColorAsync(Color color)
+        {
+            return Task.Run(() => SetColor(color));
+        }
+
         public void SetHue(float hue)
         {
             Color = Color.FromHSL(hue, Color.Saturation, Color.Luminosity);
