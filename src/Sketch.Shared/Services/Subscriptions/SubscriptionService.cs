@@ -1,39 +1,65 @@
 ﻿using System;
-using System.Threading;
+using System.Net.Http;
+using System.Net.Http.Json;
 using System.Threading.Tasks;
+
+using Microsoft.AspNetCore.SignalR;
+using Microsoft.AspNetCore.SignalR.Client;
 
 namespace Sketch.Shared.Services
 {
     public class SubscriptionService : ISubscriptionService
     {
+        private readonly HttpClient _http;
+        private readonly HubConnection _hubConnection;
+
+        public SubscriptionService(HttpClient http)
+        {
+            _hubConnection = new HubConnectionBuilder()
+                .WithUrl(new Uri(http.BaseAddress, "/hub"))
+                .Build();
+
+            _http = http;
+        }
+
         public string SubscriberId
         {
-            get { throw new NotImplementedException(); }
+            get { return _hubConnection.ConnectionId; }
         }
 
-        public Task Subscribe(string channel)
+        public async Task SubscribeAsync(string channel)
         {
-            throw new NotImplementedException();
+            if (_hubConnection.State != HubConnectionState.Connected)
+            {
+                await _hubConnection.StartAsync();
+            }
+
+            await _http.GetAsync($"/api/subscribe/{SubscriberId}/{channel}");
         }
 
-        public Task Unsubscribe(string channel)
+        public async Task UnsubscribeAsync(string channel)
         {
-            throw new NotImplementedException();
+            if (_hubConnection.State != HubConnectionState.Connected)
+            {
+                await _hubConnection.StartAsync();
+            }
+
+            await _http.GetAsync($"/api/unsubscribe/{SubscriberId}/{channel}");
         }
 
         public IDisposable OnReceive<T>(Func<T, Task> handler)
         {
-            throw new NotImplementedException();
+            return _hubConnection.On($"{typeof(T)}", handler);
         }
 
         public Task SendAsync<T>(string methodGroup, T content)
         {
-            throw new NotImplementedException();
+            return _http.PostAsJsonAsync($"/api/{methodGroup}/{SubscriberId}", content);
         }
 
         public Task SendAsync<T>(string methodGroup, string methodName, T content)
         {
-            throw new NotImplementedException();
+            return _http.PostAsJsonAsync($"/api/{methodGroup}/{methodName}/{SubscriberId}", content);
         }
     }
 }

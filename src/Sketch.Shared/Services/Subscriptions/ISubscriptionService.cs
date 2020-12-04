@@ -8,9 +8,9 @@ namespace Sketch.Shared.Services
     {
         string SubscriberId { get; }
 
-        Task Subscribe(string channel);
+        Task SubscribeAsync(string channel);
 
-        Task Unsubscribe(string channel);
+        Task UnsubscribeAsync(string channel);
 
         IDisposable OnReceive<T>(Func<T, Task> handler);
 
