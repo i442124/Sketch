@@ -2,9 +2,9 @@
 
 namespace Sketch.Shared.Data
 {
-    public class ColorPalette
+    public static class ColorPalette
     {
-        public IEnumerable<Color> GetMixtureOfTints(Color color, int count)
+        public static IEnumerable<Color> GetMixtureOfTints(Color color, int count)
         {
             var hue = color.Hue;
             var sat = color.Saturation;
@@ -20,7 +20,7 @@ namespace Sketch.Shared.Data
             }
         }
 
-        public IEnumerable<Color> GetMixturesOfShades(Color color, int count)
+        public static IEnumerable<Color> GetMixturesOfShades(Color color, int count)
         {
             var hue = color.Hue;
             var sat = color.Saturation;
