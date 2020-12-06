@@ -25,5 +25,9 @@ namespace Sketch.Shared.Models
         void Push(Fill fill);
 
         Task PushAsync(Fill fill);
+
+        void Push(Clear clear);
+
+        Task PushAsync(Clear clear);
     }
 }

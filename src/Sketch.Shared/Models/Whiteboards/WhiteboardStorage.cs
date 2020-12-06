@@ -77,5 +77,16 @@ namespace Sketch.Shared.Models
         {
             return Task.Run(() => Push(fill));
         }
+
+        public void Push(Clear clear)
+        {
+            _redoStack.Clear();
+            _undoStack.Push(clear);
+        }
+
+        public Task PushAsync(Clear clear)
+        {
+            return Task.Run(() => Push(clear));
+        }
     }
 }
