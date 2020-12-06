@@ -1,6 +1,6 @@
 ﻿namespace Sketch.Shared.Data.Ink
 {
-    public class Fill
+    public class Fill : Action
     {
         public FillStyle Style { get; set; }
 

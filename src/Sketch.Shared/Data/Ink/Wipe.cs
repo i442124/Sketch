@@ -1,6 +1,6 @@
 ﻿namespace Sketch.Shared.Data.Ink
 {
-    public class Wipe
+    public class Wipe : Action
     {
         public WipeStyle Style { get; set; }
 

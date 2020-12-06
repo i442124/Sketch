@@ -1,6 +1,6 @@
 ﻿namespace Sketch.Shared.Data.Ink
 {
-    public class Stroke
+    public class Stroke : Action
     {
         public StrokeStyle Style { get; set; }
 
