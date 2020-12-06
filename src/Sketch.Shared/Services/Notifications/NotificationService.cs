@@ -15,7 +15,7 @@ namespace Sketch.Shared.Services
 
         public async Task InvokeAsync<T>(T content)
         {
-            if (_handlers.TryGetValue(typeof(T), out InvocationHandlerList invocationHandlerList))
+            if (_handlers.TryGetValue(content.GetType(), out InvocationHandlerList invocationHandlerList))
             {
                 var parameters = new object[] { content };
                 await invocationHandlerList.InvokeAsync(parameters);

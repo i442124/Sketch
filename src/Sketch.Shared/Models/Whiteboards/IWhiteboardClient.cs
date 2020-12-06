@@ -20,10 +20,14 @@ namespace Sketch.Shared.Models
 
         IDisposable OnWipe(Func<Wipe, Task> handler);
 
+        IDisposable OnUndo(Func<Undo, Task> handler);
+
         Task StrokeAsync(Stroke stroke);
 
         Task WipeAsync(Wipe wipe);
 
         Task FillAsync(Fill fill);
+
+        Task UndoAsync(Undo undo);
     }
 }

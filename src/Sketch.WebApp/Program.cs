@@ -47,6 +47,7 @@ namespace Sketch.WebApp
 
             // SKETCH WEBCLIENT SERVICES
             builder.Services.AddScoped<IWhiteboardClient, WhiteboardClient>();
+            builder.Services.AddScoped<IWhiteboardStorage, WhiteboardStorage>();
 
             return builder.Build();
         }

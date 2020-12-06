@@ -12,6 +12,7 @@ namespace Sketch.Shared.Models
     {
         private readonly ISubscriptionService _subscriptions;
         private readonly INotificationService _notifications;
+        private readonly IWhiteboardStorage _storage;
 
         public string ActionId { get; private set; }
 
@@ -19,12 +20,14 @@ namespace Sketch.Shared.Models
 
         public WhiteboardClient(
             ISubscriptionService subscriptions,
-            INotificationService notifications)
+            INotificationService notifications,
+            IWhiteboardStorage storage)
         {
             subscriptions.OnReceive<Stroke>(notifications.InvokeAsync);
             subscriptions.OnReceive<Wipe>(notifications.InvokeAsync);
             subscriptions.OnReceive<Fill>(notifications.InvokeAsync);
 
+            _storage = storage;
             _subscriptions = subscriptions;
             _notifications = notifications;
         }
@@ -49,22 +52,40 @@ namespace Sketch.Shared.Models
             return _notifications.Subscribe(handler);
         }
 
+        public IDisposable OnUndo(Func<Undo, Task> handler)
+        {
+            return _notifications.Subscribe(handler);
+        }
+
         public async Task StrokeAsync(Stroke stroke)
         {
+            stroke.ActionId = ActionId;
+            await _storage.PushAsync(stroke);
             await _notifications.InvokeAsync(stroke);
             await _subscriptions.SendAsync("whiteboard", "stroke", stroke);
         }
 
         public async Task FillAsync(Fill fill)
         {
+            fill.ActionId = ActionId;
+            await _storage.PushAsync(fill);
             await _notifications.InvokeAsync(fill);
             await _subscriptions.SendAsync("whiteboard", "fill", fill);
         }
 
         public async Task WipeAsync(Wipe wipe)
         {
+            wipe.ActionId = ActionId;
+            await _storage.PushAsync(wipe);
             await _notifications.InvokeAsync(wipe);
             await _subscriptions.SendAsync("whiteboard", "wipe", wipe);
+        }
+
+        public async Task UndoAsync(Undo undo)
+        {
+            ActionId = await _storage.PopAsync();
+            await _notifications.InvokeAsync(undo);
+            await _subscriptions.SendAsync("whiteboard", "undo", undo);
         }
     }
 }
