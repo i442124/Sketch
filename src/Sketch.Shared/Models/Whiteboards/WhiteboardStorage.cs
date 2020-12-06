@@ -10,12 +10,14 @@ namespace Sketch.Shared.Models
 {
     public class WhiteboardStorage : IWhiteboardStorage
     {
-        public void Pop()
+        public IEnumerable<Data.Action> Actions => throw new NotImplementedException();
+
+        public string Pop()
         {
             throw new NotImplementedException();
         }
 
-        public Task PopAsync()
+        public Task<string> PopAsync()
         {
             throw new NotImplementedException();
         }

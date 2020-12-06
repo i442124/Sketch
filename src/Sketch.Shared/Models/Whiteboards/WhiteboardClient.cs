@@ -13,7 +13,7 @@ namespace Sketch.Shared.Models
         private readonly ISubscriptionService _subscriptions;
         private readonly INotificationService _notifications;
 
-        public Guid ActionId { get; private set; }
+        public string ActionId { get; private set; }
 
         public IEnumerable<Func<Task>> Actions { get; private set; }
 
@@ -31,7 +31,7 @@ namespace Sketch.Shared.Models
 
         public Task InvokeActionChanged()
         {
-            return Task.Run(() => ActionId = Guid.NewGuid());
+            return Task.Run(() => ActionId = Guid.NewGuid().ToString());
         }
 
         public IDisposable OnStroke(Func<Stroke, Task> handler)

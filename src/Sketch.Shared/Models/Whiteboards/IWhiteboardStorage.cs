@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.Threading;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 
 using Sketch.Shared.Data;
@@ -10,9 +8,11 @@ namespace Sketch.Shared.Models
 {
     public interface IWhiteboardStorage
     {
-        void Pop();
+        IEnumerable<Action> Actions { get; }
 
-        Task PopAsync();
+        string Pop();
+
+        Task<string> PopAsync();
 
         void Push(Stroke stroke);
 
