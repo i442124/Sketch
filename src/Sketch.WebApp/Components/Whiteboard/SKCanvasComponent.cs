@@ -33,6 +33,24 @@ namespace Sketch.WebApp.Components
                 await _context.FillAsync(fill);
                 await _context.FlushAsync();
             });
+
+            Whiteboard.OnClear(async clear =>
+            {
+                await _context.ClearAsync(clear);
+                await _context.FlushAsync();
+            });
+
+            Whiteboard.OnUndo(async undo =>
+            {
+                await _context.FlushAsync(async () =>
+                {
+                    await _context.ClearAsync(Clear.All);
+                    foreach (var action in Whiteboard.Actions)
+                    {
+                        await action.Invoke();
+                    }
+                });
+            });
         }
 
         protected override async Task OnAfterRenderAsync(bool firstRender)

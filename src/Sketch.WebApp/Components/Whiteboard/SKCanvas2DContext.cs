@@ -89,6 +89,11 @@ namespace Sketch.WebApp.Components
             await _batch.FillAsync(FillRule.EvenOdd);
         }
 
+        public async Task ClearAsync(Clear clear)
+        {
+            await _batch.ClearRectAsync(clear.X, clear.Y, clear.Width, clear.Height);
+        }
+
         protected async Task SetStrokeStyleAsync(StrokeStyle style)
         {
             await _batch.LineWidthAsync(style.Thickness);
