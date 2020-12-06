@@ -44,10 +44,14 @@ namespace Sketch.WebApp.Components
             }
         }
 
-        public async Task FlushAsync(Func<Task> batch)
+        public async Task FlushAsync(Func<Task> batchExecute)
         {
             await _semaphore.WaitAsync();
-            await batch.Invoke();
+            await batchExecute.Invoke();
+
+            await _batch.DisposeAsync();
+            _batch = await _context.CreateBatchAsync();
+
             _semaphore.Release();
         }
 
