@@ -1,55 +1,81 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
+using Sketch.Shared.Data;
 using Sketch.Shared.Data.Ink;
-using Sketch.Shared.Services;
 
 namespace Sketch.Shared.Models
 {
     public class WhiteboardStorage : IWhiteboardStorage
     {
-        public IEnumerable<Data.Action> Actions => throw new NotImplementedException();
+        private readonly Stack<Action> _undoStack = new Stack<Action>();
+        private readonly Stack<Action> _redoStack = new Stack<Action>();
+
+        public IEnumerable<Action> Actions
+        {
+            get { return _undoStack.Reverse(); }
+        }
 
         public string Pop()
         {
-            throw new NotImplementedException();
+            if (_undoStack.TryPop(out Action action))
+            {
+                _redoStack.Push(action);
+                var actionId = action.ActionId;
+
+                while (_undoStack.TryPeek(out action) && action.ActionId == actionId)
+                {
+                    if (_undoStack.TryPop(out action))
+                    {
+                        _redoStack.Push(action);
+                    }
+                }
+
+                return actionId;
+            }
+
+            return null;
         }
 
         public Task<string> PopAsync()
         {
-            throw new NotImplementedException();
+            return Task.FromResult(Pop());
         }
 
         public void Push(Stroke stroke)
         {
-            throw new NotImplementedException();
+            _redoStack.Clear();
+            _undoStack.Push(stroke);
         }
 
         public Task PushAsync(Stroke stroke)
         {
-            throw new NotImplementedException();
+            return Task.Run(() => Push(stroke));
         }
 
         public void Push(Wipe wipe)
         {
-            throw new NotImplementedException();
+            _redoStack.Clear();
+            _undoStack.Push(wipe);
         }
 
         public Task PushAsync(Wipe wipe)
         {
-            throw new NotImplementedException();
+            return Task.Run(() => Push(wipe));
         }
 
         public void Push(Fill fill)
         {
-            throw new NotImplementedException();
+            _redoStack.Clear();
+            _undoStack.Push(fill);
         }
 
         public Task PushAsync(Fill fill)
         {
-            throw new NotImplementedException();
+            return Task.Run(() => Push(fill));
         }
     }
 }
