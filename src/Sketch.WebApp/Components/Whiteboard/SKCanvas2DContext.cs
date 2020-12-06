@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -12,6 +13,9 @@ namespace Sketch.WebApp.Components
 {
     public class SKCanvas2DContext
     {
+        private readonly SemaphoreSlim _semaphore =
+        new SemaphoreSlim(initialCount: 1, maxCount: 1);
+
         private Batch2D _batch;
         private Context2D _context;
 
@@ -32,8 +36,19 @@ namespace Sketch.WebApp.Components
 
         public async Task FlushAsync()
         {
-            await _batch.DisposeAsync();
-            _batch = await _context.CreateBatchAsync();
+            if (await _semaphore.WaitAsync(TimeSpan.Zero))
+            {
+                await _batch.DisposeAsync();
+                _batch = await _context.CreateBatchAsync();
+                _semaphore.Release();
+            }
+        }
+
+        public async Task FlushAsync(Func<Task> batch)
+        {
+            await _semaphore.WaitAsync();
+            await batch.Invoke();
+            _semaphore.Release();
         }
 
         public async Task StrokeAsync(Stroke stroke)
