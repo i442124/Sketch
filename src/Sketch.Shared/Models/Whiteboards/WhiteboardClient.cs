@@ -16,7 +16,16 @@ namespace Sketch.Shared.Models
 
         public string ActionId { get; private set; }
 
-        public IEnumerable<Func<Task>> Actions { get; private set; }
+        public IEnumerable<Func<Task>> Actions
+        {
+            get
+            {
+                foreach (var action in _storage.Actions)
+                {
+                    yield return () => _notifications.InvokeAsync(action);
+                }
+            }
+        }
 
         public WhiteboardClient(
             ISubscriptionService subscriptions,
@@ -52,6 +61,11 @@ namespace Sketch.Shared.Models
             return _notifications.Subscribe(handler);
         }
 
+        public IDisposable OnClear(Func<Clear, Task> handler)
+        {
+            return _notifications.Subscribe(handler);
+        }
+
         public IDisposable OnUndo(Func<Undo, Task> handler)
         {
             return _notifications.Subscribe(handler);
@@ -79,6 +93,14 @@ namespace Sketch.Shared.Models
             await _storage.PushAsync(wipe);
             await _notifications.InvokeAsync(wipe);
             await _subscriptions.SendAsync("whiteboard", "wipe", wipe);
+        }
+
+        public async Task ClearAsync(Clear clear)
+        {
+            clear.ActionId = ActionId;
+            await _storage.PushAsync(clear);
+            await _notifications.InvokeAsync(clear);
+            await _subscriptions.SendAsync("whiteboard", "clear", clear);
         }
 
         public async Task UndoAsync(Undo undo)
