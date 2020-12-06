@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 using Sketch.Shared.Data;
@@ -13,6 +14,8 @@ namespace Sketch.Shared.Models
         private readonly INotificationService _notifications;
 
         public Guid ActionId { get; private set; }
+
+        public IEnumerable<Func<Task>> Actions { get; private set; }
 
         public WhiteboardClient(
             ISubscriptionService subscriptions,

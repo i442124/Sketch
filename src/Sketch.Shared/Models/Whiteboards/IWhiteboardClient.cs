@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -10,6 +11,8 @@ namespace Sketch.Shared.Models
     public interface IWhiteboardClient
     {
         Task InvokeActionChanged();
+
+        IEnumerable<Func<Task>> Actions { get; }
 
         IDisposable OnStroke(Func<Stroke, Task> handler);
 
