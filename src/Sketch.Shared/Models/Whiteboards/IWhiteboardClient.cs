@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
@@ -12,7 +13,7 @@ namespace Sketch.Shared.Models
     {
         Task InvokeActionChanged();
 
-        IEnumerable<Func<Task>> Actions { get; }
+        IEnumerable<Data.Action> Actions { get; }
 
         IDisposable OnStroke(Func<Stroke, Task> handler);
 

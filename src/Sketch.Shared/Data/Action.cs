@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Sketch.Shared.Data
+﻿namespace Sketch.Shared.Data
 {
     public class Action
     {

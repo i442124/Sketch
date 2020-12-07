@@ -13,9 +13,6 @@ namespace Sketch.WebApp.Components
 {
     public class SKCanvas2DContext
     {
-        private readonly SemaphoreSlim _semaphore =
-        new SemaphoreSlim(initialCount: 1, maxCount: 1);
-
         private Batch2D _batch;
         private Context2D _context;
 
@@ -36,23 +33,8 @@ namespace Sketch.WebApp.Components
 
         public async Task FlushAsync()
         {
-            if (await _semaphore.WaitAsync(TimeSpan.Zero))
-            {
-                await _batch.DisposeAsync();
-                _batch = await _context.CreateBatchAsync();
-                _semaphore.Release();
-            }
-        }
-
-        public async Task FlushAsync(Func<Task> batchExecute)
-        {
-            await _semaphore.WaitAsync();
-            await batchExecute.Invoke();
-
             await _batch.DisposeAsync();
             _batch = await _context.CreateBatchAsync();
-
-            _semaphore.Release();
         }
 
         public async Task StrokeAsync(Stroke stroke)

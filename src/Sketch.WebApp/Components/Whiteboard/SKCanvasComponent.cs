@@ -42,14 +42,28 @@ namespace Sketch.WebApp.Components
 
             Whiteboard.OnUndo(async undo =>
             {
-                await _context.FlushAsync(async () =>
+                await _context.ClearAsync(Clear.All);
+                foreach (var action in Whiteboard.Actions)
                 {
-                    await _context.ClearAsync(Clear.All);
-                    foreach (var action in Whiteboard.Actions)
+                    if (action is Stroke stroke)
                     {
-                        await action.Invoke();
+                        await _context.StrokeAsync(stroke);
                     }
-                });
+                    else if (action is Wipe wipe)
+                    {
+                        await _context.WipeAsync(wipe);
+                    }
+                    else if (action is Fill fill)
+                    {
+                        await _context.FillAsync(fill);
+                    }
+                    else if (action is Clear clear)
+                    {
+                        await _context.ClearAsync(clear);
+                    }
+                }
+
+                await _context.FlushAsync();
             });
         }
 

@@ -16,15 +16,9 @@ namespace Sketch.Shared.Models
 
         public string ActionId { get; private set; }
 
-        public IEnumerable<Func<Task>> Actions
+        public IEnumerable<Data.Action> Actions
         {
-            get
-            {
-                foreach (var action in _storage.Actions)
-                {
-                    yield return () => _notifications.InvokeAsync(action);
-                }
-            }
+            get { return _storage.Actions; }
         }
 
         public WhiteboardClient(
