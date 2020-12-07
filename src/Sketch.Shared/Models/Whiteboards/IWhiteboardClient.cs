@@ -13,7 +13,7 @@ namespace Sketch.Shared.Models
     {
         Task InvokeActionChanged();
 
-        IEnumerable<Data.Action> Actions { get; }
+        IEnumerable<Event> Actions { get; }
 
         IDisposable OnStroke(Func<Stroke, Task> handler);
 

@@ -16,7 +16,7 @@ namespace Sketch.Shared.Models
 
         public string ActionId { get; private set; }
 
-        public IEnumerable<Data.Action> Actions
+        public IEnumerable<Event> Actions
         {
             get { return _storage.Actions; }
         }

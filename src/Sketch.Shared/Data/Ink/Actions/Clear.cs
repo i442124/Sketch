@@ -1,6 +1,6 @@
 ﻿namespace Sketch.Shared.Data
 {
-    public class Clear : Action
+    public class Clear : Event
     {
         public static Clear All => new Clear
         {

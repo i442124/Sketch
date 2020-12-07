@@ -8,7 +8,7 @@ namespace Sketch.Shared.Models
 {
     public interface IWhiteboardStorage
     {
-        IEnumerable<Action> Actions { get; }
+        IEnumerable<Event> Actions { get; }
 
         string Pop();
 

@@ -1,6 +1,6 @@
 ﻿namespace Sketch.Shared.Data.Ink
 {
-    public class Redo : Action
+    public class Redo : Event
     {
     }
 }

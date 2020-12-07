@@ -1,6 +1,6 @@
 ﻿namespace Sketch.Shared.Data
 {
-    public class Action
+    public class Event
     {
         public string ActionId { get; set; }
     }

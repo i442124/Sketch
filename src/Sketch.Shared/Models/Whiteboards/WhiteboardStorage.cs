@@ -11,17 +11,17 @@ namespace Sketch.Shared.Models
 {
     public class WhiteboardStorage : IWhiteboardStorage
     {
-        private readonly Stack<Action> _undoStack = new Stack<Action>();
-        private readonly Stack<Action> _redoStack = new Stack<Action>();
+        private readonly Stack<Event> _undoStack = new Stack<Event>();
+        private readonly Stack<Event> _redoStack = new Stack<Event>();
 
-        public IEnumerable<Action> Actions
+        public IEnumerable<Event> Actions
         {
             get { return _undoStack.Reverse(); }
         }
 
         public string Pop()
         {
-            if (_undoStack.TryPop(out Action action))
+            if (_undoStack.TryPop(out Event action))
             {
                 _redoStack.Push(action);
                 var actionId = action.ActionId;
