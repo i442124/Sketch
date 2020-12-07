@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Sketch.Shared.Data
+namespace Sketch.Shared.Data.Ink.Colors
 {
     public static class ColorPalette
     {

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Sketch.Shared.Data
+namespace Sketch.Shared.Data.Ink.Colors
 {
     internal static class ColorUtilities
     {

@@ -1,4 +1,4 @@
-﻿namespace Sketch.Shared.Data
+﻿namespace Sketch.Shared.Data.Ink.Colors
 {
     public static class ColorPresets
     {

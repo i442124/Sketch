@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Sketch.Shared.Data.Users
+namespace Sketch.Shared.Data
 {
     public class User
     {
