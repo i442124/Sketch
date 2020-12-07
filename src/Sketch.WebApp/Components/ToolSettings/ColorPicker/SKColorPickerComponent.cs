@@ -5,6 +5,8 @@ using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Components;
 
 using Sketch.Shared.Data;
+using Sketch.Shared.Data.Ink;
+using Sketch.Shared.Data.Ink.Colors;
 using Sketch.Shared.Models;
 
 namespace Sketch.WebApp.Components

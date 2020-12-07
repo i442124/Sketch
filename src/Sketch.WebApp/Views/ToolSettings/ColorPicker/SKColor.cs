@@ -4,8 +4,9 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 
-using Sketch.Shared;
 using Sketch.Shared.Data;
+using Sketch.Shared.Data.Ink;
+using Sketch.Shared.Data.Ink.Colors;
 using Sketch.WebApp.Components;
 
 namespace Sketch.WebApp.Views

@@ -7,8 +7,6 @@ using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.SignalR;
 
 using Sketch.Shared.Data;
-using Sketch.Shared.Data.Users;
-
 using Sketch.WebServer;
 using Sketch.WebServer.Hubs;
 
