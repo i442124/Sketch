@@ -1,6 +1,4 @@
 ﻿@page "/"
-@inject IWhiteboardClient Whiteboard
-
 <div class="sk-stack">
     <div class="sk-stack">
         <SKChannelSelection/>
@@ -9,7 +7,8 @@
         <SKBrushButton />
         <SKEraserButton />
         <SKPaintBucketButton />
-        <button class="btn btn-warning" @onclick="UndoAsync">U</button>
+        <SKClearButton/>
+        <SKUndoButton/>
     </div>
     <div class="sk-stack">
         <SKColorPicker Colorants="Colorants" Shades="2" Tints="2" />
@@ -22,7 +21,6 @@
 
 
 @code {
-
     private readonly ReadOnlyCollection<Color> Colorants
     = new ReadOnlyCollection<Color>(new List<Color>
     {
@@ -39,10 +37,4 @@
         ColorPresets.Beige,
         ColorPresets.Brown
     });
-
-    private async Task UndoAsync()
-    {
-        await Whiteboard.UndoAsync(new Undo());
-    }
-
 }
