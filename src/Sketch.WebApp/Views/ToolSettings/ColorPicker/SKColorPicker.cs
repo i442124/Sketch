@@ -13,7 +13,7 @@ using Sketch.WebApp.Components;
 
 namespace Sketch.WebApp.Views
 {
-    public partial class SKColorPicker : SKColorPickerComponent
+    public partial class SKColorPicker : SKColorSettingsComponent
     {
         [Parameter]
         public int Tints { get; set; }
@@ -49,9 +49,9 @@ namespace Sketch.WebApp.Views
             return ColorPalette.GetMixturesOfShades(color, Shades);
         }
 
-        private Task OnColorComponentSelectedAsync(SKColorComponent component)
+        private Task OnColorComponentSelectedAsync(SKColor component)
         {
-            return SetValueAsync(component.Color);
+            return SetColorAsync(component.Color);
         }
     }
 }

@@ -11,8 +11,14 @@ using Sketch.WebApp.Components;
 
 namespace Sketch.WebApp.Views
 {
-    public partial class SKColor : SKColorComponent
+    public partial class SKColor
     {
+        [Parameter]
+        public Color Color { get; set; }
+
+        [Parameter]
+        public EventCallback<SKColor> ColorSelected { get; set; }
+
         private double Hue => Color.Hue;
 
         private double Saturation => Color.Saturation;

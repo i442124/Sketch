@@ -17,7 +17,7 @@ namespace Sketch.WebApp.Views
 
         private async Task OnValueChanged(ChangeEventArgs e)
         {
-            await SetValueAsync(Convert.ToSingle(e.Value));
+            await SetBrushSizeAsync(Convert.ToSingle(e.Value));
         }
     }
 }
