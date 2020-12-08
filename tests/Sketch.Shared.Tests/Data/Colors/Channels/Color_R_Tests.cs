@@ -1,6 +1,6 @@
 ﻿using Xunit;
 
-namespace Sketch.Shared
+namespace Sketch.Shared.Data.Ink.Colors.Tests
 {
     public class Color_R_Tests
     {
