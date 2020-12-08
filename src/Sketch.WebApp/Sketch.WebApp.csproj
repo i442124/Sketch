@@ -20,8 +20,8 @@
   <ItemGroup>
     <Folder Include="Extensions\" />
     <Folder Include="Resources\" />
-    <Folder Include="Services\" />
-    <Folder Include="Themes\" />
+    <Folder Include="Themes\Dark\" />
+    <Folder Include="Themes\Default\" />
   </ItemGroup>
   
   <Import Project="..\..\common.props" />

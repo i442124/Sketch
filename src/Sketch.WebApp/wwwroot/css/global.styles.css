@@ -42,6 +42,7 @@
 }
 
 .sk-stack-horizontal {
+    align-items: start;
     flex-direction: row;
 }
 

@@ -1,33 +1,62 @@
 ﻿@page "/"
 <div class="sk-stack">
+
     <div class="sk-stack">
-        <SKChannelSelection/>
+        <label>Groups:</label>
+        <div class="sk-stack-horizontal">
+            <div><SKChannelSelection /></div>
+        </div>
     </div>
+
     <div class="sk-stack-horizontal">
-        <SKBrushButton />
-        <SKEraserButton />
-        <SKPaintBucketButton />
-        <SKClearButton/>
-        <SKUndoButton/>
+        <hr class="sk-stack-item-grow"/>
     </div>
-    <div class="sk-stack">
-        <SKColorPicker Colorants="Colorants" Shades="2" Tints="2" />
-        <SKBrushSizeSlider MinValue="0" MaxValue="35" />
-    </div>
-    <div class="sk-stack">
-        <SKCanvas Width="640" Height="480" />
-    </div>
-    <div class="sk-stack">
+
+    <div class="sk-stack-horizontal">
+
         <div class="sk-stack">
             <SKParticipantList/>
         </div>
-        <div class="sk-stack">
-            <SKChat/>
-            <SKMessageList/>
+        
+        <div class="sk-stack sk-stack-item-grow">
+            <div class="border align-self-center">
+                <SKCanvas Width="640" Height="480" />
+            </div>
         </div>
+
+        <div class="sk-stack">
+            <div class="sk-stack">
+                <div class="sk-stack">
+                    <label>Modes:</label>
+                    <div class="sk-stack-horizontal 
+                                sk-stack-items-around">
+                        <SKBrushButton/>
+                        <SKEraserButton/>
+                        <SKPaintBucketButton/>
+                        <SKClearButton/>
+                        <SKUndoButton/>
+                    </div>
+                </div>
+                <div class="sk-stack">
+                    <label>Thickness: </label>
+                    <SKBrushSizeSlider MinValue="0" MaxValue="35"/>
+                </div>
+                <div class="sk-stack">
+                    <label>Color:</label>
+                    <SKColorPicker Colorants="Colorants" Shades="2" Tints="2"/>
+                </div>
+            </div>
+            <div class="sk-stack">
+                <div class="sk-stack">
+                    <label>Chat:</label>
+                    <SKChat/>
+                    <SKMessageList/>
+                </div>
+            </div>
+        </div>
+
     </div>
 </div>
-
 
 @code {
     private readonly ReadOnlyCollection<Color> Colorants
