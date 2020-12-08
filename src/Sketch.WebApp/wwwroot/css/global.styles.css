@@ -3,7 +3,7 @@
     position: relative;
 }
 
-.sk-aspect-box-overlay {
+.sk-aspect-box > * {
     position:absolute;
     left: 0;
     top:0;
@@ -12,6 +12,7 @@
 .sk-clickable {
     cursor: pointer;
 }
+
     .sk-clickable:hover {
         transform: scale(1.1);
     }
@@ -36,7 +37,7 @@
 .sk-stack,
 .sk-stack-horizontal {
     display: flex;
-    align-items: start;
+    align-items: stretch;
     flex-direction: column;
 }
 
@@ -47,6 +48,12 @@
 .sk-stack-item-grow {
     flex-grow: 1;
     flex-basis: 0;
+}
+.sk-stack-items-around {
+    justify-content: space-around;
+}
+.sk-stack-items-between {
+    justify-content: space-between; 
 }
 
 .sk-rounded-box {
