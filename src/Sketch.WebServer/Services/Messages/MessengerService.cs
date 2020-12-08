@@ -6,7 +6,7 @@ using Sketch.Shared.Data;
 
 namespace Sketch.WebServer.Services
 {
-    public class MessengerService
+    public class MessengerService : IMessengerService
     {
         private readonly IBroadcastService _broadcastService;
 

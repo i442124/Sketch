@@ -7,7 +7,7 @@ using Sketch.Shared.Services;
 
 namespace Sketch.Shared.Models
 {
-    public class GroupClient
+    public class GroupClient : IGroupClient
     {
         private readonly ISubscriptionService _subscriptions;
 
@@ -26,7 +26,7 @@ namespace Sketch.Shared.Models
             return _subscriptions.OnReceive(handler);
         }
 
-        public IDisposable OnuserUnsubscribed(Func<Unsubscribe, Task> handler)
+        public IDisposable OnUserUnsubscribed(Func<Unsubscribe, Task> handler)
         {
             return _subscriptions.OnReceive(handler);
         }

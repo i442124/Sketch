@@ -7,7 +7,7 @@ using Sketch.Shared.Services;
 
 namespace Sketch.Shared.Models
 {
-    public class MessageClient
+    public class MessageClient : IMessageClient
     {
         private readonly ISubscriptionService _subscriptions;
         private readonly INotificationService _notifications;
@@ -31,7 +31,7 @@ namespace Sketch.Shared.Models
             return _notifications.Subscribe(handler);
         }
 
-        public IDisposable OnMessageReceive(Func<Message, Task> handler)
+        public IDisposable OnMessageReceived(Func<Message, Task> handler)
         {
             return _subscriptions.OnReceive(handler);
         }

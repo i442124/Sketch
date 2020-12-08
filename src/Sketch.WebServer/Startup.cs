@@ -33,6 +33,7 @@ namespace Sketch.WebServer
 
             // Add WebServer Services
             services.AddSingleton<IBroadcastService, BroadcastService>();
+            services.AddSingleton<IMessengerService, MessengerService>();
             services.AddSingleton<IWhiteboardService, WhiteboardService>();
 
             services.AddSingleton(typeof(IHubConnectionMapper<>), typeof(HubConnectionMapper<>));

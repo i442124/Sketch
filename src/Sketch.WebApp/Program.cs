@@ -45,7 +45,12 @@ namespace Sketch.WebApp
             builder.Services.AddScoped<INotificationService, NotificationService>();
             builder.Services.AddScoped<ISubscriptionService, SubscriptionService>();
 
+            // SKETCH IDENTITY SERVICES
+            builder.Services.AddScoped<IGroupClient, GroupClient>();
+            builder.Services.AddScoped<IUserIdentity, UserIdentity>();
+
             // SKETCH WEBCLIENT SERVICES
+            builder.Services.AddScoped<IMessageClient, MessageClient>();
             builder.Services.AddScoped<IWhiteboardClient, WhiteboardClient>();
             builder.Services.AddScoped<IWhiteboardStorage, WhiteboardStorage>();
 
