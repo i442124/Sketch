@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.AspNetCore.SignalR.Client;
 
+using Sketch.Shared.Data;
+using Sketch.Shared.Services;
+
 namespace Sketch.Shared.Services
 {
     public class SubscriptionService : ISubscriptionService
@@ -25,6 +28,16 @@ namespace Sketch.Shared.Services
         public string SubscriberId
         {
             get { return _hubConnection.ConnectionId; }
+        }
+
+        public async Task RegisterAsync(User user)
+        {
+            if (_hubConnection.State != HubConnectionState.Connected)
+            {
+                await _hubConnection.StartAsync();
+            }
+
+            await _http.PostAsJsonAsync($"/api/register/{SubscriberId}", user);
         }
 
         public async Task SubscribeAsync(string channel)

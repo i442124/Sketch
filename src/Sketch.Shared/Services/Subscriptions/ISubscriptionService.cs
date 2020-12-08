@@ -2,11 +2,16 @@
 using System.Threading;
 using System.Threading.Tasks;
 
+using Sketch.Shared.Data;
+using Sketch.Shared.Services;
+
 namespace Sketch.Shared.Services
 {
     public interface ISubscriptionService
     {
         string SubscriberId { get; }
+
+        Task RegisterAsync(User user);
 
         Task SubscribeAsync(string channel);
 
