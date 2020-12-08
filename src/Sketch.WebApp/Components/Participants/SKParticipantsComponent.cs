@@ -81,6 +81,11 @@ namespace Sketch.WebApp.Components
             _members.TryAdd(subscription.Channel, new HashSet<User>());
             if (_members[subscription.Channel].Remove(subscription.User))
             {
+                if (_members[subscription.Channel].Count == 0)
+                {
+                    _members.Remove(subscription.Channel);
+                }
+
                 await InvokeAsync(StateHasChanged);
                 return;
             }

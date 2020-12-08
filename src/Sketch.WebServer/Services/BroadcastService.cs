@@ -99,6 +99,7 @@ namespace Sketch.WebServer.Services
 
             var user = await _connections.GetConnectionInfoAsync(subscriberId);
             await PublishAsync(channel, new Unsubscribe { Channel = channel, User = user });
+            await WhisperAsync(subscriberId, new Unsubscribe { Channel = channel, User = user });
 
             await Task.WhenAll((await _subscriptions.GetSubscribersAsync(channel)).Select(async subscriber =>
             {
