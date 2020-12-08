@@ -59,6 +59,7 @@ namespace Sketch.WebServer.Services
         {
             await _connections.AddAsync(subscriberId, user);
             await BroadcastAsync(subscriberId, user);
+            await WhisperAsync(subscriberId, user);
         }
 
         public async Task SubscribeAsync(string subscriberId, string channel)

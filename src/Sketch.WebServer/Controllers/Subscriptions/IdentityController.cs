@@ -24,21 +24,12 @@ namespace Sketch.WebServer.Controllers.Subscriptions
             _broadcastService = broadcastService;
         }
 
-        [HttpGet("{subscriberId}/{name}")]
-        public async Task<IActionResult> IdentifyAsync(string subscriberId, string name)
+        [HttpPost("{subscriberId}")]
+        public async Task<IActionResult> IdentifyAsync(string subscriberId, [FromBody] User user)
         {
-            var user = await _connections.GetConnectionInfoAsync(subscriberId);
-            if (user != null)
-            {
-                await _broadcastService.IdentifyAsync(subscriberId, new User
-                {
-                    Name = name, Guid = user.Guid
-                });
-
-                return Ok();
-            }
-
-            return NotFound();
+            user.Guid = (await _connections.GetConnectionInfoAsync(subscriberId)).Guid;
+            await _broadcastService.IdentifyAsync(subscriberId, user);
+            return Ok();
         }
     }
 }
