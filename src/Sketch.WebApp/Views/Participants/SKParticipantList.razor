@@ -1,0 +1,16 @@
+﻿@namespace Sketch.WebApp.Views
+@inherits SKParticipantsComponent
+
+<div class="sk-container">
+    <div class="sk-stack-horizontal">
+    @foreach (var (channel, members) in Members)
+    {
+        <ul>
+            @foreach (var member in members)
+            {
+                <SKParticipantListItem User="member" />
+            }
+        </ul>
+    }
+    </div>
+</div>
