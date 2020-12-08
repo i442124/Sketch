@@ -1,4 +1,8 @@
-﻿using System.Threading.Tasks;
+﻿using System.Threading;
+using System.Threading.Tasks;
+
+using Sketch.Shared;
+using Sketch.Shared.Data;
 
 namespace Sketch.WebServer.Services
 {
@@ -9,6 +13,8 @@ namespace Sketch.WebServer.Services
         Task BroadcastAsync<T>(string subscriberId, T content);
 
         Task RegisterAsync(string subscriberId);
+
+        Task IdentifyAsync(string subscriberId, User user);
 
         Task SubscribeAsync(string subscriberId, string channel);
 

@@ -37,7 +37,7 @@ namespace Sketch.Shared.Services
                 await _hubConnection.StartAsync();
             }
 
-            await _http.PostAsJsonAsync($"/api/register/{SubscriberId}", user);
+            await _http.PostAsJsonAsync($"/api/identity/{SubscriberId}", user);
         }
 
         public async Task SubscribeAsync(string channel)

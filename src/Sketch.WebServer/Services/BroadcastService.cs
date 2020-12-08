@@ -28,6 +28,11 @@ namespace Sketch.WebServer.Services
             _subscriptions = subscriptions;
         }
 
+        public async Task PublishAsync<T>(string channel, T content)
+        {
+            await _context.Clients.Group(channel).SendAsync($"{content.GetType()}", content);
+        }
+
         public async Task WhisperAsync<T>(string subscriberId, T content)
         {
             await _context.Clients.Client(subscriberId).SendAsync($"{content.GetType()}", content);
@@ -44,19 +49,43 @@ namespace Sketch.WebServer.Services
         public async Task RegisterAsync(string subscriberId)
         {
             await _subscriptions.AddSubscriberAsync(subscriberId);
+            await _connections.AddAsync(subscriberId, new User
+            {
+                Name = subscriberId, Guid = Guid.NewGuid()
+            });
+        }
+
+        public async Task IdentifyAsync(string subscriberId, User user)
+        {
+            await _connections.AddAsync(subscriberId, user);
+            await BroadcastAsync(subscriberId, user);
         }
 
         public async Task SubscribeAsync(string subscriberId, string channel)
         {
             await _subscriptions.SubscribeAsync(subscriberId, channel);
             await _context.Groups.AddToGroupAsync(subscriberId, channel);
+
+            var user = await _connections.GetConnectionInfoAsync(subscriberId);
+            await PublishAsync(channel, new Subscribe { Channel = channel, User = user });
+
+            await Task.WhenAll((await _subscriptions.GetSubscribersAsync(channel)).Select(async subscriber =>
+            {
+                if (subscriber != subscriberId)
+                {
+                    user = await _connections.GetConnectionInfoAsync(subscriber);
+                    await WhisperAsync(subscriberId, new Subscribe { Channel = channel, User = user });
+                }
+            }));
         }
 
         public async Task UnregisterAsync(string subscriberId)
         {
+            var user = await _connections.GetConnectionInfoAsync(subscriberId);
             foreach (var channel in await _subscriptions.GetSubscriptionsAsync(subscriberId))
             {
                 await _context.Groups.RemoveFromGroupAsync(subscriberId, channel);
+                await PublishAsync(channel, new Unsubscribe { Channel = channel, User = user });
             }
 
             await _subscriptions.RemoveSubscriberAsync(subscriberId);
@@ -66,6 +95,15 @@ namespace Sketch.WebServer.Services
         {
             await _subscriptions.UnsubscribeAsync(subscriberId, channel);
             await _context.Groups.RemoveFromGroupAsync(subscriberId, channel);
+
+            var user = await _connections.GetConnectionInfoAsync(subscriberId);
+            await PublishAsync(channel, new Unsubscribe { Channel = channel, User = user });
+
+            await Task.WhenAll((await _subscriptions.GetSubscribersAsync(channel)).Select(async subscriber =>
+            {
+                user = await _connections.GetConnectionInfoAsync(subscriber);
+                await WhisperAsync(subscriberId, new Unsubscribe { Channel = channel, User = user });
+            }));
         }
     }
 }
