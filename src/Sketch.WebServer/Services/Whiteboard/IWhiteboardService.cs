@@ -1,6 +1,7 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 
+using Sketch.Shared.Data;
 using Sketch.Shared.Data.Ink;
 
 namespace Sketch.WebServer.Services
@@ -12,5 +13,9 @@ namespace Sketch.WebServer.Services
         Task WipeAsync(string subscriberId, Wipe wipe);
 
         Task FillAsync(string subscriberId, Fill fill);
+
+        Task ClearAsync(string subscriberId, Clear clear);
+
+        Task UndoAsync(string subscriberId, Undo undo);
     }
 }

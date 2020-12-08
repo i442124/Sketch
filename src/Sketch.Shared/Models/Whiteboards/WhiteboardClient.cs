@@ -26,9 +26,11 @@ namespace Sketch.Shared.Models
             INotificationService notifications,
             IWhiteboardStorage storage)
         {
-            subscriptions.OnReceive<Stroke>(notifications.InvokeAsync);
-            subscriptions.OnReceive<Wipe>(notifications.InvokeAsync);
-            subscriptions.OnReceive<Fill>(notifications.InvokeAsync);
+            subscriptions.OnReceive<Stroke>(ReceiveStrokeAsync);
+            subscriptions.OnReceive<Wipe>(ReceiveWipeAsync);
+            subscriptions.OnReceive<Fill>(ReceiveFillAsync);
+            subscriptions.OnReceive<Undo>(ReceiveUndoAsync);
+            subscriptions.OnReceive<Clear>(ReceiveClearAsync);
 
             _storage = storage;
             _subscriptions = subscriptions;
@@ -102,6 +104,41 @@ namespace Sketch.Shared.Models
             ActionId = await _storage.PopAsync();
             await _notifications.InvokeAsync(undo);
             await _subscriptions.SendAsync("whiteboard", "undo", undo);
+        }
+
+        private async Task ReceiveStrokeAsync(Stroke stroke)
+        {
+            ActionId = stroke.ActionId;
+            await _storage.PushAsync(stroke);
+            await _notifications.InvokeAsync(stroke);
+        }
+
+        private async Task ReceiveWipeAsync(Wipe wipe)
+        {
+            ActionId = wipe.ActionId;
+            await _storage.PushAsync(wipe);
+            await _notifications.InvokeAsync(wipe);
+        }
+
+        private async Task ReceiveFillAsync(Fill fill)
+        {
+            ActionId = fill.ActionId;
+            await _storage.PushAsync(fill);
+            await _notifications.InvokeAsync(fill);
+        }
+
+        private async Task ReceiveClearAsync(Clear clear)
+        {
+            ActionId = clear.ActionId;
+            await _storage.PushAsync(clear);
+            await _notifications.InvokeAsync(clear);
+        }
+
+        private async Task ReceiveUndoAsync(Undo undo)
+        {
+            ActionId = undo.ActionId;
+            await _storage.PopAsync();
+            await _notifications.InvokeAsync(undo);
         }
     }
 }

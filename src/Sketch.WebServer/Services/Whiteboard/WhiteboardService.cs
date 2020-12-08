@@ -30,5 +30,15 @@ namespace Sketch.WebServer.Services
         {
             return _broadcastService.BroadcastAsync(subscriberId, fill);
         }
+
+        public Task ClearAsync(string subscriberId, Clear clear)
+        {
+            return _broadcastService.BroadcastAsync(subscriberId, clear);
+        }
+
+        public Task UndoAsync(string subscriberId, Undo undo)
+        {
+            return _broadcastService.BroadcastAsync(subscriberId, undo);
+        }
     }
 }

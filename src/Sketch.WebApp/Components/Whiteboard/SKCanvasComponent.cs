@@ -42,6 +42,7 @@ namespace Sketch.WebApp.Components
 
             Whiteboard.OnUndo(async undo =>
             {
+                System.Console.WriteLine("Undo");
                 await _context.ClearAsync(Clear.All);
                 foreach (var action in Whiteboard.Actions)
                 {
