@@ -3,9 +3,9 @@ using System.Threading;
 
 using Xunit;
 
-namespace Sketch.WebServer.Services
+namespace Sketch.WebServer.Hubs.Tests
 {
-    public class HubConnectionMapperTests
+    public class HubConnectionMapper_Tests
     {
         [Fact]
         public void Should_StoreUserInfo_When_Add()
@@ -21,8 +21,8 @@ namespace Sketch.WebServer.Services
 
             // Assert
             Assert.Equal(2, connections.Count);
-            Assert.Equal("UserA", connections.GetUserInfo(connectionId_A));
-            Assert.Equal("UserB", connections.GetUserInfo(connectionId_B));
+            Assert.Equal("UserA", connections.GetConnectionInfo(connectionId_A));
+            Assert.Equal("UserB", connections.GetConnectionInfo(connectionId_B));
         }
 
         [Fact]
@@ -40,7 +40,7 @@ namespace Sketch.WebServer.Services
 
             // Assert
             Assert.Equal(1, connections.Count);
-            Assert.Equal("4th", connections.GetUserInfo(connectionId));
+            Assert.Equal("4th", connections.GetConnectionInfo(connectionId));
         }
 
         [Fact]
@@ -58,7 +58,7 @@ namespace Sketch.WebServer.Services
 
             // Assert
             Assert.Equal(1, connections.Count);
-            Assert.Equal("UserB", connections.GetUserInfo(connectionId_B));
+            Assert.Equal("UserB", connections.GetConnectionInfo(connectionId_B));
         }
 
         [Fact]
@@ -94,7 +94,7 @@ namespace Sketch.WebServer.Services
 
             // Assert
             Assert.Equal(1, connections.Count);
-            Assert.Throws<ArgumentException>(() => connections.GetUserInfo(connectionId_A));
+            Assert.Throws<ArgumentException>(() => connections.GetConnectionInfo(connectionId_A));
         }
     }
 }

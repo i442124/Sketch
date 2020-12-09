@@ -12,6 +12,11 @@ namespace Sketch.WebServer.Hubs
         private readonly ConcurrentDictionary<string, T> _connections =
         new ConcurrentDictionary<string, T>();
 
+        public int Count
+        {
+            get { return _connections.Count; }
+        }
+
         public void Add(string connectionId, T value)
         {
             _connections[connectionId] = value;

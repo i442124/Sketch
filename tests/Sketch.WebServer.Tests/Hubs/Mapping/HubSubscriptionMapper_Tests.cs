@@ -3,9 +3,9 @@ using System.Threading;
 
 using Xunit;
 
-namespace Sketch.WebServer.Services
+namespace Sketch.WebServer.Hubs.Tests
 {
-    public class HubSubscriptionMapperTests
+    public class HubSubscriptionMapper_Tests
     {
         [Fact]
         public void Should_InitializeSet_When_AddSubscriber()
