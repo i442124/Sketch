@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Hosting;
+﻿using System;
+
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 
 namespace Sketch.WebServer
@@ -12,10 +14,14 @@ namespace Sketch.WebServer
 
         public static IHostBuilder CreateHostBuilder(string[] args)
         {
+            var port = Environment.GetEnvironmentVariable("PORT");
+
             var hostBuilder = Host.CreateDefaultBuilder(args);
             hostBuilder.ConfigureWebHostDefaults(webBuilder =>
             {
-                webBuilder.UseStartup<Startup>();
+                webBuilder
+                    .UseStartup<Startup>()
+                    .UseUrls("http://*:" + port);
             });
 
             return hostBuilder;
