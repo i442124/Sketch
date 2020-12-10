@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
-    <DisableScopedCssBundling>true</DisableScopedCssBundling>
+    <DisableScopedCssBundling>false</DisableScopedCssBundling>
   </PropertyGroup>
 
   <ItemGroup>
@@ -18,8 +18,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Components\Subscriptions\ComponentBase\" />
-    <Folder Include="Components\Subscriptions\Views\" />
+    <Folder Include="Extensions\" />
+    <Folder Include="Resources\" />
+    <Folder Include="Themes\Dark\" />
+    <Folder Include="Themes\Default\" />
   </ItemGroup>
   
   <Import Project="..\..\common.props" />

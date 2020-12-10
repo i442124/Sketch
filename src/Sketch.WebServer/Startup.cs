@@ -32,9 +32,9 @@ namespace Sketch.WebServer
             //    ConnectionMultiplexer.Connect(Configuration["redis"]));
 
             // Add WebServer Services
+            services.AddSingleton<IBroadcastService, BroadcastService>();
             services.AddSingleton<IMessengerService, MessengerService>();
             services.AddSingleton<IWhiteboardService, WhiteboardService>();
-            services.AddSingleton<INotificationService, NotificationService>();
 
             services.AddSingleton(typeof(IHubConnectionMapper<>), typeof(HubConnectionMapper<>));
             services.AddSingleton(typeof(IHubSubscriptionMapper<>), typeof(HubSubscriptionMapper<>));
@@ -63,7 +63,7 @@ namespace Sketch.WebServer
             {
                 endpoints.MapRazorPages();
                 endpoints.MapControllers();
-                endpoints.MapHub<SocialHub>("hub");
+                endpoints.MapHub<SketchHub>("hub");
                 endpoints.MapFallbackToFile("index.html");
             });
         }

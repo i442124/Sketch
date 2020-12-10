@@ -1,56 +1,59 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
+
+using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Mvc;
 
 using Sketch.Shared;
-using Sketch.WebServer;
+using Sketch.Shared.Data;
+using Sketch.Shared.Data.Ink;
 using Sketch.WebServer.Services;
 
 namespace Sketch.WebServer.Controllers
 {
-    [Route("api/[controller]")]
     [ApiController]
+    [Route("api/[controller]")]
     public class WhiteboardController : Controller
     {
         private readonly IWhiteboardService _whiteboardService;
 
-        public WhiteboardController(IWhiteboardService notifyService)
+        public WhiteboardController(IWhiteboardService whiteboardService)
         {
-            _whiteboardService = notifyService;
+            _whiteboardService = whiteboardService;
         }
 
-        [HttpPost("{channel}/stroke/{subscriberId}")]
-        public async Task<IActionResult> StrokeAsync(string channel, string subscriberId, [FromBody] Stroke stroke)
+        [HttpPost("stroke/{subscriberId}")]
+        public async Task<IActionResult> StrokeAsync(string subscriberId, [FromBody] Stroke stroke)
         {
-            await _whiteboardService.StrokeAsync(channel, subscriberId, stroke);
+            await _whiteboardService.StrokeAsync(subscriberId, stroke);
             return Ok();
         }
 
-        [HttpPost("{channel}/wipe/{subscriberId}")]
-        public async Task<IActionResult> WipeAsync(string channel, string subscriberId, [FromBody] Wipe wipe)
+        [HttpPost("wipe/{subscriberId}")]
+        public async Task<IActionResult> WipeAsync(string subscriberId, [FromBody] Wipe wipe)
         {
-            await _whiteboardService.WipeAsync(channel, subscriberId, wipe);
+            await _whiteboardService.WipeAsync(subscriberId, wipe);
             return Ok();
         }
 
-        [HttpPost("{channel}/fill/{subscriberId}")]
-        public async Task<IActionResult> FillAsync(string channel, string subscriberId, [FromBody] Fill fill)
+        [HttpPost("fill/{subscriberId}")]
+        public async Task<IActionResult> FillAsync(string subscriberId, [FromBody] Fill fill)
         {
-            await _whiteboardService.FillAsync(channel, subscriberId, fill);
+            await _whiteboardService.FillAsync(subscriberId, fill);
             return Ok();
         }
 
-        [HttpPost("{channel}/clear/{subscriberId}")]
-        public async Task<IActionResult> ClearAsync(string channel, string subscriberId, [FromBody] Clear clear)
+        [HttpPost("clear/{subscriberId}")]
+        public async Task<IActionResult> ClearAsync(string subscriberId, [FromBody] Clear clear)
         {
-            await _whiteboardService.ClearAsync(channel, subscriberId, clear);
+            await _whiteboardService.ClearAsync(subscriberId, clear);
             return Ok();
         }
 
-        [HttpPost("{channel}/undo/{subscriberId}")]
-        public async Task<IActionResult> UndoAsync(string channel, string subscriberId, [FromBody] Undo undo)
+        [HttpPost("undo/{subscriberId}")]
+        public async Task<IActionResult> UndoAsync(string subscriberId, [FromBody] Undo undo)
         {
-            await _whiteboardService.UndoAsync(channel, subscriberId, undo);
+            await _whiteboardService.UndoAsync(subscriberId, undo);
             return Ok();
         }
     }

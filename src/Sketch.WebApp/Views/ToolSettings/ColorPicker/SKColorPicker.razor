@@ -1,0 +1,16 @@
+﻿@inherits SKColorSettingsComponent
+@namespace Sketch.WebApp.Views
+
+<div class="sk-container">
+    <div class="sk-stack-horizontal">
+        @foreach (var color in Colorants)
+        {
+            <div class="sk-stack sk-stack-item-grow">
+                @foreach (var mixture in GetPalette(color))
+                {
+                    <SKColor Color="mixture" ColorSelected="OnColorComponentSelectedAsync"/>
+                }
+            </div>
+        }
+    </div>
+</div>

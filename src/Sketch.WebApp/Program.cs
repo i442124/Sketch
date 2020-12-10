@@ -8,6 +8,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
 using Sketch.Shared;
+using Sketch.Shared.Models;
+using Sketch.Shared.Services;
 using Sketch.WebApp.Components;
 
 namespace Sketch.WebApp
@@ -29,27 +31,28 @@ namespace Sketch.WebApp
                 BaseAddress = new Uri(builder.HostEnvironment.BaseAddress)
             });
 
-            // SKETCH TOOLBOX
-            builder.Services.AddScoped<IBrushModel, BrushModel>();
-            builder.Services.AddScoped<IBucketModel, BucketModel>();
-            builder.Services.AddScoped<IEraserModel, EraserModel>();
+            // SKETCH TOOLS
+            builder.Services.AddScoped<IBrushTool, BrushTool>();
+            builder.Services.AddScoped<IEraserTool, EraserTool>();
+            builder.Services.AddScoped<IPaintBucketTool, PaintBucketTool>();
 
-            // SKETCH TOOLBOX CONFIG
-            builder.Services.AddScoped<IStylusModel, StylusModel>();
-            builder.Services.AddScoped<ISizeObjectModel, SizeObjectModel>();
-            builder.Services.AddScoped<IColorObjectModel, ColorObjectModel>();
+            // SKETCH TOOL SETTINGS
+            builder.Services.AddScoped<IBrushSettings, BrushSettings>();
+            builder.Services.AddScoped<IColorSettings, ColorSettings>();
+            builder.Services.AddScoped<IStylusSettings, StylusSettings>();
 
             // SKETCH SERVICES
-            builder.Services.AddScoped<IMessageModel, MessageModel>();
-            builder.Services.AddScoped<IMessengerModel, MessengerModel>();
-            builder.Services.AddScoped<IWhiteboardModel, WhiteboardModel>();
-            builder.Services.AddScoped<IWhiteboardStorage, WhiteboardStorage>();
+            builder.Services.AddScoped<INotificationService, NotificationService>();
+            builder.Services.AddScoped<ISubscriptionService, SubscriptionService>();
 
-            // SKETCH SUBSCRIPTION SERVICES
-            builder.Services.AddScoped<IIdentityModel, IdentityModel>();
-            builder.Services.AddScoped<IGroupManagerModel, GroupManagerModel>();
-            builder.Services.AddScoped<ISubscriptionModel, SubscriptionModel>();
-            builder.Services.AddScoped(typeof(ISubscriptionEventModel<>), typeof(SubscriptionEventModel<>));
+            // SKETCH IDENTITY SERVICES
+            builder.Services.AddScoped<IGroupClient, GroupClient>();
+            builder.Services.AddScoped<IUserIdentity, UserIdentity>();
+
+            // SKETCH WEBCLIENT SERVICES
+            builder.Services.AddScoped<IMessageClient, MessageClient>();
+            builder.Services.AddScoped<IWhiteboardClient, WhiteboardClient>();
+            builder.Services.AddScoped<IWhiteboardStorage, WhiteboardStorage>();
 
             return builder.Build();
         }

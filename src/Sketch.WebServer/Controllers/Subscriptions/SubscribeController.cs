@@ -1,5 +1,6 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
+
 using Microsoft.AspNetCore.Mvc;
 
 using Sketch.WebServer;
@@ -7,21 +8,21 @@ using Sketch.WebServer.Services;
 
 namespace Sketch.WebServer.Controllers
 {
-    [Route("api/[controller]")]
     [ApiController]
+    [Route("api/[controller]")]
     public class SubscribeController : Controller
     {
-        private readonly INotificationService _notifyService;
+        private readonly IBroadcastService _broadcastService;
 
-        public SubscribeController(INotificationService notifyService)
+        public SubscribeController(IBroadcastService broadcastService)
         {
-            _notifyService = notifyService;
+            _broadcastService = broadcastService;
         }
 
         [HttpGet("{subscriberId}/{channel}")]
         public async Task<IActionResult> Get(string subscriberId, string channel)
         {
-            await _notifyService.SubscribeAsync(subscriberId, channel);
+            await _broadcastService.SubscribeAsync(subscriberId, channel);
             return Ok();
         }
     }

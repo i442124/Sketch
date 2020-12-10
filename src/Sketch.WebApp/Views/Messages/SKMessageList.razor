@@ -1,0 +1,9 @@
+﻿@inherits SKMessagesComponent
+@namespace Sketch.WebApp.Views
+
+<ul>
+    @foreach (var message in Messages)
+    {
+        <SKMessageListItem Message="message"/>
+    }
+</ul>

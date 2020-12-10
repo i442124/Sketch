@@ -1,0 +1,15 @@
+﻿@inherits SKChannelComponent
+@namespace Sketch.WebApp.Views
+
+<div class="sk-container">
+    <div class="sk-stack form-group">
+        <select class="sk-input sk-select"
+                 @onchange="OnSelectionChangedAsync">
+            <option value="" selected disabled hidden>None</option>
+            <option value="abc">Group 1</option>
+            <option value="123">Group 2</option>
+            <option value="def">Group 3</option>
+            <option value="456">Group 4</option>
+        </select>
+    </div>
+</div>
