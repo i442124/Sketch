@@ -10,7 +10,7 @@
     <a href="https://github.com/i442124/Sketch/tree/master/docs"><strong>Explore the docs »</strong></a>
     <br />
     <br />
-    <a href="https://github.com/i442124/Sketch">View Demo</a>
+    <a href="https://sketch-demo.herokuapp.com/">View Demo</a>
     ·
     <a href="https://github.com/i442124/Sketch/issues">Report Bug</a>
     ·
