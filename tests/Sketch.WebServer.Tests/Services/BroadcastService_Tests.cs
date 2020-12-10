@@ -20,77 +20,77 @@ namespace Sketch.WebServer.Services.Tests
     public class BroadcastService_Tests
     {
         [Fact]
-        public async Task When_BroadcastAsync_Should_SendContent()
+        public void When_BroadcastAsync_Should_SendContent()
         {
         }
 
         [Fact]
-        public async Task When_BroadcastAsync_Should_SendToAllSubscriptions()
+        public void When_BroadcastAsync_Should_SendToAllSubscriptions()
         {
         }
 
         [Fact]
-        public async Task When_WhisperAsync_Should_SendContent()
+        public void When_WhisperAsync_Should_SendContent()
         {
         }
 
         [Fact]
-        public async Task When_WhisperAsync_Should_SendToSubscriber()
+        public void When_WhisperAsync_Should_SendToSubscriber()
         {
         }
 
         [Fact]
-        public async Task When_IdentifyAsync_Should_StoreUserInfo()
+        public void When_IdentifyAsync_Should_StoreUserInfo()
         {
         }
 
         [Fact]
-        public async Task When_IdentifyAsync_Should_NotifyAllSubscriptions()
+        public void When_IdentifyAsync_Should_NotifyAllSubscriptions()
         {
         }
 
         [Fact]
-        public async Task When_RegsisterAsync_Should_StoreUserSubscriptions()
+        public void When_RegsisterAsync_Should_StoreUserSubscriptions()
         {
         }
 
         [Fact]
-        public async Task When_UnregisterAsync_Should_DiscardUserInfo()
+        public void When_UnregisterAsync_Should_DiscardUserInfo()
         {
         }
 
         [Fact]
-        public async Task When_UnregisterAsync_Should_DiscardUserSubscriptions()
+        public void When_UnregisterAsync_Should_DiscardUserSubscriptions()
         {
         }
 
         [Fact]
-        public async Task When_SubscribeAsync_Should_AddToGroup()
+        public void When_SubscribeAsync_Should_AddToGroup()
         {
         }
 
         [Fact]
-        public async Task When_SubscribeAsync_Should_AddSubscription()
+        public void When_SubscribeAsync_Should_AddSubscription()
         {
         }
 
         [Fact]
-        public async Task When_SubscribeAsync_Should_NotifyAllSubscribers()
+        public void When_SubscribeAsync_Should_NotifyAllSubscribers()
         {
         }
 
         [Fact]
-        public async Task When_UnsubscribeAsync_Should_RemoveFromGroup()
+        public void When_UnsubscribeAsync_Should_RemoveFromGroup()
         {
         }
 
         [Fact]
-        public async Task When_UnsubscribeAsync_Should_RemoveSubscription()
+        public void When_UnsubscribeAsync_Should_RemoveSubscription()
         {
         }
 
         [Fact]
-        public async Task When_UnsubscribeAsync_Should_NotifyAllSubscribers()
+        public void When_UnsubscribeAsync_Should_NotifyAllSubscribers()
         {
         }
     }
