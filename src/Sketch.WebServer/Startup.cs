@@ -31,6 +31,18 @@ namespace Sketch.WebServer
             //services.AddSingleton<IConnectionMultiplexer>(
             //    ConnectionMultiplexer.Connect(Configuration["redis"]));
 
+            services.AddCors(options =>
+            {
+                options.AddDefaultPolicy(builder =>
+                {
+                    builder
+                        .AllowAnyHeader()
+                        .AllowAnyMethod()
+                        .SetIsOriginAllowed((host) => true)
+                        .AllowCredentials();
+                });
+            });
+
             // Add WebServer Services
             services.AddSingleton<IBroadcastService, BroadcastService>();
             services.AddSingleton<IMessengerService, MessengerService>();
@@ -58,6 +70,7 @@ namespace Sketch.WebServer
             app.UseStaticFiles();
 
             app.UseRouting();
+            app.UseCors();
 
             app.UseEndpoints(endpoints =>
             {

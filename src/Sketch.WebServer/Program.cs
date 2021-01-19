@@ -19,9 +19,17 @@ namespace Sketch.WebServer
             var hostBuilder = Host.CreateDefaultBuilder(args);
             hostBuilder.ConfigureWebHostDefaults(webBuilder =>
             {
-                webBuilder
-                    .UseStartup<Startup>()
-                    .UseUrls("http://*:" + port);
+                if (!string.IsNullOrEmpty(port))
+                {
+                    webBuilder
+                        .UseStartup<Startup>()
+                        .UseUrls("http://*:" + port);
+                }
+                else
+                {
+                    webBuilder
+                        .UseStartup<Startup>();
+                }
             });
 
             return hostBuilder;

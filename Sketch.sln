@@ -13,6 +13,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sketch.Shared.Tests", "test
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sketch.WebServer.Tests", "tests\Sketch.WebServer.Tests\Sketch.WebServer.Tests.csproj", "{16A65914-94D4-45ED-8CC8-874B42DF086E}"
 EndProject
+Project("{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}") = "Sketch.WebApp.JS", "src\Sketch.WebApp.JS\Sketch.WebApp.JS.njsproj", "{C2A34019-AF51-47B1-9922-94D223A64B9B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,9 @@ Global
 		{16A65914-94D4-45ED-8CC8-874B42DF086E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{16A65914-94D4-45ED-8CC8-874B42DF086E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{16A65914-94D4-45ED-8CC8-874B42DF086E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C2A34019-AF51-47B1-9922-94D223A64B9B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C2A34019-AF51-47B1-9922-94D223A64B9B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C2A34019-AF51-47B1-9922-94D223A64B9B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,0 +1,40 @@
+# pull official base image
+FROM mcr.microsoft.com/dotnet/aspnet:5.0-buster-slim AS base
+
+# set working directory
+WORKDIR /app
+
+# Expose port 80 to your local machine so you can access the app.
+EXPOSE 80
+EXPOSE 443
+
+FROM mcr.microsoft.com/dotnet/sdk:5.0-buster-slim AS restore
+
+# copy config files
+COPY common.props .
+COPY stylecop.json .
+COPY stylecop.props .
+COPY stylecop.ruleset .
+
+# copy source files
+COPY src/Sketch.Shared/. ./src/Sketch.Shared
+COPY src/Sketch.WebApp/. ./src/Sketch.WebApp
+COPY src/Sketch.WebServer/. ./src/Sketch.WebServer
+
+# restore project
+RUN dotnet restore "src/Sketch.WebServer/Sketch.WebServer.csproj"
+
+# build project
+FROM restore AS build
+RUN dotnet build "src/Sketch.WebServer/Sketch.WebServer.csproj" -c Release -o app/build
+
+# publish project
+FROM build AS publish
+RUN dotnet publish "src/Sketch.WebServer/Sketch.WebServer.csproj" -c Release -o app/publish
+
+# start project
+FROM base as final
+
+WORKDIR /app
+COPY --from=publish /app/publish .
+ENTRYPOINT ["dotnet", "Sketch.WebServer.dll"]
