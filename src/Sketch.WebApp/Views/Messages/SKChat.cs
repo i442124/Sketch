@@ -19,12 +19,15 @@ namespace Sketch.WebApp.Views
 
         private async Task OnClickAsync(MouseEventArgs e)
         {
-            await SendAsync(Contents);
-
-            if (ClearAfterSend)
+            if (!string.IsNullOrEmpty(Contents))
             {
-                Contents = string.Empty;
-                await InvokeAsync(StateHasChanged);
+                await SendAsync(Contents);
+
+                if (ClearAfterSend)
+                {
+                    Contents = string.Empty;
+                    await InvokeAsync(StateHasChanged);
+                }
             }
         }
     }

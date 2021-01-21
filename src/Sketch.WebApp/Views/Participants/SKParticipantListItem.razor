@@ -1,4 +1,32 @@
 ﻿@inherits ComponentBase
 @namespace Sketch.WebApp.Views
 
-<li>@User.Name</li>
+<li class="list-group-item p-1"
+    style="width:252px;">
+    <div class="sk-stack-horizontal">
+        
+        <div class="col-auto">
+            <div class="position-relative me-2"
+                 style="width:64px;height:64px">
+                <div class="position-absolute">
+                    <div class="sk-primary-background border rounded-circle overflow-hidden">
+                        <img src="img/user.png" width="64" height="64" />
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-auto">
+            <div class="sk-stack my-2">
+                <h5 className="text-muted text-turncate m-0 font-weight-bold">@User.Name</h5>
+                <h6 className="text-muted text-turncate m-0 font-weight-normal">0 Points</h6>
+            </div>
+        </div>
+
+    </div>
+</li>
+
+@code {
+    private int? value;
+    private readonly Random random = new Random();
+}

@@ -5,7 +5,7 @@
     <div class="sk-stack-horizontal">
     @foreach (var (channel, members) in Members)
     {
-        <ul>
+        <ul class="list-group">
             @foreach (var member in members)
             {
                 <SKParticipantListItem User="member" />

@@ -1,14 +1,13 @@
 ﻿@namespace Sketch.WebApp.Views
 
 <div class="sk-container">
-    <div class="sk-clickable"
-         @onclick="OnClickAsync">
+    <div class="sk-clickable" @onclick="OnClickAsync">
 
-        <div class="sk-aspect-box sk-rounded-box"
+        <div class="sk-aspect-box sk-round"
              style="background-color:@(Shade.ToHexString())">
 
             <div class="sk-aspect-box-overlay
-                 sk-scale-sm sk-container-stretch sk-rounded-box"
+                 sk-scale-sm sk-container-stretch sk-round"
                  style="background-color:@(Color.ToHexString())">
 
             </div>

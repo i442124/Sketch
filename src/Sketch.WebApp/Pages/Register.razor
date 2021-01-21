@@ -1,0 +1,70 @@
+﻿@inject IUserIdentity UserIdentity 
+
+<div class="sk-form-backdrop">
+    <div class="sk-stack h-100">
+        <div class="col-auto m-auto">
+            <div class="sk-form">
+                <div class="sk-stack">
+                    <div class="sk-form-group">
+                        <div class="sk-stack-horizontal">
+                            <img style="height: auto; max-width: 300px"
+                                 class="img-fluid" alt="banner" , src="/img/logo.png" />
+                        </div>
+                    </div>
+                    <div class="sk-form-group">
+                        <div class="sk-form-group-title">
+                            <h2>Sign In</h2>
+                        </div>
+                    </div>
+                    <div class="sk-form-group">
+                        <label class="sk-form-label">
+                            Name:
+                        </label>
+                        <SKUserIdentityForm 
+                            NameChanging="OnNameChangingAsync" 
+                            NameChanged="OnNameChangedAsync"/>
+                    </div>
+                    <div class="sk-form-group">
+                        <label class="sk-form-label">
+                            Group:
+                        </label>
+                        <SKChannelSelection />
+                    </div>
+                    <div class="sk-form-group">
+                        <button class="btn btn-block btn-dark" disabled=@(!_isReady) @onclick="OnStartAsync">
+                            Start
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+
+    private bool _isReady;
+
+    [Parameter]
+    public EventCallback<MouseEventArgs> onStart
+    {
+        get; set;
+    }
+
+    public Task OnStartAsync(MouseEventArgs e)
+    {
+        return onStart.InvokeAsync(e);
+    }
+
+    public Task OnNameChangingAsync(string name)
+    {
+        _isReady = false;
+        return InvokeAsync(StateHasChanged);
+    }
+
+    public Task OnNameChangedAsync(string name)
+    {
+        _isReady = true;
+        return InvokeAsync(StateHasChanged);
+    }
+}

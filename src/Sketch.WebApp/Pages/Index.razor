@@ -1,65 +1,81 @@
 ﻿@page "/"
-<div class="sk-container">
-    <div class="sk-stack p-3">
+@inject IUserIdentity UserIdentity
 
-        <div class="sk-stack">
-            <label>Groups:</label>
-            <div class="sk-stack-horizontal">
-                <div><SKChannelSelection /></div>
-            </div>
-        </div>
+@{
+    var isSignedOut = string.IsNullOrEmpty(UserIdentity.User?.Name);
+    var isSignedOutAttribute = isSignedOut ? "d-none" : "";
 
-        <div class="sk-stack-horizontal">
-            <hr class="sk-stack-item-grow"/>
-        </div>
+    if (isSignedOut)
+    {
+        <Register onStart="@(e => InvokeAsync(StateHasChanged))" />
+    }
 
-        <div class="sk-stack-horizontal">
+    <div class="
+         sk-stack
+         sk-viewport
+         @isSignedOutAttribute">
 
-            <div class="sk-stack">
-                <label>Participants:</label>
-                <SKParticipantList/>
-            </div>
-        
-            <div class="sk-stack sk-stack-item-grow">
-                <div class="border align-self-center">
-                    <SKCanvas Width="640" Height="480" />
-                </div>
-            </div>
+        <div class="m-auto">
+            <div class="py-4
+                 border sk-rounded
+                 sk-container-stretch
+                 sk-primary-background">
 
-            <div class="sk-stack">
-                <div class="sk-stack">
-                    <div class="sk-stack">
-                        <label>Modes:</label>
-                        <div class="sk-stack-horizontal 
-                                    sk-stack-items-around">
-                            <SKBrushButton/>
-                            <SKEraserButton/>
-                            <SKPaintBucketButton/>
-                            <SKClearButton/>
-                            <SKUndoButton/>
+                <div class="
+                     align-items-stretch
+                     sk-stack-horizontal">
+                    <div class="sk-primary-background">
+                        <div class="h-100 border border-1">
+                            <SKParticipantList />
                         </div>
                     </div>
-                    <div class="sk-stack">
-                        <label>Thickness: </label>
-                        <SKBrushSizeSlider MinValue="0" MaxValue="35"/>
+                    <div class="sk-secondary-background">
+                        <div class="h-100 border border-1">
+                            <SKCanvas Width="640" Height="480" />
+                        </div>
                     </div>
-                    <div class="sk-stack">
-                        <label>Color:</label>
-                        <SKColorPicker Colorants="Colorants" Shades="2" Tints="2"/>
-                    </div>
-                </div>
-                <div class="sk-stack">
-                    <div class="sk-stack">
-                        <label>Chat:</label>
-                        <SKChat/>
-                        <SKMessageList/>
+                    <div class="sk-primary-background">
+                        <div class="h-100 border border-1">
+                            <div class="sk-stack h-100">
+
+                                <div class="
+                                     py-2
+                                     stack-items-around
+                                     sk-stack-horizontal">
+                                    <SKBrushButton />
+                                    <SKEraserButton />
+                                    <SKPaintBucketButton />
+                                    <SKClearButton />
+                                    <SKUndoButton />
+                                </div>
+
+                                <div class="sk-stack">
+                                    <SKBrushSizeSlider MinValue="0" MaxValue="35" />
+                                </div>
+                                <div class="sk-stack px-2">
+                                    <SKColorPicker Colorants="Colorants" Shades="2" Tints="2" />
+                                </div>
+                                <div class="sk-stack">
+                                    <hr class="w-100 mb-0"/>
+                                </div>
+                                <div class="
+                                     sk-stack 
+                                     sk-stack-item-grow
+                                     sk-primary-background"
+                                     style="min-height:0;overflow-y:auto;overflow-x:hidden">
+                                    <SKMessageList/>
+                                </div>
+                                <div class="sk-stack">
+                                    <SKChat ClearAfterSend="true"/>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-
         </div>
     </div>
-</div>
+}
 
 @code {
     private readonly ReadOnlyCollection<Color> Colorants
@@ -77,5 +93,5 @@
         ColorPresets.Pink,
         ColorPresets.Beige,
         ColorPresets.Brown
-    });
+        });
 }

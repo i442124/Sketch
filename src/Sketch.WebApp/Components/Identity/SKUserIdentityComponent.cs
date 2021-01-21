@@ -16,9 +16,20 @@ namespace Sketch.WebApp.Components
             get { return Identity.User.Name; }
         }
 
-        protected Task SetUsernameAsync(string name)
+        [Parameter]
+        public EventCallback<string> NameChanged { get; set; }
+
+        [Parameter]
+        public EventCallback<string> NameChanging { get; set; }
+
+        protected async Task SetUsernameAsync(string name)
         {
-            return Identity.SetUsernameAsync(name);
+            await NameChanging.InvokeAsync(name);
+            if (!string.IsNullOrEmpty(name))
+            {
+                await Identity.SetUsernameAsync(name);
+                await NameChanged.InvokeAsync(name);
+            }
         }
 
         [Inject]

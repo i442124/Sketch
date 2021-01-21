@@ -1,9 +1,9 @@
 ﻿@inherits SKMessagesComponent
 @namespace Sketch.WebApp.Views
 
-<ul>
-    @foreach (var message in Messages)
+<div class="sk-stack" style="width: 252px;">
+    @foreach (var (sendBySelf, message) in Posts)
     {
-        <SKMessageListItem Message="message"/>
+        <SKMessageListItem Owner="sendBySelf" Message="message"/>
     }
-</ul>
+</div>

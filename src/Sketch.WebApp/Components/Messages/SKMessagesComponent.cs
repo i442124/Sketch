@@ -12,25 +12,25 @@ namespace Sketch.WebApp.Components
 {
     public abstract class SKMessagesComponent : ComponentBase
     {
-        private readonly List<Message> _messages =
-        new List<Message>(capacity: default);
+        private readonly List<(bool SendBySelf, Message Message)> _posts =
+        new List<(bool SendBySelf, Message Message)>(capacity: default);
 
-        public ReadOnlyCollection<Message> Messages
+        public ReadOnlyCollection<(bool SendBySelf, Message Message)> Posts
         {
-            get { return _messages.AsReadOnly(); }
+            get { return _posts.AsReadOnly(); }
         }
 
         protected override void OnInitialized()
         {
             Messenger.OnMessage(async message =>
             {
-                _messages.Add(message);
+                _posts.Add((true, message));
                 await InvokeAsync(StateHasChanged);
             });
 
             Messenger.OnMessageReceived(async message =>
             {
-                _messages.Add(message);
+                _posts.Add((false, message));
                 await InvokeAsync(StateHasChanged);
             });
         }

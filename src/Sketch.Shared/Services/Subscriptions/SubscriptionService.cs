@@ -23,6 +23,7 @@ namespace Sketch.Shared.Services
                 .Build();
 
             _http = http;
+            _hubConnection.StartAsync();
         }
 
         public string SubscriberId
@@ -32,31 +33,16 @@ namespace Sketch.Shared.Services
 
         public async Task RegisterAsync(User user)
         {
-            if (_hubConnection.State != HubConnectionState.Connected)
-            {
-                await _hubConnection.StartAsync();
-            }
-
             await _http.PostAsJsonAsync($"/api/identity/{SubscriberId}", user);
         }
 
         public async Task SubscribeAsync(string channel)
         {
-            if (_hubConnection.State != HubConnectionState.Connected)
-            {
-                await _hubConnection.StartAsync();
-            }
-
             await _http.GetAsync($"/api/subscribe/{SubscriberId}/{channel}");
         }
 
         public async Task UnsubscribeAsync(string channel)
         {
-            if (_hubConnection.State != HubConnectionState.Connected)
-            {
-                await _hubConnection.StartAsync();
-            }
-
             await _http.GetAsync($"/api/unsubscribe/{SubscriberId}/{channel}");
         }
 
